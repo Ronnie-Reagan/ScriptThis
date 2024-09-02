@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Cherax Viewer Pro</title>
+    <style>
+        body {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        header {
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #252526;
+            border-bottom: 1px solid #333;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #dcdcdc;
+            text-align: center;
+        }
+
+        header p {
+            margin: 5px 0 0;
+            font-size: 14px;
+            color: #a0a0a0;
+            text-align: center;
+        }
+
+        #logo {
+            position: absolute;
+            left: 20px;
+            top: 10px;
+            width: 50px;
+            height: 50px;
+            background-color: #6a0dad;
+            border-radius: 50%;
+        }
+
+        #editor-container {
+            flex: 1;
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            background: #2d2d2d;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            overflow: auto;
+        }
+
+        #jsoneditor {
+            flex: 1;
+            border: 1px solid #444;
+            border-radius: 4px;
+            padding: 10px;
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+            overflow-y: auto;
+            font-family: monospace;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            flex-shrink: 0;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            margin-left: 5px;
+            border: none;
+            background-color: #6a0dad;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #8a2be2;
+        }
+
+        .search-input {
+            padding: 8px;
+            border: 1px solid #555;
+            border-radius: 4px;
+            background-color: #3a3d41;
+            color: #fff;
+            outline: none;
+            width: 200px;
+        }
+
+        .collapsible {
+            cursor: pointer;
+            padding-left: 15px;
+            position: relative;
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .arrow {
+            display: inline-block;
+            width: 10px;
+            text-align: center;
+            cursor: pointer;
+            margin-right: 5px;
+            transition: transform 0.2s;
+        }
+
+        .collapsed .arrow {
+            transform: rotate(0deg);
+        }
+
+        .expanded .arrow {
+            transform: rotate(90deg);
+        }
+
+        .nested {
+            display: none;
+            padding-left: 20px;
+        }
+
+        .expanded .nested {
+            display: block;
+        }
+
+        .value {
+            cursor: pointer;
+            padding-left: 15px;
+            list-style: none;
+        }
+
+        .highlight {
+            background-color: #6a0dad;
+            color: #fff;
+        }
+
+        #json-info {
+            padding: 10px;
+            background-color: #252526;
+            color: #dcdcdc;
+            width: 100%;
+            text-align: left;
+            border-top: 1px solid #333;
+            flex-shrink: 0;
+        }
+
+        #clipboard-tray {
+            padding: 10px;
+            background-color: #333;
+            color: #dcdcdc;
+            border-top: 1px solid #444;
+            max-height: 100px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        #playlist-sidebar {
+            position: fixed;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 250px;
+            background-color: #252526;
+            padding: 10px;
+            border-left: 1px solid #333;
+            display: none;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        #playlist-sidebar h3 {
+            color: #dcdcdc;
+            margin: 0;
+            margin-bottom: 10px;
+        }
+
+        #playlist-sidebar input {
+            padding: 8px;
+            border: 1px solid #555;
+            border-radius: 4px;
+            background-color: #3a3d41;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        #playlist-sidebar .btn {
+            margin: 5px 0;
+            width: 100%;
+        }
+
+        iframe {
+            width: 100%;
+            height: 300px;
+            border: none;
+            margin-top: 10px;
+        }
+
+        #help-overlay {
+            position: fixed;
+            top: 5%;
+            left: 5%;
+            width: 90%;
+            height: 90%;
+            background: rgba(34, 34, 34, 0.95);
+            color: #e0e0e0;
+            border: 2px solid #6a0dad;
+            border-radius: 10px;
+            z-index: 1100;
+            display: none;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        #help-close {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 24px;
+            color: #6a0dad;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div id="logo"></div> <!-- Placeholder for logo -->
+        <h1>Cherax Viewer Pro</h1>
+        <p>Simplify Your Cherax Script Development Workflow.</p>
+    </header>
+
+    <div id="editor-container">
+        <div class="btn-group">
+            <div>
+                <!-- Dropdown for selecting JSON documents -->
+                <label for="documentSelector">Select Document:</label>
+                <select id="documentSelector">
+                    <option value="CheraxDocuments">CheraxDocuments</option>
+                    <option value="ModestDocuments">ModestDocuments</option>
+                </select>
+
+                <button class="btn" onclick="showCodeView()">Code View</button>
+                <button class="btn" onclick="showTreeView()">Tree View</button>
+                <button class="btn" onclick="toggleTreeStyle()">Change Tree Style</button>
+                <button class="btn" onclick="expandAll()">Expand All</button>
+                <button class="btn" onclick="collapseAll()">Collapse All</button>
+                <button class="btn" onclick="downloadJSON()">Download JSON</button>
+                <button class="btn" onclick="toggleMultiSelect()">Multi-Select</button>
+                <button class="btn" onclick="togglePlaylistSidebar()">Music</button>
+                <button class="btn" onclick="showHelpOverlay()">Help</button>
+            </div>
+            <div>
+                <input type="text" class="search-input" id="searchInput" placeholder="Search..."
+                    onkeydown="handleSearchKey(event)">
+                <button class="btn" onclick="searchJSON()">Search</button>
+            </div>
+        </div>
+        <pre id="jsoneditor"></pre>
+        <div id="json-info"></div>
+        <div id="clipboard-tray">
+            <h4>Clipboard Tray</h4>
+            <ul id="clipboard-list"></ul>
+            <button class="btn" onclick="copyTrayToClipboard()">Copy All</button>
+            <button class="btn" onclick="clearTray()">Clear Tray</button>
+        </div>
+        <div id="playlist-sidebar">
+            <h3>Music</h3>
+            <input type="text" id="playlistSearch" placeholder="Search YouTube...">
+            <button class="btn" onclick="playPlaylist('Coding Focus')">Play Coding Focus Playlist</button>
+            <button class="btn" onclick="playPlaylist('Relaxation')">Play Relaxation Playlist</button>
+            <button class="btn" onclick="playPlaylist('Coding Session')">Play Coding Session Playlist</button>
+            <button class="btn" onclick="searchYouTube()">Search YouTube</button>
+            <iframe id="playlistPlayer" src=""></iframe>
+        </div>
+
+        <!-- Help Overlay -->
+        <div id="help-overlay">
+            <div id="help-close" onclick="hideHelpOverlay()">← Close</div>
+            <h2>Help & Documentation</h2>
+            <p>Here you can find information on how to use the Cherax Viewer Pro:</p>
+            <ul>
+                <li>Use the "Code View" button to see the raw JSON data in code format.</li>
+                <li>Switch to "Tree View" to navigate through JSON in a collapsible format.</li>
+                <li>Change tree styles to suit your preference using the "Change Tree Style" button.</li>
+                <li>Use the search box to find specific keys or values. Matches will be highlighted and expanded.</li>
+                <li>Toggle multi-select mode to add multiple items to the clipboard at once.</li>
+                <li>Explore music playlists while you work using the Music sidebar.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const jsonEditor = document.getElementById('jsoneditor');
+        const jsonInfo = document.getElementById('json-info');
+        const clipboardTray = document.getElementById('clipboard-tray');
+        const clipboardList = document.getElementById('clipboard-list');
+        const playlistSidebar = document.getElementById('playlist-sidebar');
+        const playlistPlayer = document.getElementById('playlistPlayer');
+        const helpOverlay = document.getElementById('help-overlay');
+        let currentView = 'code';
+        let multiSelectMode = false;
+        let clipboard = [];
+        let treeStyle = 1;
+        let highlightedElements = [];
+        let currentHighlightIndex = -1;
+        let data = {}; // Placeholder for JSON data
+
+        // Initialize with the selected document
+        document.getElementById('documentSelector').addEventListener('change', (event) => {
+            fetchData(event.target.value);
+        });
+
+        // Fetch JSON data from the selected document
+        async function fetchData(documentName = 'CheraxDocuments') {
+            try {
+                const response = await fetch(`${documentName}.json`);
+                if (!response.ok) {
+                    throw new Error('Failed to load JSON data');
+                }
+                data = await response.json();
+                showCodeView(); // Initialize with code view
+            } catch (error) {
+                console.error('Error loading JSON data:', error);
+                jsonEditor.innerText = 'Error loading data.';
+            }
+        }
+
+        function updateJSONInfo() {
+            const totalKeys = countKeys(data);
+            const maxDepth = calculateDepth(data);
+            const arrayCount = countArrays(data);
+            jsonInfo.innerText = `Total Keys: ${totalKeys} | Max Depth: ${maxDepth} | Arrays: ${arrayCount}`;
+        }
+
+        function countKeys(obj) {
+            let count = 0;
+            for (let key in obj) {
+                count++;
+                if (typeof obj[key] === 'object' && obj[key] !== null) {
+                    count += countKeys(obj[key]);
+                }
+            }
+            return count;
+        }
+
+        function calculateDepth(obj) {
+            let maxDepth = 0;
+            for (let key in obj) {
+                if (typeof obj[key] === 'object' && obj[key] !== null) {
+                    maxDepth = Math.max(maxDepth, calculateDepth(obj[key]));
+                }
+            }
+            return maxDepth + 1;
+        }
+
+        function countArrays(obj) {
+            let count = 0;
+            for (let key in obj) {
+                if (Array.isArray(obj[key])) {
+                    count++;
+                } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+                    count += countArrays(obj[key]);
+                }
+            }
+            return count;
+        }
+
+        // Function to show the code view
+        function showCodeView() {
+            currentView = 'code';
+            jsonEditor.innerText = JSON.stringify(data, null, 2);
+            updateJSONInfo();
+        }
+
+        // Function to show the tree view
+        function showTreeView() {
+            currentView = 'tree';
+            jsonEditor.innerHTML = renderTree(data, '', '');
+            attachCollapsibleListeners();
+            applyTreeStyle();
+            updateJSONInfo();
+        }
+
+        // Render JSON as collapsible tree with multi-select option
+        function renderTree(json, path, indent = '') {
+            let html = '<ul>';
+            for (let key in json) {
+                const newPath = path ? `${path}.${key}` : key;
+                if (typeof json[key] === 'object' && json[key] !== null) {
+                    html += `
+                        <li class="collapsible collapsed">
+                            <span class="arrow">▶</span>
+                            <span onclick="toggleCollapse(event)">${key}:</span>
+                            <div class="nested hidden">${renderTree(json[key], newPath, indent + '  ')}</div>
+                        </li>`;
+                } else {
+                    html += `<li class="value" data-path="${newPath}" onclick="handleNodeClick('${newPath}', '${json[key]}')">${key}: ${json[key]}</li>`;
+                }
+            }
+            html += '</ul>';
+            return html;
+        }
+
+        // Function to change tree style
+        function toggleTreeStyle() {
+            treeStyle = (treeStyle % 3) + 1; // Cycle through 3 styles
+            showTreeView();
+        }
+
+        // Apply the selected tree style
+        function applyTreeStyle() {
+            const root = document.getElementById('jsoneditor');
+            switch (treeStyle) {
+                case 1:
+                    root.style.textAlign = 'left';
+                    root.style.paddingLeft = '20px';
+                    root.style.display = 'block'; // Original style
+                    break;
+                case 2:
+                    root.style.textAlign = 'left';
+                    root.style.paddingLeft = '0px';
+                    root.style.display = 'flex';
+                    root.style.flexDirection = 'column'; // Centered Flow (River Mode)
+                    break;
+                case 3:
+                    root.style.textAlign = 'center';
+                    root.style.display = 'block';
+                    root.style.paddingLeft = '40px'; // Third style: Mind Map
+                    break;
+            }
+        }
+
+        // Toggle collapse for tree nodes
+        function toggleCollapse(event) {
+            event.stopPropagation();
+            const parent = event.target.closest('.collapsible');
+            parent.classList.toggle('expanded');
+            parent.classList.toggle('collapsed');
+            const nested = parent.querySelector('.nested');
+            if (nested) nested.classList.toggle('hidden');
+        }
+
+        // Handle node click for single or multi-select mode
+        function handleNodeClick(path, value) {
+            if (multiSelectMode) {
+                clipboard.push({ path, value });
+                updateClipboardTray();
+            } else {
+                copyToClipboard(value);
+            }
+        }
+
+        // Toggle multi-select mode
+        function toggleMultiSelect() {
+            multiSelectMode = !multiSelectMode;
+            clipboardTray.style.display = multiSelectMode ? 'block' : 'none';
+        }
+
+        // Update the clipboard tray display
+        function updateClipboardTray() {
+            clipboardList.innerHTML = clipboard.map(item => `<li>${item.path}: ${item.value}</li>`).join('');
+        }
+
+        // Copy all items from the clipboard tray to the clipboard
+        function copyTrayToClipboard() {
+            const text = clipboard.map(item => `${item.path}: ${item.value}`).join('\n');
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Copied all items from the tray.');
+            });
+        }
+
+        // Clear the clipboard tray
+        function clearTray() {
+            clipboard = [];
+            updateClipboardTray();
+        }
+
+        // Attach event listeners to collapsible elements
+        function attachCollapsibleListeners() {
+            document.querySelectorAll('.collapsible > .arrow, .collapsible > span').forEach(element => {
+                element.addEventListener('click', toggleCollapse);
+            });
+        }
+
+        // Expand all collapsible elements
+        function expandAll() {
+            document.querySelectorAll('.collapsible').forEach(element => {
+                element.classList.add('expanded');
+                element.classList.remove('collapsed');
+                element.querySelector('.nested').classList.remove('hidden');
+            });
+        }
+
+        // Collapse all collapsible elements
+        function collapseAll() {
+            document.querySelectorAll('.collapsible').forEach(element => {
+                element.classList.add('collapsed');
+                element.classList.remove('expanded');
+                element.querySelector('.nested').classList.add('hidden');
+            });
+        }
+
+        // Copy value to clipboard
+        function copyToClipboard(value) {
+            navigator.clipboard.writeText(value).then(() => {
+                alert(`Copied: ${value}`);
+            });
+        }
+
+        // Download the JSON data as a file
+        function downloadJSON() {
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'data.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Search functionality for tree view, add results to clipboard, expand matches, and navigate through results
+        function searchJSON() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            if (!searchTerm) return;
+
+            const elements = document.querySelectorAll('.value, .collapsible > span');
+            const matchingItems = [];
+            highlightedElements = [];
+            currentHighlightIndex = -1;
+
+            elements.forEach(element => {
+                const text = element.textContent.toLowerCase();
+                element.classList.remove('highlight');
+
+                if (text.includes(searchTerm)) {
+                    element.classList.add('highlight');
+                    highlightedElements.push(element);
+
+                    if (element.classList.contains('value')) {
+                        const path = element.getAttribute('data-path');
+                        const value = element.textContent.split(': ')[1];
+
+                        // Check for duplicates before adding to clipboard
+                        const alreadyInClipboard = clipboard.some(item => item.path === path && item.value === value);
+                        if (!alreadyInClipboard) {
+                            matchingItems.push({ path, value });
+                        }
+
+                        // Expand relevant branches
+                        expandParentBranches(element);
+                    }
+                }
+            });
+
+            updateClipboardWithSearchResults(matchingItems);
+            console.log('Search complete:', highlightedElements.length, 'matches found.');
+        }
+
+        // Update the clipboard with search results
+        function updateClipboardWithSearchResults(results) {
+            results.forEach(item => {
+                const alreadyInClipboard = clipboard.some(existing => existing.path === item.path && existing.value === item.value);
+                if (!alreadyInClipboard) {
+                    clipboard.push(item);
+                }
+            });
+
+            if (clipboardTray.style.display === 'none') {
+                clipboardTray.style.display = 'block';
+            }
+
+            updateClipboardTray();
+        }
+
+        // Expand all parent branches containing the element
+        function expandParentBranches(element) {
+            let parent = element.closest('.nested');
+            while (parent) {
+                const collapsibleParent = parent.closest('.collapsible');
+                if (collapsibleParent) {
+                    collapsibleParent.classList.add('expanded');
+                    collapsibleParent.classList.remove('collapsed');
+                    parent.classList.remove('hidden');
+                }
+                parent = collapsibleParent.closest('.nested');
+            }
+        }
+
+        // Search YouTube for playlists
+        function searchYouTube() {
+            const query = document.getElementById('playlistSearch').value;
+            const searchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
+            window.open(searchUrl, '_blank');
+        }
+
+        // Toggle playlist sidebar visibility
+        function togglePlaylistSidebar() {
+            playlistSidebar.style.display = playlistSidebar.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Show help overlay
+        function showHelpOverlay() {
+            helpOverlay.style.display = 'block';
+        }
+
+        // Hide help overlay
+        function hideHelpOverlay() {
+            helpOverlay.style.display = 'none';
+        }
+
+        // Simulate playing a playlist
+        function playPlaylist(type) {
+            if (type === 'Coding Focus') {
+                playlistPlayer.src = "https://www.youtube.com/embed/videoseries?si=C1A6VU3j_nwV1nki&list=PLPit0qsdr5cdLA3N9O43ao9zy56rp1mY1";
+            } else if (type === 'Relaxation') {
+                playlistPlayer.src = "https://www.youtube.com/embed/videoseries?si=KYlB4aWUBXbfHi2p&list=PLL7L4yFKS-089dJGU6JdK_vAuiamOVprQ";
+            } else if (type === 'Coding Session') {
+                playlistPlayer.src = "https://www.youtube.com/embed/videoseries?si=g9oSo0npYrZtiluH&list=PLXzchC_LKdZ0uJgrPt9-Cicl8TeDSyLqF";
+            }
+            playlistPlayer.classList.remove('hidden');
+        }
+
+        // Handle Enter key press for search input
+        function handleSearchKey(event) {
+            if (event.key === 'Enter') {
+                searchJSON();
+            }
+        }
+
+        // Updated event listener to navigate through highlighted elements with Enter, Up, and Down keys
+        document.addEventListener('keydown', (event) => {
+            if (highlightedElements.length === 0 || !['Enter', 'ArrowUp', 'ArrowDown'].includes(event.key)) return;
+
+            event.preventDefault();
+
+            if (event.key === 'Enter' || event.key === 'ArrowDown') {
+                currentHighlightIndex = (currentHighlightIndex + 1) % highlightedElements.length;
+            } else if (event.key === 'ArrowUp') {
+                currentHighlightIndex = (currentHighlightIndex - 1 + highlightedElements.length) % highlightedElements.length;
+            }
+
+            scrollToHighlight();
+        });
+
+        // Function to scroll to the current highlighted element
+        function scrollToHighlight() {
+            if (highlightedElements.length === 0 || currentHighlightIndex === -1) return;
+
+            highlightedElements.forEach((el, index) => {
+                el.style.backgroundColor = index === currentHighlightIndex ? '#8a2be2' : '#6a0dad';
+            });
+
+            const currentElement = highlightedElements[currentHighlightIndex];
+            currentElement.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+            });
+
+            const parentContainer = jsonEditor;
+            if (parentContainer.scrollHeight > parentContainer.clientHeight) {
+                parentContainer.scrollTop = currentElement.offsetTop - parentContainer.offsetTop - (parentContainer.clientHeight / 2) + (currentElement.clientHeight / 2);
+            }
+        }
+
+        // Ensure elements are properly highlighted after a new search
+        function highlightElements() {
+            highlightedElements = Array.from(document.querySelectorAll('.highlight'));
+            currentHighlightIndex = -1;
+        }
+
+        // Initialize default view
+        fetchData(); // Load data from the default selected JSON file
+    </script>
+</body>
+
+</html>
