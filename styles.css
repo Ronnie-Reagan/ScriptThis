@@ -106,12 +106,16 @@ header p {
     background-color: #8a2be2;
 }
 
+.btn[data-tooltip] {
+    position: relative;
+}
+
 .btn[data-tooltip]::after {
     content: attr(data-tooltip);
     position: absolute;
-    top: 50%;
-    left: var(--tooltip-position, 100%);
-    transform: translateY(-50%);
+    top: -100%;
+    left: var(--tooltip-position, 0); /* Default position is left */
+    transform: translateY(-5px); /* Small offset from the top */
     background-color: #333;
     color: #fff;
     padding: 5px;
@@ -127,12 +131,12 @@ header p {
 .btn[data-tooltip]::before {
     content: '';
     position: absolute;
-    top: 50%;
-    left: var(--arrow-position, 100%);
-    transform: translateY(-50%);
+    top: -5px; /* Align arrow with the tooltip */
+    left: var(--arrow-position, 0); /* Align with the tooltip position */
+    transform: translateY(-100%); /* Arrow pointing up */
     border-width: 5px;
     border-style: solid;
-    border-color: transparent transparent transparent #333;
+    border-color: transparent transparent #333 transparent;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.5s;
