@@ -30,7 +30,6 @@
             border-bottom: 1px solid #333;
             flex-shrink: 0;
             position: relative;
-            height: 75px;
         }
 
         header h1 {
@@ -49,10 +48,14 @@
 
         #logo {
             position: absolute;
-            left: 0;
-            top: 0;
-            width: 75px;
-            height: 75px;
+            left: 0px;
+            top: 0px;
+            width: 50px;
+            height: 50px;
+            border-radius: 10%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         #logo img {
@@ -63,8 +66,7 @@
 
         #editor-container {
             flex: 1;
-            width: 90%;
-            max-width: 2800px;
+            width: 98%;
             margin: 10px auto;
             background: #2d2d2d;
             padding: 10px;
@@ -73,7 +75,9 @@
             display: flex;
             flex-direction: column;
             overflow: auto;
-            resize: both;
+            resize: both; /* Allow resizing */
+            min-height: 400px; /* Minimum height */
+            max-height: 90vh; /* Maximum height */
         }
 
         #jsoneditor {
@@ -86,16 +90,8 @@
             overflow-y: auto;
             font-family: monospace;
             font-size: 1rem;
-            line-height: 1.4;
-        }
-
-        .btn-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            flex-shrink: 0;
+            resize: both; /* Allow resizing */
+            min-height: 300px; /* Minimum height */
         }
 
         .btn-row {
@@ -103,7 +99,7 @@
             flex-wrap: wrap;
             gap: 10px;
             justify-content: center;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
 
         .btn {
@@ -117,11 +113,11 @@
             font-size: 0.9rem;
         }
 
-        .btn:hover {
-            background-color: #8a2be2;
+        .btn.active {
+            background-color: #8a2be2; /* Highlight active button */
         }
 
-        .btn.selected {
+        .btn:hover {
             background-color: #8a2be2;
         }
 
@@ -137,7 +133,7 @@
 
         .collapsible {
             cursor: pointer;
-            padding: 2px 0;
+            padding-left: 5px; /* Reduced padding */
             position: relative;
             list-style: none;
             display: flex;
@@ -163,7 +159,7 @@
 
         .nested {
             display: none;
-            padding-left: 10px;
+            padding-left: 5px; /* Reduced padding */
         }
 
         .expanded .nested {
@@ -172,7 +168,7 @@
 
         .value {
             cursor: pointer;
-            padding-left: 10px;
+            padding-left: 5px; /* Reduced padding */
             list-style: none;
         }
 
@@ -200,11 +196,7 @@
             max-height: 150px;
             overflow-y: auto;
             display: none;
-            resize: vertical;
-        }
-
-        #clipboard-tray h4 {
-            margin-top: 0;
+            resize: vertical; /* Allow vertical resizing */
         }
 
         #playlist-sidebar {
@@ -248,51 +240,28 @@
             margin-top: 10px;
         }
 
-        #help-overlay {
+        #help-button {
             position: fixed;
-            top: 5%;
-            left: 5%;
-            width: 90%;
-            height: 90%;
-            background: rgba(34, 34, 34, 0.95);
-            color: #e0e0e0;
-            border: 2px solid #6a0dad;
-            border-radius: 10px;
-            z-index: 1100;
-            display: none;
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        #help-close {
-            position: absolute;
-            top: 10px;
+            bottom: 20px;
             right: 20px;
-            font-size: 24px;
-            color: #6a0dad;
-            cursor: pointer;
-        }
-
-        .help-button {
-            position: fixed;
-            bottom: 10px;
-            right: 10px;
-            padding: 10px;
-            background-color: #d9534f;
+            background-color: #d9534f; /* Red help button */
             color: #fff;
-            border: none;
-            border-radius: 5px;
+            padding: 10px;
+            border-radius: 50%;
             cursor: pointer;
+            z-index: 1100;
+            border: none;
+            font-size: 1.2rem;
         }
 
         /* Media Queries for responsive design */
         @media (max-width: 768px) {
             header h1 {
-                font-size: 1.6vw;
+                font-size: 1.4vw;
             }
 
             header p {
-                font-size: 0.8vw;
+                font-size: 0.7vw;
             }
 
             .btn {
@@ -368,12 +337,10 @@
         <pre id="jsoneditor"></pre>
         <div id="json-info"></div>
         <div id="clipboard-tray">
-            <div class="btn-row">
-                <button class="btn" onclick="copyTrayToClipboard()">Copy All</button>
-                <button class="btn" onclick="clearTray()">Clear Tray</button>
-            </div>
             <h4>Clipboard Tray</h4>
             <ul id="clipboard-list"></ul>
+            <button class="btn" onclick="copyTrayToClipboard()">Copy All</button>
+            <button class="btn" onclick="clearTray()">Clear Tray</button>
         </div>
         <div id="playlist-sidebar">
             <h3>Music</h3>
@@ -384,6 +351,9 @@
             <button class="btn" onclick="searchYouTube()">Search YouTube</button>
             <iframe id="playlistPlayer" src=""></iframe>
         </div>
+
+        <!-- Help Button -->
+        <button id="help-button" onclick="showHelpOverlay()">?</button>
 
         <!-- Help Overlay -->
         <div id="help-overlay">
@@ -400,8 +370,6 @@
                 <li>Explore music playlists while you work using the Music sidebar.</li>
             </ul>
         </div>
-
-        <button class="help-button" onclick="showHelpOverlay()">Help</button>
     </div>
 
     <script>
@@ -412,6 +380,8 @@
         const playlistSidebar = document.getElementById('playlist-sidebar');
         const playlistPlayer = document.getElementById('playlistPlayer');
         const helpOverlay = document.getElementById('help-overlay');
+        const codeViewBtn = document.getElementById('codeViewBtn');
+        const treeViewBtn = document.getElementById('treeViewBtn');
         let currentView = 'code';
         let multiSelectMode = false;
         let clipboard = [];
@@ -485,8 +455,7 @@
             currentView = 'code';
             jsonEditor.innerText = JSON.stringify(data, null, 2);
             updateJSONInfo();
-            document.getElementById('codeViewBtn').classList.add('selected');
-            document.getElementById('treeViewBtn').classList.remove('selected');
+            highlightViewButton();
         }
 
         // Function to show the tree view
@@ -496,8 +465,7 @@
             attachCollapsibleListeners();
             applyTreeStyle();
             updateJSONInfo();
-            document.getElementById('codeViewBtn').classList.remove('selected');
-            document.getElementById('treeViewBtn').classList.add('selected');
+            highlightViewButton();
         }
 
         // Render JSON as collapsible tree with multi-select option
@@ -523,7 +491,7 @@
         // Function to change tree style
         function toggleTreeStyle() {
             treeStyle = (treeStyle % 3) + 1; // Cycle through 3 styles
-            showTreeView();
+            applyTreeStyle();
         }
 
         // Apply the selected tree style
@@ -532,7 +500,7 @@
             switch (treeStyle) {
                 case 1:
                     root.style.textAlign = 'left';
-                    root.style.paddingLeft = '20px';
+                    root.style.paddingLeft = '10px';
                     root.style.display = 'block'; // Original style
                     break;
                 case 2:
@@ -544,7 +512,7 @@
                 case 3:
                     root.style.textAlign = 'center';
                     root.style.display = 'block';
-                    root.style.paddingLeft = '40px'; // Third style: Mind Map
+                    root.style.paddingLeft = '20px'; // Third style: Mind Map
                     break;
             }
         }
@@ -640,20 +608,20 @@
         // Search functionality for tree view, add results to clipboard, expand matches, and navigate through results
         function searchJSON() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            const searchTerms = searchTerm.split(" ");
             if (!searchTerm) return;
 
-            const searchTerms = searchTerm.split(' '); // Split by space for partial match searching
             const elements = document.querySelectorAll('.value, .collapsible > span');
             const matchingItems = [];
-            highlightedElements.forEach(el => el.classList.remove('highlight')); // Clear previous highlights
             highlightedElements = [];
             currentHighlightIndex = -1;
 
             elements.forEach(element => {
                 const text = element.textContent.toLowerCase();
-                const matches = searchTerms.every(term => text.includes(term)); // Check if all terms are present
+                element.classList.remove('highlight');
 
-                if (matches) {
+                // Check if all search terms are present
+                if (searchTerms.every(term => text.includes(term))) {
                     element.classList.add('highlight');
                     highlightedElements.push(element);
 
@@ -745,6 +713,17 @@
         function handleSearchKey(event) {
             if (event.key === 'Enter') {
                 searchJSON();
+            }
+        }
+
+        // Highlight the current view button
+        function highlightViewButton() {
+            if (currentView === 'code') {
+                codeViewBtn.classList.add('active');
+                treeViewBtn.classList.remove('active');
+            } else {
+                codeViewBtn.classList.remove('active');
+                treeViewBtn.classList.add('active');
             }
         }
 
