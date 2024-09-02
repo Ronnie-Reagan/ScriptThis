@@ -2,9 +2,9 @@
 
 **Script This** is a versatile and intuitive web-based tool designed to enhance the development of Lua scripts for GTA 5 mod menus like Cherax, Modest Menu, and others in the future. It offers an interactive platform for exploring, sorting, and managing Lua pointers and JSON data structures, making it an essential tool for developers working with complex scripts.
 
-## [Access Script This Online](https://ronnie-reagan.github.io/LuaScriptDocuments/)
+## [Access Script This Online](https://ronnie-reagan.github.io/ScriptThis/)
 
-Visit the live version of Script This [here](https://ronnie-reagan.github.io/LuaScriptDocuments/) to start using it directly in your browser.
+Visit the live version of Script This [here](https://ronnie-reagan.github.io/ScriptThis/) to start using it directly in your browser.
 
 ## Features
 
