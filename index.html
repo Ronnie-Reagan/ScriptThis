@@ -48,10 +48,10 @@
 
         #logo {
             position: absolute;
-            left: 20px;
-            top: 10px;
-            width: 50px;
-            height: 50px;
+            left: 5px;
+            top: 5px;
+            width: 75px;
+            height: 75px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -87,16 +87,8 @@
             color: #e0e0e0;
             overflow-y: auto;
             font-family: monospace;
-            font-size: 1rem;
-        }
-
-        .btn-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            flex-shrink: 0;
+            font-size: 0.9rem;
+            line-height: 1.2; /* Adjust line height for closer node spacing */
         }
 
         .btn-row {
@@ -134,11 +126,11 @@
 
         .collapsible {
             cursor: pointer;
-            padding-left: 10px;
-            position: relative;
+            padding: 2px 5px; /* Reduced padding for tighter layout */
             list-style: none;
             display: flex;
             align-items: center;
+            margin: 0; /* Align nodes with root */
         }
 
         .arrow {
@@ -160,7 +152,7 @@
 
         .nested {
             display: none;
-            padding-left: 10px;
+            padding-left: 15px; /* Consistent indentation */
         }
 
         .expanded .nested {
@@ -322,7 +314,6 @@
     </header>
 
     <div id="editor-container">
-        <!-- First row of buttons -->
         <div class="btn-row">
             <label for="documentSelector">Select Document:</label>
             <select id="documentSelector">
@@ -336,7 +327,6 @@
             <button class="btn" onclick="collapseAll()">Collapse All</button>
         </div>
 
-        <!-- Second row of buttons -->
         <div class="btn-row">
             <button class="btn" onclick="downloadJSON()">Download JSON</button>
             <button class="btn" onclick="toggleMultiSelect()">Multi-Select</button>
@@ -364,7 +354,6 @@
             <iframe id="playlistPlayer" src=""></iframe>
         </div>
 
-        <!-- Help Overlay -->
         <div id="help-overlay">
             <div id="help-close" onclick="hideHelpOverlay()">← Close</div>
             <h2>Help & Documentation</h2>
@@ -382,389 +371,355 @@
     </div>
 </body>
 
+<script>
+    const jsonEditor = document.getElementById('jsoneditor');
+    const jsonInfo = document.getElementById('json-info');
+    const clipboardTray = document.getElementById('clipboard-tray');
+    const clipboardList = document.getElementById('clipboard-list');
+    const playlistSidebar = document.getElementById('playlist-sidebar');
+    const playlistPlayer = document.getElementById('playlistPlayer');
+    const helpOverlay = document.getElementById('help-overlay');
+    let currentView = 'code';
+    let multiSelectMode = false;
+    let clipboard = [];
+    let treeStyle = 1;
+    let highlightedElements = [];
+    let currentHighlightIndex = -1;
+    let data = {};
 
-    <script>
-        const jsonEditor = document.getElementById('jsoneditor');
-        const jsonInfo = document.getElementById('json-info');
-        const clipboardTray = document.getElementById('clipboard-tray');
-        const clipboardList = document.getElementById('clipboard-list');
-        const playlistSidebar = document.getElementById('playlist-sidebar');
-        const playlistPlayer = document.getElementById('playlistPlayer');
-        const helpOverlay = document.getElementById('help-overlay');
-        let currentView = 'code';
-        let multiSelectMode = false;
-        let clipboard = [];
-        let treeStyle = 1;
-        let highlightedElements = [];
-        let currentHighlightIndex = -1;
-        let data = {};
+    document.getElementById('documentSelector').addEventListener('change', (event) => {
+        fetchData(event.target.value);
+    });
 
-        // Initialize with the selected document
-        document.getElementById('documentSelector').addEventListener('change', (event) => {
-            fetchData(event.target.value);
-        });
+    async function fetchData(documentName = 'CheraxDocuments') {
+        try {
+            const response = await fetch(`${documentName}.json`);
+            if (!response.ok) {
+                throw new Error('Failed to load JSON data');
+            }
+            data = await response.json();
+            showCodeView(); // Initialize with code view
+        } catch (error) {
+            console.error('Error loading JSON data:', error);
+            jsonEditor.innerText = 'Error loading data.';
+        }
+    }
 
-        // Fetch JSON data from the selected document
-        async function fetchData(documentName = 'CheraxDocuments') {
-            try {
-                const response = await fetch(`${documentName}.json`);
-                if (!response.ok) {
-                    throw new Error('Failed to load JSON data');
-                }
-                data = await response.json();
-                showCodeView(); // Initialize with code view
-            } catch (error) {
-                console.error('Error loading JSON data:', error);
-                jsonEditor.innerText = 'Error loading data.';
+    function updateJSONInfo() {
+        const totalKeys = countKeys(data);
+        const maxDepth = calculateDepth(data);
+        const arrayCount = countArrays(data);
+        jsonInfo.innerText = `Total Keys: ${totalKeys} | Max Depth: ${maxDepth} | Arrays: ${arrayCount}`;
+    }
+
+    function countKeys(obj) {
+        let count = 0;
+        for (let key in obj) {
+            count++;
+            if (typeof obj[key] === 'object' && obj[key] !== null) {
+                count += countKeys(obj[key]);
             }
         }
+        return count;
+    }
 
-        function updateJSONInfo() {
-            const totalKeys = countKeys(data);
-            const maxDepth = calculateDepth(data);
-            const arrayCount = countArrays(data);
-            jsonInfo.innerText = `Total Keys: ${totalKeys} | Max Depth: ${maxDepth} | Arrays: ${arrayCount}`;
+    function calculateDepth(obj) {
+        let maxDepth = 0;
+        for (let key in obj) {
+            if (typeof obj[key] === 'object' && obj[key] !== null) {
+                maxDepth = Math.max(maxDepth, calculateDepth(obj[key]));
+            }
         }
+        return maxDepth + 1;
+    }
 
-        function countKeys(obj) {
-            let count = 0;
-            for (let key in obj) {
+    function countArrays(obj) {
+        let count = 0;
+        for (let key in obj) {
+            if (Array.isArray(obj[key])) {
                 count++;
-                if (typeof obj[key] === 'object' && obj[key] !== null) {
-                    count += countKeys(obj[key]);
-                }
-            }
-            return count;
-        }
-
-        function calculateDepth(obj) {
-            let maxDepth = 0;
-            for (let key in obj) {
-                if (typeof obj[key] === 'object' && obj[key] !== null) {
-                    maxDepth = Math.max(maxDepth, calculateDepth(obj[key]));
-                }
-            }
-            return maxDepth + 1;
-        }
-
-        function countArrays(obj) {
-            let count = 0;
-            for (let key in obj) {
-                if (Array.isArray(obj[key])) {
-                    count++;
-                } else if (typeof obj[key] === 'object' && obj[key] !== null) {
-                    count += countArrays(obj[key]);
-                }
-            }
-            return count;
-        }
-
-        // Function to show the code view
-        function showCodeView() {
-            currentView = 'code';
-            jsonEditor.innerText = JSON.stringify(data, null, 2);
-            updateJSONInfo();
-        }
-
-        // Function to show the tree view
-        function showTreeView() {
-            currentView = 'tree';
-            jsonEditor.innerHTML = renderTree(data, '', '');
-            attachCollapsibleListeners();
-            applyTreeStyle();
-            updateJSONInfo();
-        }
-
-        // Render JSON as collapsible tree with multi-select option
-        function renderTree(json, path, indent = '') {
-            let html = '<ul>';
-            for (let key in json) {
-                const newPath = path ? `${path}.${key}` : key;
-                if (typeof json[key] === 'object' && json[key] !== null) {
-                    html += `
-                        <li class="collapsible collapsed">
-                            <span class="arrow">▶</span>
-                            <span onclick="toggleCollapse(event)">${key}:</span>
-                            <div class="nested hidden">${renderTree(json[key], newPath, indent + '  ')}</div>
-                        </li>`;
-                } else {
-                    html += `<li class="value" data-path="${newPath}" onclick="handleNodeClick('${newPath}', '${json[key]}')">${key}: ${json[key]}</li>`;
-                }
-            }
-            html += '</ul>';
-            return html;
-        }
-
-        // Function to change tree style
-        function toggleTreeStyle() {
-            treeStyle = (treeStyle % 3) + 1; // Cycle through 3 styles
-            showTreeView();
-        }
-
-        // Apply the selected tree style
-        function applyTreeStyle() {
-            const root = document.getElementById('jsoneditor');
-            switch (treeStyle) {
-                case 1:
-                    root.style.textAlign = 'left';
-                    root.style.paddingLeft = '20px';
-                    root.style.display = 'block'; // Original style
-                    break;
-                case 2:
-                    root.style.textAlign = 'left';
-                    root.style.paddingLeft = '0px';
-                    root.style.display = 'flex';
-                    root.style.flexDirection = 'column'; // Centered Flow (River Mode)
-                    break;
-                case 3:
-                    root.style.textAlign = 'center';
-                    root.style.display = 'block';
-                    root.style.paddingLeft = '40px'; // Third style: Mind Map
-                    break;
+            } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+                count += countArrays(obj[key]);
             }
         }
+        return count;
+    }
 
-        // Toggle collapse for tree nodes
-        function toggleCollapse(event) {
-            event.stopPropagation();
-            const parent = event.target.closest('.collapsible');
-            parent.classList.toggle('expanded');
-            parent.classList.toggle('collapsed');
-            const nested = parent.querySelector('.nested');
-            if (nested) nested.classList.toggle('hidden');
-        }
+    function showCodeView() {
+        currentView = 'code';
+        jsonEditor.innerText = JSON.stringify(data, null, 2);
+        updateJSONInfo();
+    }
 
-        // Handle node click for single or multi-select mode
-        function handleNodeClick(path, value) {
-            if (multiSelectMode) {
-                clipboard.push({ path, value });
-                updateClipboardTray();
+    function showTreeView() {
+        currentView = 'tree';
+        jsonEditor.innerHTML = renderTree(data, '', '');
+        attachCollapsibleListeners();
+        applyTreeStyle();
+        updateJSONInfo();
+    }
+
+    function renderTree(json, path, indent = '') {
+        let html = '<ul>';
+        for (let key in json) {
+            const newPath = path ? `${path}.${key}` : key;
+            if (typeof json[key] === 'object' && json[key] !== null) {
+                html += `
+                    <li class="collapsible collapsed">
+                        <span class="arrow">▶</span>
+                        <span onclick="toggleCollapse(event)">${key}:</span>
+                        <div class="nested hidden">${renderTree(json[key], newPath, indent + '  ')}</div>
+                    </li>`;
             } else {
-                copyToClipboard(value);
+                html += `<li class="value" data-path="${newPath}" onclick="handleNodeClick('${newPath}', '${json[key]}')">${key}: ${json[key]}</li>`;
             }
         }
+        html += '</ul>';
+        return html;
+    }
 
-        // Toggle multi-select mode
-        function toggleMultiSelect() {
-            multiSelectMode = !multiSelectMode;
-            clipboardTray.style.display = multiSelectMode ? 'block' : 'none';
+    function toggleTreeStyle() {
+        treeStyle = (treeStyle % 3) + 1;
+        showTreeView();
+    }
+
+    function applyTreeStyle() {
+        const treeContainer = document.querySelector('#jsoneditor ul');
+        if (!treeContainer) return; // Ensure it only runs if in tree view
+        switch (treeStyle) {
+            case 1:
+                treeContainer.style.textAlign = 'left';
+                treeContainer.style.paddingLeft = '20px';
+                treeContainer.style.display = 'block'; // Standard view
+                break;
+            case 2:
+                treeContainer.style.textAlign = 'left';
+                treeContainer.style.paddingLeft = '0px';
+                treeContainer.style.display = 'flex';
+                treeContainer.style.flexDirection = 'column'; // Centered Flow
+                break;
+            case 3:
+                treeContainer.style.textAlign = 'center';
+                treeContainer.style.display = 'block';
+                treeContainer.style.paddingLeft = '40px'; // Mind Map style
+                break;
         }
+    }
 
-        // Update the clipboard tray display
-        function updateClipboardTray() {
-            clipboardList.innerHTML = clipboard.map(item => `<li>${item.path}: ${item.value}</li>`).join('');
-        }
+    function toggleCollapse(event) {
+        event.stopPropagation();
+        const parent = event.target.closest('.collapsible');
+        parent.classList.toggle('expanded');
+        parent.classList.toggle('collapsed');
+        const nested = parent.querySelector('.nested');
+        if (nested) nested.classList.toggle('hidden');
+    }
 
-        // Copy all items from the clipboard tray to the clipboard
-        function copyTrayToClipboard() {
-            const text = clipboard.map(item => `${item.path}: ${item.value}`).join('\n');
-            navigator.clipboard.writeText(text).then(() => {
-                alert('Copied all items from the tray.');
-            });
-        }
-
-        // Clear the clipboard tray
-        function clearTray() {
-            clipboard = [];
+    function handleNodeClick(path, value) {
+        if (multiSelectMode) {
+            clipboard.push({ path, value });
             updateClipboardTray();
+        } else {
+            copyToClipboard(value);
         }
+    }
 
-        // Attach event listeners to collapsible elements
-        function attachCollapsibleListeners() {
-            document.querySelectorAll('.collapsible > .arrow, .collapsible > span').forEach(element => {
-                element.addEventListener('click', toggleCollapse);
-            });
-        }
+    function toggleMultiSelect() {
+        multiSelectMode = !multiSelectMode;
+        clipboardTray.style.display = multiSelectMode ? 'block' : 'none';
+    }
 
-        // Expand all collapsible elements
-        function expandAll() {
-            document.querySelectorAll('.collapsible').forEach(element => {
-                element.classList.add('expanded');
-                element.classList.remove('collapsed');
-                element.querySelector('.nested').classList.remove('hidden');
-            });
-        }
+    function updateClipboardTray() {
+        clipboardList.innerHTML = clipboard.map(item => `<li>${item.path}: ${item.value}</li>`).join('');
+    }
 
-        // Collapse all collapsible elements
-        function collapseAll() {
-            document.querySelectorAll('.collapsible').forEach(element => {
-                element.classList.add('collapsed');
-                element.classList.remove('expanded');
-                element.querySelector('.nested').classList.add('hidden');
-            });
-        }
+    function copyTrayToClipboard() {
+        const text = clipboard.map(item => `${item.path}: ${item.value}`).join('\n');
+        navigator.clipboard.writeText(text).then(() => {
+            alert('Copied all items from the tray.');
+        });
+    }
 
-        // Copy value to clipboard
-        function copyToClipboard(value) {
-            navigator.clipboard.writeText(value).then(() => {
-                alert(`Copied: ${value}`);
-            });
-        }
+    function clearTray() {
+        clipboard = [];
+        updateClipboardTray();
+    }
 
-        // Download the JSON data as a file
-        function downloadJSON() {
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'data.json';
-            a.click();
-            URL.revokeObjectURL(url);
-        }
+    function attachCollapsibleListeners() {
+        document.querySelectorAll('.collapsible > .arrow, .collapsible > span').forEach(element => {
+            element.addEventListener('click', toggleCollapse);
+        });
+    }
 
-        // Search functionality for tree view, add results to clipboard, expand matches, and navigate through results
-        function searchJSON() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
-            if (!searchTerm) return;
+    function expandAll() {
+        document.querySelectorAll('.collapsible').forEach(element => {
+            element.classList.add('expanded');
+            element.classList.remove('collapsed');
+            element.querySelector('.nested').classList.remove('hidden');
+        });
+    }
 
-            const elements = document.querySelectorAll('.value, .collapsible > span');
-            const matchingItems = [];
-            highlightedElements = [];
-            currentHighlightIndex = -1;
+    function collapseAll() {
+        document.querySelectorAll('.collapsible').forEach(element => {
+            element.classList.add('collapsed');
+            element.classList.remove('expanded');
+            element.querySelector('.nested').classList.add('hidden');
+        });
+    }
 
-            elements.forEach(element => {
-                const text = element.textContent.toLowerCase();
-                element.classList.remove('highlight');
+    function copyToClipboard(value) {
+        navigator.clipboard.writeText(value).then(() => {
+            alert(`Copied: ${value}`);
+        });
+    }
 
-                if (text.includes(searchTerm)) {
-                    element.classList.add('highlight');
-                    highlightedElements.push(element);
+    function downloadJSON() {
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'data.json';
+        a.click();
+        URL.revokeObjectURL(url);
+    }
 
-                    if (element.classList.contains('value')) {
-                        const path = element.getAttribute('data-path');
-                        const value = element.textContent.split(': ')[1];
+    function searchJSON() {
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+        if (!searchTerm) return;
 
-                        // Check for duplicates before adding to clipboard
-                        const alreadyInClipboard = clipboard.some(item => item.path === path && item.value === value);
-                        if (!alreadyInClipboard) {
-                            matchingItems.push({ path, value });
-                        }
+        const elements = document.querySelectorAll('.value, .collapsible > span');
+        const matchingItems = [];
+        highlightedElements = [];
+        currentHighlightIndex = -1;
 
-                        // Expand relevant branches
-                        expandParentBranches(element);
+        elements.forEach(element => {
+            const text = element.textContent.toLowerCase();
+            element.classList.remove('highlight');
+
+            if (text.includes(searchTerm)) {
+                element.classList.add('highlight');
+                highlightedElements.push(element);
+
+                if (element.classList.contains('value')) {
+                    const path = element.getAttribute('data-path');
+                    const value = element.textContent.split(': ')[1];
+
+                    const alreadyInClipboard = clipboard.some(item => item.path === path && item.value === value);
+                    if (!alreadyInClipboard) {
+                        matchingItems.push({ path, value });
                     }
+
+                    expandParentBranches(element);
                 }
-            });
-
-            updateClipboardWithSearchResults(matchingItems);
-            console.log('Search complete:', highlightedElements.length, 'matches found.');
-        }
-
-        // Update the clipboard with search results
-        function updateClipboardWithSearchResults(results) {
-            results.forEach(item => {
-                const alreadyInClipboard = clipboard.some(existing => existing.path === item.path && existing.value === item.value);
-                if (!alreadyInClipboard) {
-                    clipboard.push(item);
-                }
-            });
-
-            if (clipboardTray.style.display === 'none') {
-                clipboardTray.style.display = 'block';
             }
-
-            updateClipboardTray();
-        }
-
-        // Expand all parent branches containing the element
-        function expandParentBranches(element) {
-            let parent = element.closest('.nested');
-            while (parent) {
-                const collapsibleParent = parent.closest('.collapsible');
-                if (collapsibleParent) {
-                    collapsibleParent.classList.add('expanded');
-                    collapsibleParent.classList.remove('collapsed');
-                    parent.classList.remove('hidden');
-                }
-                parent = collapsibleParent.closest('.nested');
-            }
-        }
-
-        // Search YouTube for playlists
-        function searchYouTube() {
-            const query = document.getElementById('playlistSearch').value;
-            const searchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
-            window.open(searchUrl, '_blank');
-        }
-
-        // Toggle playlist sidebar visibility
-        function togglePlaylistSidebar() {
-            playlistSidebar.style.display = playlistSidebar.style.display === 'block' ? 'none' : 'block';
-        }
-
-        // Show help overlay
-        function showHelpOverlay() {
-            helpOverlay.style.display = 'block';
-        }
-
-        // Hide help overlay
-        function hideHelpOverlay() {
-            helpOverlay.style.display = 'none';
-        }
-
-        // Simulate playing a playlist
-        function playPlaylist(type) {
-            if (type === 'Coding Focus') {
-                playlistPlayer.src = "https://www.youtube.com/embed/videoseries?si=C1A6VU3j_nwV1nki&list=PLPit0qsdr5cdLA3N9O43ao9zy56rp1mY1";
-            } else if (type === 'Relaxation') {
-                playlistPlayer.src = "https://www.youtube.com/embed/videoseries?si=KYlB4aWUBXbfHi2p&list=PLL7L4yFKS-089dJGU6JdK_vAuiamOVprQ";
-            } else if (type === 'Coding Session') {
-                playlistPlayer.src = "https://www.youtube.com/embed/videoseries?si=g9oSo0npYrZtiluH&list=PLXzchC_LKdZ0uJgrPt9-Cicl8TeDSyLqF";
-            }
-            playlistPlayer.classList.remove('hidden');
-        }
-
-        // Handle Enter key press for search input
-        function handleSearchKey(event) {
-            if (event.key === 'Enter') {
-                searchJSON();
-            }
-        }
-
-        // Updated event listener to navigate through highlighted elements with Enter, Up, and Down keys
-        document.addEventListener('keydown', (event) => {
-            if (highlightedElements.length === 0 || !['Enter', 'ArrowUp', 'ArrowDown'].includes(event.key)) return;
-
-            event.preventDefault();
-
-            if (event.key === 'Enter' || event.key === 'ArrowDown') {
-                currentHighlightIndex = (currentHighlightIndex + 1) % highlightedElements.length;
-            } else if (event.key === 'ArrowUp') {
-                currentHighlightIndex = (currentHighlightIndex - 1 + highlightedElements.length) % highlightedElements.length;
-            }
-
-            scrollToHighlight();
         });
 
-        // Function to scroll to the current highlighted element
-        function scrollToHighlight() {
-            if (highlightedElements.length === 0 || currentHighlightIndex === -1) return;
+        updateClipboardWithSearchResults(matchingItems);
+        console.log('Search complete:', highlightedElements.length, 'matches found.');
+    }
 
-            highlightedElements.forEach((el, index) => {
-                el.style.backgroundColor = index === currentHighlightIndex ? '#8a2be2' : '#6a0dad';
-            });
-
-            const currentElement = highlightedElements[currentHighlightIndex];
-            currentElement.scrollIntoView({
-                behavior: 'smooth',
-                block: 'center',
-            });
-
-            const parentContainer = jsonEditor;
-            if (parentContainer.scrollHeight > parentContainer.clientHeight) {
-                parentContainer.scrollTop = currentElement.offsetTop - parentContainer.offsetTop - (parentContainer.clientHeight / 2) + (currentElement.clientHeight / 2);
+    function updateClipboardWithSearchResults(results) {
+        results.forEach(item => {
+            const alreadyInClipboard = clipboard.some(existing => existing.path === item.path && existing.value === item.value);
+            if (!alreadyInClipboard) {
+                clipboard.push(item);
             }
+        });
+
+        if (clipboardTray.style.display === 'none') {
+            clipboardTray.style.display = 'block';
         }
 
-        // Ensure elements are properly highlighted after a new search
-        function highlightElements() {
-            highlightedElements = Array.from(document.querySelectorAll('.highlight'));
-            currentHighlightIndex = -1;
+        updateClipboardTray();
+    }
+
+    function expandParentBranches(element) {
+        let parent = element.closest('.nested');
+        while (parent) {
+            const collapsibleParent = parent.closest('.collapsible');
+            if (collapsibleParent) {
+                collapsibleParent.classList.add('expanded');
+                collapsibleParent.classList.remove('collapsed');
+                parent.classList.remove('hidden');
+            }
+            parent = collapsibleParent.closest('.nested');
+        }
+    }
+
+    function searchYouTube() {
+        const query = document.getElementById('playlistSearch').value;
+        const searchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
+        window.open(searchUrl, '_blank');
+    }
+
+    function togglePlaylistSidebar() {
+        playlistSidebar.style.display = playlistSidebar.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function showHelpOverlay() {
+        helpOverlay.style.display = 'block';
+    }
+
+    function hideHelpOverlay() {
+        helpOverlay.style.display = 'none';
+    }
+
+    function playPlaylist(type) {
+        if (type === 'Coding Focus') {
+            playlistPlayer.src = "https://www.youtube.com/embed/videoseries?si=C1A6VU3j_nwV1nki&list=PLPit0qsdr5cdLA3N9O43ao9zy56rp1mY1";
+        } else if (type === 'Relaxation') {
+            playlistPlayer.src = "https://www.youtube.com/embed/videoseries?si=KYlB4aWUBXbfHi2p&list=PLL7L4yFKS-089dJGU6JdK_vAuiamOVprQ";
+        } else if (type === 'Coding Session') {
+            playlistPlayer.src = "https://www.youtube.com/embed/videoseries?si=g9oSo0npYrZtiluH&list=PLXzchC_LKdZ0uJgrPt9-Cicl8TeDSyLqF";
+        }
+        playlistPlayer.classList.remove('hidden');
+    }
+
+    function handleSearchKey(event) {
+        if (event.key === 'Enter') {
+            searchJSON();
+        }
+    }
+
+    document.addEventListener('keydown', (event) => {
+        if (highlightedElements.length === 0 || !['Enter', 'ArrowUp', 'ArrowDown'].includes(event.key)) return;
+
+        event.preventDefault();
+
+        if (event.key === 'Enter' || event.key === 'ArrowDown') {
+            currentHighlightIndex = (currentHighlightIndex + 1) % highlightedElements.length;
+        } else if (event.key === 'ArrowUp') {
+            currentHighlightIndex = (currentHighlightIndex - 1 + highlightedElements.length) % highlightedElements.length;
         }
 
-        // Initialize default view
-        fetchData(); // Load data from the default selected JSON file
-    </script>
-</body>
+        scrollToHighlight();
+    });
+
+    function scrollToHighlight() {
+        if (highlightedElements.length === 0 || currentHighlightIndex === -1) return;
+
+        highlightedElements.forEach((el, index) => {
+            el.style.backgroundColor = index === currentHighlightIndex ? '#8a2be2' : '#6a0dad';
+        });
+
+        const currentElement = highlightedElements[currentHighlightIndex];
+        currentElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+        });
+
+        const parentContainer = jsonEditor;
+        if (parentContainer.scrollHeight > parentContainer.clientHeight) {
+            parentContainer.scrollTop = currentElement.offsetTop - parentContainer.offsetTop - (parentContainer.clientHeight / 2) + (currentElement.clientHeight / 2);
+        }
+    }
+
+    function highlightElements() {
+        highlightedElements = Array.from(document.querySelectorAll('.highlight'));
+        currentHighlightIndex = -1;
+    }
+
+    fetchData(); // Load data from the default selected JSON file
+</script>
 
 </html>
