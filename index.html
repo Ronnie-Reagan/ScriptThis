@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Script This</title>
     <style>
         body {
@@ -33,14 +34,14 @@
 
         header h1 {
             margin: 0;
-            font-size: 24px;
+            font-size: 4vw; /* Responsive font size */
             color: #dcdcdc;
             text-align: center;
         }
 
         header p {
             margin: 5px 0 0;
-            font-size: 14px;
+            font-size: 2vw; /* Responsive font size */
             color: #a0a0a0;
             text-align: center;
         }
@@ -49,9 +50,13 @@
             position: absolute;
             left: 20px;
             top: 10px;
-            width: 100px;
-            height: 100px;
+            width: 60px;
+            height: 60px;
+            background-color: #6a0dad;
             border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         #logo img {
@@ -83,10 +88,12 @@
             color: #e0e0e0;
             overflow-y: auto;
             font-family: monospace;
+            font-size: 1.5vw; /* Responsive font size */
         }
 
         .btn-group {
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             margin-bottom: 10px;
             flex-shrink: 0;
@@ -94,13 +101,14 @@
 
         .btn {
             padding: 8px 15px;
-            margin-left: 5px;
+            margin: 5px;
             border: none;
             background-color: #6a0dad;
             color: #fff;
             cursor: pointer;
             border-radius: 4px;
             transition: background-color 0.3s;
+            font-size: 1vw; /* Responsive font size */
         }
 
         .btn:hover {
@@ -171,6 +179,7 @@
             text-align: left;
             border-top: 1px solid #333;
             flex-shrink: 0;
+            font-size: 1.5vw; /* Responsive font size */
         }
 
         #clipboard-tray {
@@ -248,6 +257,56 @@
             color: #6a0dad;
             cursor: pointer;
         }
+
+        /* Media Queries for responsive design */
+        @media (max-width: 768px) {
+            #logo {
+                width: 50px;
+                height: 50px;
+            }
+
+            header h1 {
+                font-size: 5vw;
+            }
+
+            header p {
+                font-size: 3vw;
+            }
+
+            .btn {
+                font-size: 3vw;
+                padding: 5px 10px;
+            }
+
+            .search-input {
+                width: 150px;
+            }
+
+            #jsoneditor {
+                font-size: 2.5vw;
+            }
+
+            #json-info {
+                font-size: 2.5vw;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            #editor-container {
+                max-width: 90%;
+            }
+        }
+
+        @media (min-width: 1920px) {
+            body {
+                max-width: 100vw;
+                max-height: 100vh;
+            }
+
+            #editor-container {
+                max-width: 95%;
+            }
+        }
     </style>
 </head>
 
@@ -307,9 +366,9 @@
         <div id="help-overlay">
             <div id="help-close" onclick="hideHelpOverlay()">← Close</div>
             <h2>Help & Documentation</h2>
-            <p>Here you can find information on how to use the Script This:</p>
+            <p>Here you can find information on how to use Script This:</p>
             <ul>
-                <li>Use the drop down menu to select the which menus docs you want to review.</li>
+                <li>Use the drop-down menu to select which menu's docs you want to review.</li>
                 <li>Use the "Code View" button to see the raw JSON data in code format.</li>
                 <li>Switch to "Tree View" to navigate through JSON in a collapsible format.</li>
                 <li>Change tree styles to suit your preference using the "Change Tree Style" button.</li>
@@ -336,25 +395,23 @@
         let currentHighlightIndex = -1;
         let data = {};
 
+        // Initialize with the selected document
         document.getElementById('documentSelector').addEventListener('change', (event) => {
             fetchData(event.target.value);
         });
 
+        // Fetch JSON data from the selected document
         async function fetchData(documentName = 'CheraxDocuments') {
             try {
                 const response = await fetch(`${documentName}.json`);
                 if (!response.ok) {
-                    throw new Error(`Failed to load JSON data: ${response.status} ${response.statusText}`);
+                    throw new Error('Failed to load JSON data');
                 }
-                const responseData = await response.text();
-                if (!responseData) {
-                    throw new Error('JSON data is empty or not correctly loaded.');
-                }
-                data = JSON.parse(responseData);
-                showCodeView();
+                data = await response.json();
+                showCodeView(); // Initialize with code view
             } catch (error) {
                 console.error('Error loading JSON data:', error);
-                jsonEditor.innerText = `Error loading data: ${error.message}`;
+                jsonEditor.innerText = 'Error loading data.';
             }
         }
 
@@ -398,12 +455,14 @@
             return count;
         }
 
+        // Function to show the code view
         function showCodeView() {
             currentView = 'code';
             jsonEditor.innerText = JSON.stringify(data, null, 2);
             updateJSONInfo();
         }
 
+        // Function to show the tree view
         function showTreeView() {
             currentView = 'tree';
             jsonEditor.innerHTML = renderTree(data, '', '');
@@ -412,6 +471,7 @@
             updateJSONInfo();
         }
 
+        // Render JSON as collapsible tree with multi-select option
         function renderTree(json, path, indent = '') {
             let html = '<ul>';
             for (let key in json) {
@@ -431,11 +491,13 @@
             return html;
         }
 
+        // Function to change tree style
         function toggleTreeStyle() {
-            treeStyle = (treeStyle % 3) + 1;
+            treeStyle = (treeStyle % 3) + 1; // Cycle through 3 styles
             showTreeView();
         }
 
+        // Apply the selected tree style
         function applyTreeStyle() {
             const root = document.getElementById('jsoneditor');
             switch (treeStyle) {
@@ -458,6 +520,7 @@
             }
         }
 
+        // Toggle collapse for tree nodes
         function toggleCollapse(event) {
             event.stopPropagation();
             const parent = event.target.closest('.collapsible');
@@ -467,6 +530,7 @@
             if (nested) nested.classList.toggle('hidden');
         }
 
+        // Handle node click for single or multi-select mode
         function handleNodeClick(path, value) {
             if (multiSelectMode) {
                 clipboard.push({ path, value });
@@ -476,15 +540,18 @@
             }
         }
 
+        // Toggle multi-select mode
         function toggleMultiSelect() {
             multiSelectMode = !multiSelectMode;
             clipboardTray.style.display = multiSelectMode ? 'block' : 'none';
         }
 
+        // Update the clipboard tray display
         function updateClipboardTray() {
             clipboardList.innerHTML = clipboard.map(item => `<li>${item.path}: ${item.value}</li>`).join('');
         }
 
+        // Copy all items from the clipboard tray to the clipboard
         function copyTrayToClipboard() {
             const text = clipboard.map(item => `${item.path}: ${item.value}`).join('\n');
             navigator.clipboard.writeText(text).then(() => {
@@ -492,17 +559,20 @@
             });
         }
 
+        // Clear the clipboard tray
         function clearTray() {
             clipboard = [];
             updateClipboardTray();
         }
 
+        // Attach event listeners to collapsible elements
         function attachCollapsibleListeners() {
             document.querySelectorAll('.collapsible > .arrow, .collapsible > span').forEach(element => {
                 element.addEventListener('click', toggleCollapse);
             });
         }
 
+        // Expand all collapsible elements
         function expandAll() {
             document.querySelectorAll('.collapsible').forEach(element => {
                 element.classList.add('expanded');
@@ -511,6 +581,7 @@
             });
         }
 
+        // Collapse all collapsible elements
         function collapseAll() {
             document.querySelectorAll('.collapsible').forEach(element => {
                 element.classList.add('collapsed');
@@ -519,12 +590,14 @@
             });
         }
 
+        // Copy value to clipboard
         function copyToClipboard(value) {
             navigator.clipboard.writeText(value).then(() => {
                 alert(`Copied: ${value}`);
             });
         }
 
+        // Download the JSON data as a file
         function downloadJSON() {
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
@@ -535,6 +608,7 @@
             URL.revokeObjectURL(url);
         }
 
+        // Search functionality for tree view, add results to clipboard, expand matches, and navigate through results
         function searchJSON() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
             if (!searchTerm) return;
@@ -556,11 +630,13 @@
                         const path = element.getAttribute('data-path');
                         const value = element.textContent.split(': ')[1];
 
+                        // Check for duplicates before adding to clipboard
                         const alreadyInClipboard = clipboard.some(item => item.path === path && item.value === value);
                         if (!alreadyInClipboard) {
                             matchingItems.push({ path, value });
                         }
 
+                        // Expand relevant branches
                         expandParentBranches(element);
                     }
                 }
@@ -570,6 +646,7 @@
             console.log('Search complete:', highlightedElements.length, 'matches found.');
         }
 
+        // Update the clipboard with search results
         function updateClipboardWithSearchResults(results) {
             results.forEach(item => {
                 const alreadyInClipboard = clipboard.some(existing => existing.path === item.path && existing.value === item.value);
@@ -585,6 +662,7 @@
             updateClipboardTray();
         }
 
+        // Expand all parent branches containing the element
         function expandParentBranches(element) {
             let parent = element.closest('.nested');
             while (parent) {
@@ -598,24 +676,29 @@
             }
         }
 
+        // Search YouTube for playlists
         function searchYouTube() {
             const query = document.getElementById('playlistSearch').value;
             const searchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
             window.open(searchUrl, '_blank');
         }
 
+        // Toggle playlist sidebar visibility
         function togglePlaylistSidebar() {
             playlistSidebar.style.display = playlistSidebar.style.display === 'block' ? 'none' : 'block';
         }
 
+        // Show help overlay
         function showHelpOverlay() {
             helpOverlay.style.display = 'block';
         }
 
+        // Hide help overlay
         function hideHelpOverlay() {
             helpOverlay.style.display = 'none';
         }
 
+        // Simulate playing a playlist
         function playPlaylist(type) {
             if (type === 'Coding Focus') {
                 playlistPlayer.src = "https://www.youtube.com/embed/videoseries?si=C1A6VU3j_nwV1nki&list=PLPit0qsdr5cdLA3N9O43ao9zy56rp1mY1";
@@ -627,12 +710,14 @@
             playlistPlayer.classList.remove('hidden');
         }
 
+        // Handle Enter key press for search input
         function handleSearchKey(event) {
             if (event.key === 'Enter') {
                 searchJSON();
             }
         }
 
+        // Updated event listener to navigate through highlighted elements with Enter, Up, and Down keys
         document.addEventListener('keydown', (event) => {
             if (highlightedElements.length === 0 || !['Enter', 'ArrowUp', 'ArrowDown'].includes(event.key)) return;
 
@@ -647,6 +732,7 @@
             scrollToHighlight();
         });
 
+        // Function to scroll to the current highlighted element
         function scrollToHighlight() {
             if (highlightedElements.length === 0 || currentHighlightIndex === -1) return;
 
@@ -666,12 +752,14 @@
             }
         }
 
+        // Ensure elements are properly highlighted after a new search
         function highlightElements() {
             highlightedElements = Array.from(document.querySelectorAll('.highlight'));
             currentHighlightIndex = -1;
         }
 
-        fetchData();
+        // Initialize default view
+        fetchData(); // Load data from the default selected JSON file
     </script>
 </body>
 
