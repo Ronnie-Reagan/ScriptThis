@@ -339,13 +339,17 @@
             try {
                 const response = await fetch(`${documentName}.json`);
                 if (!response.ok) {
-                    throw new Error('Failed to load JSON data');
+                    throw new Error(`Failed to load JSON data: ${response.status} ${response.statusText}`);
                 }
-                data = await response.json();
+                const responseData = await response.text(); // Fetch as text first
+                if (!responseData) {
+                    throw new Error('JSON data is empty or not correctly loaded.');
+                }
+                data = JSON.parse(responseData); // Parse the JSON
                 showCodeView(); // Initialize with code view
             } catch (error) {
                 console.error('Error loading JSON data:', error);
-                jsonEditor.innerText = 'Error loading data.';
+                jsonEditor.innerText = `Error loading data: ${error.message}`;
             }
         }
 
