@@ -88,7 +88,8 @@
             overflow-y: auto;
             font-family: monospace;
             font-size: 0.9rem;
-            line-height: 1.2; /* Adjust line height for closer node spacing */
+            line-height: 1.2;
+            /* Adjust line height for closer node spacing */
         }
 
         .btn-row {
@@ -114,6 +115,75 @@
             background-color: #8a2be2;
         }
 
+        /* Tooltip container */
+        .btn[data-tooltip] {
+            position: relative;
+            /* Position the tooltip relative to the button */
+        }
+
+        /* Tooltip text */
+        .btn[data-tooltip]::after {
+            content: attr(data-tooltip);
+            /* Use the data-tooltip attribute as content */
+            position: absolute;
+            bottom: 150%;
+            /* Position above the button */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            /* Tooltip background color */
+            color: #fff;
+            /* Tooltip text color */
+            padding: 5px;
+            /* Tooltip padding */
+            border-radius: 4px;
+            /* Rounded corners */
+            font-size: 0.8rem;
+            /* Font size */
+            white-space: nowrap;
+            /* Prevent text wrap */
+            opacity: 0;
+            /* Hidden by default */
+            visibility: hidden;
+            /* Hidden by default */
+            transition: opacity 0.3s;
+            /* Smooth transition */
+            z-index: 1000;
+            /* Ensure tooltip is above other elements */
+        }
+
+        /* Tooltip arrow */
+        .btn[data-tooltip]::before {
+            content: '';
+            position: absolute;
+            bottom: 140%;
+            /* Position directly below the tooltip text */
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 5px;
+            border-style: solid;
+            border-color: #333 transparent transparent transparent;
+            /* Arrow color */
+            opacity: 0;
+            /* Hidden by default */
+            visibility: hidden;
+            /* Hidden by default */
+            transition: opacity 0.3s;
+            /* Smooth transition */
+            z-index: 1000;
+            /* Ensure tooltip is above other elements */
+        }
+
+        /* Show tooltip on hover */
+        .btn[data-tooltip]:hover::after,
+        .btn[data-tooltip]:hover::before {
+            opacity: 1;
+            /* Show tooltip */
+            visibility: visible;
+            /* Show tooltip */
+        }
+
+
         .search-input {
             padding: 6px;
             border: 1px solid #555;
@@ -126,11 +196,13 @@
 
         .collapsible {
             cursor: pointer;
-            padding: 2px 5px; /* Reduced padding for tighter layout */
+            padding: 2px 5px;
+            /* Reduced padding for tighter layout */
             list-style: none;
             display: flex;
             align-items: center;
-            margin: 0; /* Align nodes with root */
+            margin: 0;
+            /* Align nodes with root */
         }
 
         .arrow {
@@ -152,7 +224,8 @@
 
         .nested {
             display: none;
-            padding-left: 15px; /* Consistent indentation */
+            padding-left: 15px;
+            /* Consistent indentation */
         }
 
         .expanded .nested {
@@ -320,20 +393,24 @@
                 <option value="CheraxDocuments">CheraxDocuments</option>
                 <option value="ModestDocuments">ModestDocuments</option>
             </select>
-            <button class="btn" onclick="showCodeView()">Code View</button>
-            <button class="btn" onclick="showTreeView()">Tree View</button>
-            <button class="btn" onclick="toggleTreeStyle()">Change Tree Style</button>
-            <button class="btn" onclick="expandAll()">Expand All</button>
-            <button class="btn" onclick="collapseAll()">Collapse All</button>
+            <button class="btn" onclick="showCodeView()" data-tooltip="Switch to code view">Code View</button>
+            <button class="btn" onclick="showTreeView()" data-tooltip="Switch to tree view">Tree View</button>
+            <button class="btn" onclick="toggleTreeStyle()" data-tooltip="Change the style of the tree view">Change Tree
+                Style</button>
+            <button class="btn" onclick="expandAll()" data-tooltip="Expand all nodes in the tree">Expand All</button>
+            <button class="btn" onclick="collapseAll()" data-tooltip="Collapse all nodes in the tree">Collapse
+                All</button>
         </div>
 
         <div class="btn-row">
-            <button class="btn" onclick="downloadJSON()">Download JSON</button>
-            <button class="btn" onclick="toggleMultiSelect()">Multi-Select</button>
-            <button class="btn" onclick="togglePlaylistSidebar()">Music</button>
-            <button class="btn" onclick="showHelpOverlay()">Help</button>
-            <input type="text" class="search-input" id="searchInput" placeholder="Search..." onkeydown="handleSearchKey(event)">
-            <button class="btn" onclick="searchJSON()">Search</button>
+            <button class="btn" onclick="downloadJSON()" data-tooltip="Download the JSON file">Download JSON</button>
+            <button class="btn" onclick="toggleMultiSelect()"
+                data-tooltip="Toggle multi-select mode">Multi-Select</button>
+            <button class="btn" onclick="togglePlaylistSidebar()" data-tooltip="Toggle the music sidebar">Music</button>
+            <button class="btn" onclick="showHelpOverlay()" data-tooltip="Open help and documentation">Help</button>
+            <input type="text" class="search-input" id="searchInput" placeholder="Search..."
+                onkeydown="handleSearchKey(event)" data-tooltip="Enter text to search the JSON data">
+            <button class="btn" onclick="searchJSON()" data-tooltip="Search the JSON data">Search</button>
         </div>
 
         <pre id="jsoneditor"></pre>
@@ -341,31 +418,96 @@
         <div id="clipboard-tray">
             <h4>Clipboard Tray</h4>
             <ul id="clipboard-list"></ul>
-            <button class="btn" onclick="copyTrayToClipboard()">Copy All</button>
-            <button class="btn" onclick="clearTray()">Clear Tray</button>
+            <button class="btn" onclick="copyTrayToClipboard()" data-tooltip="Copy all items in the tray">Copy
+                All</button>
+            <button class="btn" onclick="clearTray()" data-tooltip="Clear the clipboard tray">Clear Tray</button>
         </div>
         <div id="playlist-sidebar">
             <h3>Music</h3>
-            <input type="text" id="playlistSearch" placeholder="Search YouTube...">
-            <button class="btn" onclick="playPlaylist('Coding Focus')">Coding Focus Playlist</button>
-            <button class="btn" onclick="playPlaylist('Relaxation')">Relaxation Playlist</button>
-            <button class="btn" onclick="playPlaylist('Coding Session')">Coding Session Playlist</button>
-            <button class="btn" onclick="searchYouTube()">Search YouTube</button>
+            <input type="text" id="playlistSearch" placeholder="Search YouTube..."
+                data-tooltip="Search for music on YouTube">
+            <button class="btn" onclick="playPlaylist('Coding Focus')" data-tooltip="Play Coding Focus Playlist">Coding
+                Focus Playlist</button>
+            <button class="btn" onclick="playPlaylist('Relaxation')" data-tooltip="Play Relaxation Playlist">Relaxation
+                Playlist</button>
+            <button class="btn" onclick="playPlaylist('Coding Session')"
+                data-tooltip="Play Coding Session Playlist">Coding Session Playlist</button>
+            <button class="btn" onclick="searchYouTube()" data-tooltip="Search YouTube for music">Search
+                YouTube</button>
             <iframe id="playlistPlayer" src=""></iframe>
         </div>
 
         <div id="help-overlay">
-            <div id="help-close" onclick="hideHelpOverlay()">← Close</div>
+            <div id="help-close" onclick="hideHelpOverlay()" data-tooltip="Close the help overlay">← Close</div>
             <h2>Help & Documentation</h2>
-            <p>Here you can find information on how to use Script This:</p>
+            <p>Welcome to Script This! Here’s a guide on how to use the various features:</p>
             <ul>
-                <li>Use the drop-down menu to select which menu's docs you want to review.</li>
-                <li>Use the "Code View" button to see the raw JSON data in code format.</li>
-                <li>Switch to "Tree View" to navigate through JSON in a collapsible format.</li>
-                <li>Change tree styles to suit your preference using the "Change Tree Style" button.</li>
-                <li>Use the search box to find specific keys or values. Matches will be highlighted and expanded.</li>
-                <li>Toggle multi-select mode to add multiple items to the clipboard at once.</li>
-                <li>Explore music playlists while you work using the Music sidebar.</li>
+                <li>
+                    <strong>Select Document:</strong>
+                    <ul>
+                        <li>Use the drop-down menu to select the document set you wish to work with.</li>
+                        <li>Options include "CheraxDocuments" and "ModestDocuments".</li>
+                    </ul>
+                </li>
+
+                <li>
+                    <strong>View Modes:</strong>
+                    <ul>
+                        <li><strong>Code View:</strong> Displays the JSON data in raw code format for direct editing.
+                        </li>
+                        <li><strong>Tree View:</strong> Provides a structured view of the JSON data, making it easier to
+                            navigate through nodes.</li>
+                        <li><strong>Change Tree Style:</strong> Toggle through different tree styles to adjust the
+                            visual layout of the tree view.</li>
+                        <li><strong>Expand All / Collapse All:</strong> Quickly expand or collapse all nodes in the tree
+                            view.</li>
+                    </ul>
+                </li>
+
+                <li>
+                    <strong>Search and Multi-Select:</strong>
+                    <ul>
+                        <li><strong>Search:</strong> Use the search box to find specific keys or values within the JSON
+                            data. Matching items are highlighted and expanded in tree view.</li>
+                        <li><strong>Multi-Select:</strong> Toggle multi-select mode to add multiple items to the
+                            clipboard at once for batch operations.</li>
+                    </ul>
+                </li>
+
+                <li>
+                    <strong>JSON Operations:</strong>
+                    <ul>
+                        <li><strong>Download JSON:</strong> Download the current JSON data as a file to your local
+                            machine.</li>
+                        <li><strong>Clipboard Tray:</strong> A storage area where you can temporarily keep selected data
+                            items.</li>
+                        <li><strong>Copy All:</strong> Copy all items in the clipboard tray to your system clipboard.
+                        </li>
+                        <li><strong>Clear Tray:</strong> Clear all items from the clipboard tray.</li>
+                    </ul>
+                </li>
+
+                <li>
+                    <strong>Music Sidebar:</strong>
+                    <ul>
+                        <li><strong>Toggle Sidebar:</strong> Open or close the music sidebar where you can control
+                            background playlists.</li>
+                        <li><strong>Playlists:</strong> Choose from predefined playlists like "Coding Focus,"
+                            "Relaxation," or "Coding Session" to set the mood while you work.</li>
+                        <li><strong>Search YouTube:</strong> Search for custom music or sounds on YouTube directly from
+                            the sidebar.</li>
+                    </ul>
+                </li>
+
+                <li>
+                    <strong>Help & Documentation:</strong>
+                    <ul>
+                        <li><strong>Help Overlay:</strong> Access this help section at any time by clicking the "Help"
+                            button.</li>
+                        <li>Each feature includes specific tooltips for quick guidance—hover over buttons and inputs to
+                            see tips.</li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
