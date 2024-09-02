@@ -89,7 +89,6 @@
             font-family: monospace;
             font-size: 0.9rem;
             line-height: 1.2;
-            /* Adjust line height for closer node spacing */
         }
 
         .btn-row {
@@ -109,80 +108,51 @@
             border-radius: 4px;
             transition: background-color 0.3s;
             font-size: 0.9rem;
+            position: relative;
         }
 
         .btn:hover {
             background-color: #8a2be2;
         }
 
-        /* Tooltip container */
-        .btn[data-tooltip] {
-            position: relative;
-            /* Position the tooltip relative to the button */
-        }
-
-        /* Tooltip text */
         .btn[data-tooltip]::after {
             content: attr(data-tooltip);
-            /* Use the data-tooltip attribute as content */
             position: absolute;
-            bottom: 150%;
-            /* Position above the button */
-            left: 50%;
-            transform: translateX(-50%);
+            top: 50%;
+            left: var(--tooltip-position, 100%);
+            transform: translateY(-50%);
             background-color: #333;
-            /* Tooltip background color */
             color: #fff;
-            /* Tooltip text color */
             padding: 5px;
-            /* Tooltip padding */
             border-radius: 4px;
-            /* Rounded corners */
             font-size: 0.8rem;
-            /* Font size */
             white-space: nowrap;
-            /* Prevent text wrap */
             opacity: 0;
-            /* Hidden by default */
             visibility: hidden;
-            /* Hidden by default */
-            transition: opacity 0.3s;
-            /* Smooth transition */
+            transition: opacity 0.5s;
             z-index: 1000;
-            /* Ensure tooltip is above other elements */
         }
 
-        /* Tooltip arrow */
         .btn[data-tooltip]::before {
             content: '';
             position: absolute;
-            bottom: 140%;
-            /* Position directly below the tooltip text */
-            left: 50%;
-            transform: translateX(-50%);
+            top: 50%;
+            left: var(--arrow-position, 100%);
+            transform: translateY(-50%);
             border-width: 5px;
             border-style: solid;
-            border-color: #333 transparent transparent transparent;
-            /* Arrow color */
+            border-color: transparent transparent transparent #333;
             opacity: 0;
-            /* Hidden by default */
             visibility: hidden;
-            /* Hidden by default */
-            transition: opacity 0.3s;
-            /* Smooth transition */
+            transition: opacity 0.5s;
             z-index: 1000;
-            /* Ensure tooltip is above other elements */
         }
 
-        /* Show tooltip on hover */
         .btn[data-tooltip]:hover::after,
         .btn[data-tooltip]:hover::before {
             opacity: 1;
-            /* Show tooltip */
             visibility: visible;
-            /* Show tooltip */
         }
-
 
         .search-input {
             padding: 6px;
@@ -196,13 +166,11 @@
 
         .collapsible {
             cursor: pointer;
-            padding: 1px 2px;
-            /* Reduced padding for tighter layout */
+            padding: 2px 0;
+            margin: 1px 0;
             list-style: none;
             display: flex;
             align-items: center;
-            margin: 0;
-            /* Align nodes with root */
         }
 
         .arrow {
@@ -225,16 +193,17 @@
         .nested {
             display: none;
             padding-left: 15px;
-            /* Consistent indentation */
         }
 
         .expanded .nested {
             display: block;
+            margin-top: 1px;
         }
 
         .value {
             cursor: pointer;
             padding-left: 10px;
+            margin: 1px 0;
             list-style: none;
         }
 
@@ -330,7 +299,6 @@
             cursor: pointer;
         }
 
-        /* Media Queries for responsive design */
         @media (max-width: 768px) {
             header h1 {
                 font-size: 1.4vw;
@@ -540,7 +508,7 @@
                 throw new Error('Failed to load JSON data');
             }
             data = await response.json();
-            showCodeView(); // Initialize with code view
+            showCodeView();
         } catch (error) {
             console.error('Error loading JSON data:', error);
             jsonEditor.innerText = 'Error loading data.';
@@ -627,23 +595,23 @@
 
     function applyTreeStyle() {
         const treeContainer = document.querySelector('#jsoneditor ul');
-        if (!treeContainer) return; // Ensure it only runs if in tree view
+        if (!treeContainer) return;
         switch (treeStyle) {
             case 1:
                 treeContainer.style.textAlign = 'left';
                 treeContainer.style.paddingLeft = '20px';
-                treeContainer.style.display = 'block'; // Standard view
+                treeContainer.style.display = 'block';
                 break;
             case 2:
                 treeContainer.style.textAlign = 'left';
                 treeContainer.style.paddingLeft = '0px';
                 treeContainer.style.display = 'flex';
-                treeContainer.style.flexDirection = 'column'; // Centered Flow
+                treeContainer.style.flexDirection = 'column';
                 break;
             case 3:
                 treeContainer.style.textAlign = 'center';
                 treeContainer.style.display = 'block';
-                treeContainer.style.paddingLeft = '40px'; // Mind Map style
+                treeContainer.style.paddingLeft = '40px';
                 break;
         }
     }
@@ -861,7 +829,22 @@
         currentHighlightIndex = -1;
     }
 
-    fetchData(); // Load data from the default selected JSON file
+    // Adjust tooltip positions based on button's screen position
+    document.querySelectorAll('.btn').forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+            const btnRect = btn.getBoundingClientRect();
+            const screenHalf = window.innerWidth / 2;
+            if (btnRect.left < screenHalf) {
+                btn.style.setProperty('--tooltip-position', '100%');
+                btn.style.setProperty('--arrow-position', '95%');
+            } else {
+                btn.style.setProperty('--tooltip-position', '-110%');
+                btn.style.setProperty('--arrow-position', '-5%');
+            }
+        });
+    });
+
+    fetchData();
 </script>
 
 </html>
