@@ -6,343 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Script This</title>
-    <style>
-        body {
-            background-color: #1e1e1e;
-            color: #e0e0e0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        header {
-            width: 100%;
-            padding: 5px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: #252526;
-            border-bottom: 1px solid #333;
-            flex-shrink: 0;
-            position: relative;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 1.4vw;
-            color: #dcdcdc;
-            text-align: center;
-        }
-
-        header p {
-            margin: 5px 0 0;
-            font-size: 0.7vw;
-            color: #a0a0a0;
-            text-align: center;
-        }
-
-        #logo {
-            position: absolute;
-            left: 0px;
-            top: 0px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        #editor-container {
-            flex: 1;
-            width: 90%;
-            max-width: 2800px;
-            margin: 10px auto;
-            background: #2d2d2d;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-            display: flex;
-            flex-direction: column;
-            overflow: auto;
-        }
-
-        #jsoneditor {
-            flex: 1;
-            border: 1px solid #444;
-            border-radius: 4px;
-            padding: 8px;
-            background-color: #1e1e1e;
-            color: #e0e0e0;
-            overflow-y: auto;
-            font-family: monospace;
-            font-size: 0.9rem;
-            line-height: 1.2;
-        }
-
-        .btn-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 10px;
-        }
-
-        .btn {
-            padding: 6px 12px;
-            border: none;
-            background-color: #6a0dad;
-            color: #fff;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-            font-size: 0.9rem;
-            position: relative;
-        }
-
-        .btn:hover {
-            background-color: #8a2be2;
-        }
-
-        .btn[data-tooltip]::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            top: 50%;
-            left: var(--tooltip-position, 100%);
-            transform: translateY(-50%);
-            background-color: #333;
-            color: #fff;
-            padding: 5px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            white-space: nowrap;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.5s;
-            z-index: 1000;
-        }
-
-        .btn[data-tooltip]::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: var(--arrow-position, 100%);
-            transform: translateY(-50%);
-            border-width: 5px;
-            border-style: solid;
-            border-color: transparent transparent transparent #333;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.5s;
-            z-index: 1000;
-        }
-
-        .btn[data-tooltip]:hover::after,
-        .btn[data-tooltip]:hover::before {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .search-input {
-            padding: 6px;
-            border: 1px solid #555;
-            border-radius: 4px;
-            background-color: #3a3d41;
-            color: #fff;
-            outline: none;
-            width: 150px;
-        }
-
-        .collapsible {
-            cursor: pointer;
-            padding: 2px 0;
-            margin: 1px 0;
-            list-style: none;
-            display: flex;
-            align-items: center;
-        }
-
-        .arrow {
-            display: inline-block;
-            width: 10px;
-            text-align: center;
-            cursor: pointer;
-            margin-right: 5px;
-            transition: transform 0.2s;
-        }
-
-        .collapsed .arrow {
-            transform: rotate(0deg);
-        }
-
-        .expanded .arrow {
-            transform: rotate(90deg);
-        }
-
-        .nested {
-            display: none;
-            padding-left: 15px;
-        }
-
-        .expanded .nested {
-            display: block;
-            margin-top: 1px;
-        }
-
-        .value {
-            cursor: pointer;
-            padding-left: 10px;
-            margin: 1px 0;
-            list-style: none;
-        }
-
-        .highlight {
-            background-color: #6a0dad;
-            color: #fff;
-        }
-
-        #json-info {
-            padding: 2px;
-            background-color: #252526;
-            color: #dcdcdc;
-            width: 100%;
-            text-align: left;
-            border-top: 1px solid #333;
-            flex-shrink: 0;
-            font-size: 0.8rem;
-        }
-
-        #clipboard-tray {
-            padding: 5px;
-            background-color: #333;
-            color: #dcdcdc;
-            border-top: 1px solid #444;
-            max-height: 150px;
-            overflow-y: auto;
-            display: none;
-        }
-
-        #playlist-sidebar {
-            position: fixed;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            width: 250px;
-            background-color: #252526;
-            padding: 10px;
-            border-left: 1px solid #333;
-            display: none;
-            overflow-y: auto;
-            z-index: 1000;
-        }
-
-        #playlist-sidebar h3 {
-            color: #dcdcdc;
-            margin: 0;
-            margin-bottom: 10px;
-        }
-
-        #playlist-sidebar input {
-            padding: 8px;
-            border: 1px solid #555;
-            border-radius: 4px;
-            background-color: #3a3d41;
-            color: #fff;
-            margin-bottom: 10px;
-        }
-
-        #playlist-sidebar .btn {
-            margin: 5px 0;
-            width: 100%;
-        }
-
-        iframe {
-            width: 100%;
-            height: 300px;
-            border: none;
-            margin-top: 10px;
-        }
-
-        #help-overlay {
-            position: fixed;
-            top: 5%;
-            left: 5%;
-            width: 90%;
-            height: 90%;
-            background: rgba(34, 34, 34, 0.95);
-            color: #e0e0e0;
-            border: 2px solid #6a0dad;
-            border-radius: 10px;
-            z-index: 1100;
-            display: none;
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        #help-close {
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            font-size: 24px;
-            color: #6a0dad;
-            cursor: pointer;
-        }
-
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 1.4vw;
-            }
-
-            header p {
-                font-size: 0.7vw;
-            }
-
-            .btn {
-                font-size: 0.8rem;
-                padding: 6px 10px;
-            }
-
-            .search-input {
-                width: 100px;
-            }
-
-            #jsoneditor {
-                font-size: 0.7rem;
-            }
-
-            #json-info {
-                font-size: 0.7rem;
-            }
-        }
-
-        @media (min-width: 1200px) {
-            #editor-container {
-                max-width: 80%;
-            }
-        }
-
-        @media (min-width: 1920px) {
-            body {
-                max-width: 100vw;
-                max-height: 100vh;
-            }
-
-            #editor-container {
-                max-width: 95%;
-            }
-        }
-    </style>
+    <meta name="description" content="Script This is a web-based tool for Lua script management and JSON data visualization, tailored for GTA 5 mod menus.">
+    <meta name="keywords" content="Lua, JSON, GTA 5, Script Management, Mod Menus, Cherax, Modest Menu">
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
@@ -361,52 +27,44 @@
                 <option value="CheraxDocuments">CheraxDocuments</option>
                 <option value="ModestDocuments">ModestDocuments</option>
             </select>
-            <button class="btn" onclick="showCodeView()" data-tooltip="Switch to code view">Code View</button>
-            <button class="btn" onclick="showTreeView()" data-tooltip="Switch to tree view">Tree View</button>
-            <button class="btn" onclick="toggleTreeStyle()" data-tooltip="Change the style of the tree view">Change Tree
-                Style</button>
-            <button class="btn" onclick="expandAll()" data-tooltip="Expand all nodes in the tree">Expand All</button>
-            <button class="btn" onclick="collapseAll()" data-tooltip="Collapse all nodes in the tree">Collapse
-                All</button>
+            <button class="btn" onclick="showCodeView()" data-tooltip="Switch to code view" aria-label="Switch to code view">Code View</button>
+            <button class="btn" onclick="showTreeView()" data-tooltip="Switch to tree view" aria-label="Switch to tree view">Tree View</button>
+            <button class="btn" onclick="toggleTreeStyle()" data-tooltip="Change the style of the tree view" aria-label="Change tree style">Change Tree Style</button>
+            <button class="btn" onclick="expandAll()" data-tooltip="Expand all nodes in the tree" aria-label="Expand all nodes">Expand All</button>
+            <button class="btn" onclick="collapseAll()" data-tooltip="Collapse all nodes in the tree" aria-label="Collapse all nodes">Collapse All</button>
         </div>
 
         <div class="btn-row">
-            <button class="btn" onclick="downloadJSON()" data-tooltip="Download the JSON file">Download JSON</button>
-            <button class="btn" onclick="toggleMultiSelect()"
-                data-tooltip="Toggle multi-select mode">Multi-Select</button>
-            <button class="btn" onclick="togglePlaylistSidebar()" data-tooltip="Toggle the music sidebar">Music</button>
-            <button class="btn" onclick="showHelpOverlay()" data-tooltip="Open help and documentation">Help</button>
-            <input type="text" class="search-input" id="searchInput" placeholder="Search..."
-                onkeydown="handleSearchKey(event)" data-tooltip="Enter text to search the JSON data">
-            <button class="btn" onclick="searchJSON()" data-tooltip="Search the JSON data">Search</button>
+            <button class="btn" onclick="downloadJSON()" data-tooltip="Download the JSON file" aria-label="Download JSON file">Download JSON</button>
+            <button class="btn" onclick="toggleMultiSelect()" data-tooltip="Toggle multi-select mode" aria-label="Toggle multi-select mode">Multi-Select</button>
+            <button class="btn" onclick="togglePlaylistSidebar()" data-tooltip="Toggle the music sidebar" aria-label="Toggle music sidebar">Music</button>
+            <button class="btn" onclick="showHelpOverlay()" data-tooltip="Open help and documentation" aria-label="Open help overlay">Help</button>
+            <input type="text" class="search-input" id="searchInput" placeholder="Search..." onkeydown="handleSearchKey(event)" data-tooltip="Enter text to search the JSON data" aria-label="Search JSON data">
+            <button class="btn" onclick="searchJSON()" data-tooltip="Search the JSON data" aria-label="Search JSON data">Search</button>
         </div>
 
         <pre id="jsoneditor"></pre>
         <div id="json-info"></div>
+
         <div id="clipboard-tray">
             <h4>Clipboard Tray</h4>
             <ul id="clipboard-list"></ul>
-            <button class="btn" onclick="copyTrayToClipboard()" data-tooltip="Copy all items in the tray">Copy
-                All</button>
-            <button class="btn" onclick="clearTray()" data-tooltip="Clear the clipboard tray">Clear Tray</button>
+            <button class="btn" onclick="copyTrayToClipboard()" data-tooltip="Copy all items in the tray" aria-label="Copy all items from the tray">Copy All</button>
+            <button class="btn" onclick="clearTray()" data-tooltip="Clear the clipboard tray" aria-label="Clear the clipboard tray">Clear Tray</button>
         </div>
+
         <div id="playlist-sidebar">
             <h3>Music</h3>
-            <input type="text" id="playlistSearch" placeholder="Search YouTube..."
-                data-tooltip="Search for music on YouTube">
-            <button class="btn" onclick="playPlaylist('Coding Focus')" data-tooltip="Play Coding Focus Playlist">Coding
-                Focus Playlist</button>
-            <button class="btn" onclick="playPlaylist('Relaxation')" data-tooltip="Play Relaxation Playlist">Relaxation
-                Playlist</button>
-            <button class="btn" onclick="playPlaylist('Coding Session')"
-                data-tooltip="Play Coding Session Playlist">Coding Session Playlist</button>
-            <button class="btn" onclick="searchYouTube()" data-tooltip="Search YouTube for music">Search
-                YouTube</button>
-            <iframe id="playlistPlayer" src=""></iframe>
+            <input type="text" id="playlistSearch" placeholder="Search YouTube..." data-tooltip="Search for music on YouTube" aria-label="Search YouTube for music">
+            <button class="btn" onclick="playPlaylist('Coding Focus')" data-tooltip="Play Coding Focus Playlist" aria-label="Play Coding Focus Playlist">Coding Focus Playlist</button>
+            <button class="btn" onclick="playPlaylist('Relaxation')" data-tooltip="Play Relaxation Playlist" aria-label="Play Relaxation Playlist">Relaxation Playlist</button>
+            <button class="btn" onclick="playPlaylist('Coding Session')" data-tooltip="Play Coding Session Playlist" aria-label="Play Coding Session Playlist">Coding Session Playlist</button>
+            <button class="btn" onclick="searchYouTube()" data-tooltip="Search YouTube for music" aria-label="Search YouTube">Search YouTube</button>
+            <iframe id="playlistPlayer" src="" aria-label="YouTube playlist player"></iframe>
         </div>
 
         <div id="help-overlay">
-            <div id="help-close" onclick="hideHelpOverlay()" data-tooltip="Close the help overlay">← Close</div>
+            <div id="help-close" onclick="hideHelpOverlay()" data-tooltip="Close the help overlay" aria-label="Close help overlay">← Close</div>
             <h2>Help & Documentation</h2>
             <p>Welcome to Script This! Here’s a guide on how to use the various features:</p>
             <ul>
@@ -417,434 +75,51 @@
                         <li>Options include "CheraxDocuments" and "ModestDocuments".</li>
                     </ul>
                 </li>
-
                 <li>
                     <strong>View Modes:</strong>
                     <ul>
-                        <li><strong>Code View:</strong> Displays the JSON data in raw code format for direct editing.
-                        </li>
-                        <li><strong>Tree View:</strong> Provides a structured view of the JSON data, making it easier to
-                            navigate through nodes.</li>
-                        <li><strong>Change Tree Style:</strong> Toggle through different tree styles to adjust the
-                            visual layout of the tree view.</li>
-                        <li><strong>Expand All / Collapse All:</strong> Quickly expand or collapse all nodes in the tree
-                            view.</li>
+                        <li><strong>Code View:</strong> Displays the JSON data in raw code format for direct editing.</li>
+                        <li><strong>Tree View:</strong> Provides a structured view of the JSON data, making it easier to navigate through nodes.</li>
+                        <li><strong>Change Tree Style:</strong> Toggle through different tree styles to adjust the visual layout of the tree view.</li>
+                        <li><strong>Expand All / Collapse All:</strong> Quickly expand or collapse all nodes in the tree view.</li>
                     </ul>
                 </li>
-
                 <li>
                     <strong>Search and Multi-Select:</strong>
                     <ul>
-                        <li><strong>Search:</strong> Use the search box to find specific keys or values within the JSON
-                            data. Matching items are highlighted and expanded in tree view.</li>
-                        <li><strong>Multi-Select:</strong> Toggle multi-select mode to add multiple items to the
-                            clipboard at once for batch operations.</li>
+                        <li><strong>Search:</strong> Use the search box to find specific keys or values within the JSON data. Matching items are highlighted and expanded in tree view.</li>
+                        <li><strong>Multi-Select:</strong> Toggle multi-select mode to add multiple items to the clipboard at once for batch operations.</li>
                     </ul>
                 </li>
-
                 <li>
                     <strong>JSON Operations:</strong>
                     <ul>
-                        <li><strong>Download JSON:</strong> Download the current JSON data as a file to your local
-                            machine.</li>
-                        <li><strong>Clipboard Tray:</strong> A storage area where you can temporarily keep selected data
-                            items.</li>
-                        <li><strong>Copy All:</strong> Copy all items in the clipboard tray to your system clipboard.
-                        </li>
+                        <li><strong>Download JSON:</strong> Download the current JSON data as a file to your local machine.</li>
+                        <li><strong>Clipboard Tray:</strong> A storage area where you can temporarily keep selected data items.</li>
+                        <li><strong>Copy All:</strong> Copy all items in the clipboard tray to your system clipboard.</li>
                         <li><strong>Clear Tray:</strong> Clear all items from the clipboard tray.</li>
                     </ul>
                 </li>
-
                 <li>
                     <strong>Music Sidebar:</strong>
                     <ul>
-                        <li><strong>Toggle Sidebar:</strong> Open or close the music sidebar where you can control
-                            background playlists.</li>
-                        <li><strong>Playlists:</strong> Choose from predefined playlists like "Coding Focus,"
-                            "Relaxation," or "Coding Session" to set the mood while you work.</li>
-                        <li><strong>Search YouTube:</strong> Search for custom music or sounds on YouTube directly from
-                            the sidebar.</li>
+                        <li><strong>Toggle Sidebar:</strong> Open or close the music sidebar where you can control background playlists.</li>
+                        <li><strong>Playlists:</strong> Choose from predefined playlists like "Coding Focus," "Relaxation," or "Coding Session" to set the mood while you work.</li>
+                        <li><strong>Search YouTube:</strong> Search for custom music or sounds on YouTube directly from the sidebar.</li>
                     </ul>
                 </li>
-
                 <li>
                     <strong>Help & Documentation:</strong>
                     <ul>
-                        <li><strong>Help Overlay:</strong> Access this help section at any time by clicking the "Help"
-                            button.</li>
-                        <li>Each feature includes specific tooltips for quick guidance—hover over buttons and inputs to
-                            see tips.</li>
+                        <li><strong>Help Overlay:</strong> Access this help section at any time by clicking the "Help" button.</li>
+                        <li>Each feature includes specific tooltips for quick guidance—hover over buttons and inputs to see tips.</li>
                     </ul>
                 </li>
             </ul>
         </div>
     </div>
+
+    <script src="script.js"></script>
 </body>
-
-<script>
-    const jsonEditor = document.getElementById('jsoneditor');
-    const jsonInfo = document.getElementById('json-info');
-    const clipboardTray = document.getElementById('clipboard-tray');
-    const clipboardList = document.getElementById('clipboard-list');
-    const playlistSidebar = document.getElementById('playlist-sidebar');
-    const playlistPlayer = document.getElementById('playlistPlayer');
-    const helpOverlay = document.getElementById('help-overlay');
-    let currentView = 'code';
-    let multiSelectMode = false;
-    let clipboard = [];
-    let treeStyle = 1;
-    let highlightedElements = [];
-    let currentHighlightIndex = -1;
-    let data = {};
-
-    document.getElementById('documentSelector').addEventListener('change', (event) => {
-        fetchData(event.target.value);
-    });
-
-    async function fetchData(documentName = 'CheraxDocuments') {
-        try {
-            const response = await fetch(`${documentName}.json`);
-            if (!response.ok) {
-                throw new Error('Failed to load JSON data');
-            }
-            data = await response.json();
-            showCodeView();
-        } catch (error) {
-            console.error('Error loading JSON data:', error);
-            jsonEditor.innerText = 'Error loading data.';
-        }
-    }
-
-    function updateJSONInfo() {
-        const totalKeys = countKeys(data);
-        const maxDepth = calculateDepth(data);
-        const arrayCount = countArrays(data);
-        jsonInfo.innerText = `Total Keys: ${totalKeys} | Max Depth: ${maxDepth} | Arrays: ${arrayCount}`;
-    }
-
-    function countKeys(obj) {
-        let count = 0;
-        for (let key in obj) {
-            count++;
-            if (typeof obj[key] === 'object' && obj[key] !== null) {
-                count += countKeys(obj[key]);
-            }
-        }
-        return count;
-    }
-
-    function calculateDepth(obj) {
-        let maxDepth = 0;
-        for (let key in obj) {
-            if (typeof obj[key] === 'object' && obj[key] !== null) {
-                maxDepth = Math.max(maxDepth, calculateDepth(obj[key]));
-            }
-        }
-        return maxDepth + 1;
-    }
-
-    function countArrays(obj) {
-        let count = 0;
-        for (let key in obj) {
-            if (Array.isArray(obj[key])) {
-                count++;
-            } else if (typeof obj[key] === 'object' && obj[key] !== null) {
-                count += countArrays(obj[key]);
-            }
-        }
-        return count;
-    }
-
-    function showCodeView() {
-        currentView = 'code';
-        jsonEditor.innerText = JSON.stringify(data, null, 2);
-        updateJSONInfo();
-    }
-
-    function showTreeView() {
-        currentView = 'tree';
-        jsonEditor.innerHTML = renderTree(data, '', '');
-        attachCollapsibleListeners();
-        applyTreeStyle();
-        updateJSONInfo();
-    }
-
-    function renderTree(json, path, indent = '') {
-        let html = '<ul>';
-        for (let key in json) {
-            const newPath = path ? `${path}.${key}` : key;
-            if (typeof json[key] === 'object' && json[key] !== null) {
-                html += `
-                    <li class="collapsible collapsed">
-                        <span class="arrow">▶</span>
-                        <span onclick="toggleCollapse(event)">${key}:</span>
-                        <div class="nested hidden">${renderTree(json[key], newPath, indent + '  ')}</div>
-                    </li>`;
-            } else {
-                html += `<li class="value" data-path="${newPath}" onclick="handleNodeClick('${newPath}', '${json[key]}')">${key}: ${json[key]}</li>`;
-            }
-        }
-        html += '</ul>';
-        return html;
-    }
-
-    function toggleTreeStyle() {
-        treeStyle = (treeStyle % 3) + 1;
-        showTreeView();
-    }
-
-    function applyTreeStyle() {
-        const treeContainer = document.querySelector('#jsoneditor ul');
-        if (!treeContainer) return;
-        switch (treeStyle) {
-            case 1:
-                treeContainer.style.textAlign = 'left';
-                treeContainer.style.paddingLeft = '20px';
-                treeContainer.style.display = 'block';
-                break;
-            case 2:
-                treeContainer.style.textAlign = 'left';
-                treeContainer.style.paddingLeft = '0px';
-                treeContainer.style.display = 'flex';
-                treeContainer.style.flexDirection = 'column';
-                break;
-            case 3:
-                treeContainer.style.textAlign = 'center';
-                treeContainer.style.display = 'block';
-                treeContainer.style.paddingLeft = '40px';
-                break;
-        }
-    }
-
-    function toggleCollapse(event) {
-        event.stopPropagation();
-        const parent = event.target.closest('.collapsible');
-        parent.classList.toggle('expanded');
-        parent.classList.toggle('collapsed');
-        const nested = parent.querySelector('.nested');
-        if (nested) nested.classList.toggle('hidden');
-    }
-
-    function handleNodeClick(path, value) {
-        if (multiSelectMode) {
-            clipboard.push({ path, value });
-            updateClipboardTray();
-        } else {
-            copyToClipboard(value);
-        }
-    }
-
-    function toggleMultiSelect() {
-        multiSelectMode = !multiSelectMode;
-        clipboardTray.style.display = multiSelectMode ? 'block' : 'none';
-    }
-
-    function updateClipboardTray() {
-        clipboardList.innerHTML = clipboard.map(item => `<li>${item.path}: ${item.value}</li>`).join('');
-    }
-
-    function copyTrayToClipboard() {
-        const text = clipboard.map(item => `${item.path}: ${item.value}`).join('\n');
-        navigator.clipboard.writeText(text).then(() => {
-            alert('Copied all items from the tray.');
-        });
-    }
-
-    function clearTray() {
-        clipboard = [];
-        updateClipboardTray();
-    }
-
-    function attachCollapsibleListeners() {
-        document.querySelectorAll('.collapsible > .arrow, .collapsible > span').forEach(element => {
-            element.addEventListener('click', toggleCollapse);
-        });
-    }
-
-    function expandAll() {
-        document.querySelectorAll('.collapsible').forEach(element => {
-            element.classList.add('expanded');
-            element.classList.remove('collapsed');
-            element.querySelector('.nested').classList.remove('hidden');
-        });
-    }
-
-    function collapseAll() {
-        document.querySelectorAll('.collapsible').forEach(element => {
-            element.classList.add('collapsed');
-            element.classList.remove('expanded');
-            element.querySelector('.nested').classList.add('hidden');
-        });
-    }
-
-    function copyToClipboard(value) {
-        navigator.clipboard.writeText(value).then(() => {
-            alert(`Copied: ${value}`);
-        });
-    }
-
-    function downloadJSON() {
-        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'data.json';
-        a.click();
-        URL.revokeObjectURL(url);
-    }
-
-    function searchJSON() {
-        const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
-        if (!searchTerm) return;
-
-        const elements = document.querySelectorAll('.value, .collapsible > span');
-        const matchingItems = [];
-        highlightedElements = [];
-        currentHighlightIndex = -1;
-
-        elements.forEach(element => {
-            const text = element.textContent.toLowerCase();
-            element.classList.remove('highlight');
-
-            if (text.includes(searchTerm)) {
-                element.classList.add('highlight');
-                highlightedElements.push(element);
-
-                if (element.classList.contains('value')) {
-                    const path = element.getAttribute('data-path');
-                    const value = element.textContent.split(': ')[1];
-
-                    const alreadyInClipboard = clipboard.some(item => item.path === path && item.value === value);
-                    if (!alreadyInClipboard) {
-                        matchingItems.push({ path, value });
-                    }
-
-                    expandParentBranches(element);
-                }
-            }
-        });
-
-        updateClipboardWithSearchResults(matchingItems);
-        console.log('Search complete:', highlightedElements.length, 'matches found.');
-    }
-
-    function updateClipboardWithSearchResults(results) {
-        results.forEach(item => {
-            const alreadyInClipboard = clipboard.some(existing => existing.path === item.path && existing.value === item.value);
-            if (!alreadyInClipboard) {
-                clipboard.push(item);
-            }
-        });
-
-        if (clipboardTray.style.display === 'none') {
-            clipboardTray.style.display = 'block';
-        }
-
-        updateClipboardTray();
-    }
-
-    function expandParentBranches(element) {
-        let parent = element.closest('.nested');
-        while (parent) {
-            const collapsibleParent = parent.closest('.collapsible');
-            if (collapsibleParent) {
-                collapsibleParent.classList.add('expanded');
-                collapsibleParent.classList.remove('collapsed');
-                parent.classList.remove('hidden');
-            }
-            parent = collapsibleParent.closest('.nested');
-        }
-    }
-
-    function searchYouTube() {
-        const query = document.getElementById('playlistSearch').value;
-        const searchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
-        window.open(searchUrl, '_blank');
-    }
-
-    function togglePlaylistSidebar() {
-        playlistSidebar.style.display = playlistSidebar.style.display === 'block' ? 'none' : 'block';
-    }
-
-    function showHelpOverlay() {
-        helpOverlay.style.display = 'block';
-    }
-
-    function hideHelpOverlay() {
-        helpOverlay.style.display = 'none';
-    }
-
-    function playPlaylist(type) {
-        if (type === 'Coding Focus') {
-            playlistPlayer.src = "https://www.youtube.com/embed/videoseries?si=C1A6VU3j_nwV1nki&list=PLPit0qsdr5cdLA3N9O43ao9zy56rp1mY1";
-        } else if (type === 'Relaxation') {
-            playlistPlayer.src = "https://www.youtube.com/embed/videoseries?si=KYlB4aWUBXbfHi2p&list=PLL7L4yFKS-089dJGU6JdK_vAuiamOVprQ";
-        } else if (type === 'Coding Session') {
-            playlistPlayer.src = "https://www.youtube.com/embed/videoseries?si=g9oSo0npYrZtiluH&list=PLXzchC_LKdZ0uJgrPt9-Cicl8TeDSyLqF";
-        }
-        playlistPlayer.classList.remove('hidden');
-    }
-
-    function handleSearchKey(event) {
-        if (event.key === 'Enter') {
-            searchJSON();
-        }
-    }
-
-    document.addEventListener('keydown', (event) => {
-        if (highlightedElements.length === 0 || !['Enter', 'ArrowUp', 'ArrowDown'].includes(event.key)) return;
-
-        event.preventDefault();
-
-        if (event.key === 'Enter' || event.key === 'ArrowDown') {
-            currentHighlightIndex = (currentHighlightIndex + 1) % highlightedElements.length;
-        } else if (event.key === 'ArrowUp') {
-            currentHighlightIndex = (currentHighlightIndex - 1 + highlightedElements.length) % highlightedElements.length;
-        }
-
-        scrollToHighlight();
-    });
-
-    function scrollToHighlight() {
-        if (highlightedElements.length === 0 || currentHighlightIndex === -1) return;
-
-        highlightedElements.forEach((el, index) => {
-            el.style.backgroundColor = index === currentHighlightIndex ? '#8a2be2' : '#6a0dad';
-        });
-
-        const currentElement = highlightedElements[currentHighlightIndex];
-        currentElement.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center',
-        });
-
-        const parentContainer = jsonEditor;
-        if (parentContainer.scrollHeight > parentContainer.clientHeight) {
-            parentContainer.scrollTop = currentElement.offsetTop - parentContainer.offsetTop - (parentContainer.clientHeight / 2) + (currentElement.clientHeight / 2);
-        }
-    }
-
-    function highlightElements() {
-        highlightedElements = Array.from(document.querySelectorAll('.highlight'));
-        currentHighlightIndex = -1;
-    }
-
-    // Adjust tooltip positions based on button's screen position
-    document.querySelectorAll('.btn').forEach(btn => {
-        btn.addEventListener('mouseenter', () => {
-            const btnRect = btn.getBoundingClientRect();
-            const screenHalf = window.innerWidth / 2;
-            if (btnRect.left < screenHalf) {
-                btn.style.setProperty('--tooltip-position', '100%');
-                btn.style.setProperty('--arrow-position', '95%');
-            } else {
-                btn.style.setProperty('--tooltip-position', '-110%');
-                btn.style.setProperty('--arrow-position', '-5%');
-            }
-        });
-    });
-
-    fetchData();
-</script>
 
 </html>
