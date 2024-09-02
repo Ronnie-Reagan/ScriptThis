@@ -345,19 +345,24 @@ function highlightElements() {
     currentHighlightIndex = -1;
 }
 
-// Adjust tooltip positions based on button's screen position
 document.querySelectorAll('.btn').forEach(btn => {
     btn.addEventListener('mouseenter', () => {
         const btnRect = btn.getBoundingClientRect();
         const screenHalf = window.innerWidth / 2;
+
+        // Position tooltip based on button's horizontal position on the screen
         if (btnRect.left < screenHalf) {
-            btn.style.setProperty('--tooltip-position', '100%');
-            btn.style.setProperty('--arrow-position', '95%');
+            // Position tooltip to the top right of the button
+            btn.style.setProperty('--tooltip-position', 'auto');
+            btn.style.setProperty('--arrow-position', '5px');
         } else {
-            btn.style.setProperty('--tooltip-position', '-110%');
-            btn.style.setProperty('--arrow-position', '-5%');
+            // Position tooltip to the top left of the button
+            btn.style.setProperty('--tooltip-position', 'auto');
+            btn.style.setProperty('--arrow-position', 'auto');
+            btn.style.setProperty('right', '5px');
         }
     });
 });
+
 
 fetchData();
