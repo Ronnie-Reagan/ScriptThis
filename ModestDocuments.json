@@ -1,0 +1,1366 @@
+{
+    "Functions": {
+        "joaat": {
+            "Example": "Integer joaat(String text)"
+        },
+        "sleep": {
+            "Example": "nil sleep(Number seconds)"
+        },
+        "require_game_build": {
+            "Example": "nil require_game_build(Integer build)"
+        }
+    },
+    "Globals": {
+        "globals.get_bool": {
+            "Example": "bool globals.get_bool(Integer index)"
+        },
+        "globals.get_float": {
+            "Example": "Number globals.get_float(Integer index)"
+        },
+        "globals.get_int": {
+            "Example": "Integer globals.get_int(Integer index)"
+        },
+        "globals.get_string": {
+            "Example": "String globals.get_string(Integer index, Integer maxSize)"
+        },
+        "globals.get_uint": {
+            "Example": "Integer globals.get_uint(Integer index)"
+        },
+        "globals.set_bool": {
+            "Example": "nil globals.set_bool(Integer index, bool value)"
+        },
+        "globals.set_float": {
+            "Example": "nil globals.set_float(Integer index, Number value)"
+        },
+        "globals.set_int": {
+            "Example": "nil globals.set_int(Integer index, Integer value)"
+        },
+        "globals.set_string": {
+            "Example": "nil globals.set_string(Integer index, String value, Integer maxSize)"
+        },
+        "globals.set_uint": {
+            "Example": "nil globals.set_uint(Integer index, Integer value)"
+        }
+    },
+    "JSON": {
+        "json.loadfile": {
+            "Example": "Table json.loadfile(String filename)"
+        },
+        "json.savefile": {
+            "Example": "nil json.savefile(String filename, Table data)"
+        }
+    },
+    "Menu": {
+        "menu.get_game_version": {
+            "Example": "Integer menu.get_game_version()"
+        },
+        "menu.add_submenu": {
+            "Example": "Submenu menu.add_submenu(String name)"
+        },
+        "menu.add_submenu_with_function": {
+            "Example": "Submenu menu.add_submenu(String name, function on_enter_function)"
+        },
+        "menu.add_bare_item": {
+            "Example": "nil menu.add_bare_item(String name, function reload_function, function action_function, function on_left_function, function on_right_function)"
+        },
+        "menu.add_action": {
+            "Example": "nil menu.add_action(String name, function action_function)"
+        },
+        "menu.add_action_with_validation": {
+            "Example": "nil menu.add_action(String name, function action_function, function is_valid_function)"
+        },
+        "menu.add_array_item": {
+            "Example": "nil menu.add_array_item(String name, Table items, function getter, function setter)"
+        },
+        "menu.add_float_range": {
+            "Example": "nil menu.add_float_range(String name, float step, float min_value, float max_value, function getter, function setter)"
+        },
+        "menu.add_int_range": {
+            "Example": "nil menu.add_int_range(String name, Integer step, Integer min_value, Integer max_value, function getter, function setter)"
+        },
+        "menu.add_toggle": {
+            "Example": "nil menu.add_toggle(String name, function getter, function setter)"
+        },
+        "menu.clear": {
+            "Example": "nil menu.clear()"
+        },
+        "menu.add_player_submenu": {
+            "Example": "Submenu menu.add_player_submenu(String name)"
+        },
+        "menu.add_player_submenu_with_function": {
+            "Example": "Submenu menu.add_player_submenu(String name, function on_enter_function)"
+        },
+        "menu.add_player_action": {
+            "Example": "nil menu.add_player_action(String name, function action_function)"
+        },
+        "menu.add_player_action_with_validation": {
+            "Example": "nil menu.add_player_action(String name, function action_function, function is_valid_function)"
+        },
+        "menu.add_player_float_range": {
+            "Example": "nil menu.add_player_float_range(String name, float step, float min_value, float max_value, function getter, function setter)"
+        },
+        "menu.add_player_int_range": {
+            "Example": "nil menu.add_player_int_range(String name, Integer step, Integer min_value, Integer max_value, function getter, function setter)"
+        },
+        "menu.add_player_toggle": {
+            "Example": "nil menu.add_player_toggle(String name, function getter, function setter)"
+        },
+        "menu.get_selected_player_index": {
+            "Example": "Integer menu.get_selected_player_index()"
+        },
+        "menu.player_clear": {
+            "Example": "nil menu.player_clear()"
+        },
+        "menu.register_hotkey": {
+            "Example": "Lua_ref menu.register_hotkey(Integer keycode, function callback)"
+        },
+        "menu.register_callback": {
+            "Example": "Lua_ref menu.register_callback(String event, function callback)"
+        },
+        "menu.emit_event": {
+            "Example": "nil menu.emit_event(String custom_event_name)"
+        },
+        "menu.remove_hotkey": {
+            "Example": "nil menu.remove_hotkey(Lua_ref reference)"
+        },
+        "menu.remove_callback": {
+            "Example": "nil menu.remove_callback(Lua_ref reference)"
+        },
+        "menu.send_key_down": {
+            "Example": "nil menu.send_key_down(Integer keycode)"
+        },
+        "menu.send_key_press": {
+            "Example": "nil menu.send_key_press(Integer keycode)"
+        },
+        "menu.send_key_up": {
+            "Example": "nil menu.send_key_up(Integer keycode)"
+        },
+        "menu.call_airstrike": {
+            "Example": "nil menu.call_airstrike()"
+        },
+        "menu.call_heli_backup": {
+            "Example": "nil menu.call_heli_backup()"
+        },
+        "menu.clear_wanted_level": {
+            "Example": "nil menu.clear_wanted_level()"
+        },
+        "menu.deliver_acid_lab": {
+            "Example": "nil menu.deliver_acid_lab()"
+        },
+        "menu.deliver_ammo": {
+            "Example": "nil menu.deliver_ammo()"
+        },
+        "menu.deliver_avenger": {
+            "Example": "nil menu.deliver_avenger()"
+        },
+        "menu.deliver_avisa": {
+            "Example": "nil menu.deliver_avisa()"
+        },
+        "menu.deliver_bullshark": {
+            "Example": "nil menu.deliver_bullshark()"
+        },
+        "menu.deliver_delivery_bike": {
+            "Example": "nil menu.deliver_delivery_bike()"
+        },
+        "menu.deliver_dinghy": {
+            "Example": "nil menu.deliver_dinghy()"
+        },
+        "menu.deliver_kosatka": {
+            "Example": "nil menu.deliver_kosatka()"
+        },
+        "menu.deliver_minigun": {
+            "Example": "nil menu.deliver_minigun()"
+        },
+        "menu.deliver_moc": {
+            "Example": "nil menu.deliver_moc()"
+        },
+        "menu.deliver_personal_vehicle": {
+            "Example": "nil menu.deliver_personal_vehicle()"
+        },
+        "menu.deliver_resupplies": {
+            "Example": "nil menu.deliver_resupplies()"
+        },
+        "menu.deliver_sparrow": {
+            "Example": "nil menu.deliver_sparrow()"
+        },
+        "menu.deliver_terrorbyte": {
+            "Example": "nil menu.deliver_terrorbyte()"
+        },
+        "menu.detach_objects": {
+            "Example": "nil menu.detach_objects()"
+        },
+        "menu.disconnect_session": {
+            "Example": "nil menu.disconnect_session()"
+        },
+        "menu.drop_beer": {
+            "Example": "nil menu.drop_beer()"
+        },
+        "menu.empty_session": {
+            "Example": "nil menu.empty_session()"
+        },
+        "menu.end_cutscene": {
+            "Example": "nil menu.end_cutscene()"
+        },
+        "menu.enter_personal_vehicle": {
+            "Example": "nil menu.enter_personal_vehicle()"
+        },
+        "menu.go_to_cayo_beach_party": {
+            "Example": "nil menu.go_to_cayo_beach_party()"
+        },
+        "menu.heal_all": {
+            "Example": "nil menu.heal_all()"
+        },
+        "menu.heal_player": {
+            "Example": "nil menu.heal_player()"
+        },
+        "menu.heal_vehicle": {
+            "Example": "nil menu.heal_vehicle()"
+        },
+        "menu.instant_bullshark": {
+            "Example": "nil menu.instant_bullshark()"
+        },
+        "menu.instant_drone": {
+            "Example": "nil menu.instant_drone()"
+        },
+        "menu.instant_minigun": {
+            "Example": "nil menu.instant_minigun()"
+        },
+        "menu.instant_minitank": {
+            "Example": "nil menu.instant_minitank()"
+        },
+        "menu.instant_rcbandito": {
+            "Example": "nil menu.instant_rcbandito()"
+        },
+        "menu.kill_all_vehicles": {
+            "Example": "nil menu.kill_all_vehicles()"
+        },
+        "menu.kill_all_enemies": {
+            "Example": "nil menu.kill_all_enemies()"
+        },
+        "menu.kill_all_mission_peds": {
+            "Example": "nil menu.kill_all_mission_peds()"
+        },
+        "menu.kill_all_mission_vehicles": {
+            "Example": "nil menu.kill_all_mission_vehicles()"
+        },
+        "menu.kill_all_npcs": {
+            "Example": "nil menu.kill_all_npcs()"
+        },
+        "menu.kill_current_vehicle": {
+            "Example": "nil menu.kill_current_vehicle()"
+        },
+        "menu.level_current_vehicle": {
+            "Example": "nil menu.level_current_vehicle()"
+        },
+        "menu.max_all_ammo": {
+            "Example": "nil menu.max_all_ammo()"
+        },
+        "menu.max_current_ammo": {
+            "Example": "nil menu.max_current_ammo()"
+        },
+        "menu.refill_boost": {
+            "Example": "nil menu.refill_boost()"
+        },
+        "menu.remove_cctvs": {
+            "Example": "nil menu.remove_cctvs()"
+        },
+        "menu.remove_insurance_claims": {
+            "Example": "nil menu.remove_insurance_claims()"
+        },
+        "menu.repair_online_vehicle": {
+            "Example": "nil menu.repair_online_vehicle()"
+        },
+        "menu.retrieve_personal_vehicle": {
+            "Example": "nil menu.retrieve_personal_vehicle()"
+        },
+        "menu.start_choose_character": {
+            "Example": "nil menu.start_choose_character()"
+        },
+        "menu.start_creator_mode": {
+            "Example": "nil menu.start_creator_mode()"
+        },
+        "menu.start_singleplayer": {
+            "Example": "nil menu.start_singleplayer()"
+        },
+        "menu.suicide_player": {
+            "Example": "nil menu.suicide_player()"
+        },
+        "menu.teleport_forward": {
+            "Example": "nil menu.teleport_forward()"
+        },
+        "menu.teleport_to_current_vehicle": {
+            "Example": "nil menu.teleport_to_current_vehicle()"
+        },
+        "menu.teleport_to_objective": {
+            "Example": "nil menu.teleport_to_objective()"
+        },
+        "menu.teleport_to_waypoint": {
+            "Example": "nil menu.teleport_to_waypoint()"
+        },
+        "menu.trigger_acid_lab_production": {
+            "Example": "nil menu.trigger_acid_lab_production()"
+        },
+        "menu.trigger_boat_pickup": {
+            "Example": "nil menu.trigger_boat_pickup()"
+        },
+        "menu.trigger_bunker_production": {
+            "Example": "nil menu.trigger_bunker_production()"
+        },
+        "menu.trigger_bunker_research": {
+            "Example": "nil menu.trigger_bunker_research()"
+        },
+        "menu.trigger_heli_pickup": {
+            "Example": "nil menu.trigger_heli_pickup()"
+        },
+        "menu.trigger_heli_vip_pickup": {
+            "Example": "nil menu.trigger_heli_vip_pickup()"
+        },
+        "menu.trigger_mc_production": {
+            "Example": "nil menu.trigger_mc_production()"
+        },
+        "menu.trigger_nightclub_production": {
+            "Example": "nil menu.trigger_nightclub_production()"
+        },
+        "menu.get_assisted_aim": {
+            "Example": "bool menu.get_assisted_aim()"
+        },
+        "menu.get_big_map": {
+            "Example": "bool menu.get_big_map()"
+        },
+        "menu.get_blackout": {
+            "Example": "bool menu.get_blackout()"
+        },
+        "menu.get_bribe_authorities": {
+            "Example": "bool menu.get_bribe_authorities()"
+        },
+        "menu.get_cops_turn_blind_eye": {
+            "Example": "bool menu.get_cops_turn_blind_eye()"
+        },
+        "menu.get_disable_send_to_island": {
+            "Example": "bool menu.get_disable_send_to_island()"
+        },
+        "menu.get_disable_send_to_job": {
+            "Example": "bool menu.get_disable_send_to_job()"
+        },
+        "menu.get_disable_teleport_to_apartment": {
+            "Example": "bool menu.get_disable_teleport_to_apartment()"
+        },
+        "menu.get_disable_vehicle_kick": {
+            "Example": "bool menu.get_disable_vehicle_kick()"
+        },
+        "menu.get_ghost_organisation": {
+            "Example": "bool menu.get_ghost_organisation()"
+        },
+        "menu.get_mobile_radio": {
+            "Example": "bool menu.get_mobile_radio()"
+        },
+        "menu.get_nightvision": {
+            "Example": "bool menu.get_nightvision()"
+        },
+        "menu.get_offradar": {
+            "Example": "bool menu.get_offradar()"
+        },
+        "menu.get_out_of_sight": {
+            "Example": "bool menu.get_out_of_sight()"
+        },
+        "menu.get_passive": {
+            "Example": "bool menu.get_passive()"
+        },
+        "menu.get_reveal_player": {
+            "Example": "bool menu.get_reveal_player()"
+        },
+        "menu.get_thermalvision": {
+            "Example": "bool menu.get_thermalvision()"
+        },
+        "menu.set_assisted_aim": {
+            "Example": "nil menu.set_assisted_aim(bool value)"
+        },
+        "menu.set_big_map": {
+            "Example": "nil menu.set_big_map(bool value)"
+        },
+        "menu.set_blackout": {
+            "Example": "nil menu.set_blackout(bool value)"
+        },
+        "menu.set_bribe_authorities": {
+            "Example": "nil menu.set_bribe_authorities(bool value)"
+        },
+        "menu.set_cops_turn_blind_eye": {
+            "Example": "nil menu.set_cops_turn_blind_eye(bool value)"
+        },
+        "menu.set_disable_send_to_island": {
+            "Example": "nil menu.set_disable_send_to_island(bool value)"
+        },
+        "menu.set_disable_send_to_job": {
+            "Example": "nil menu.set_disable_send_to_job(bool value)"
+        },
+        "menu.set_disable_teleport_to_apartment": {
+            "Example": "nil menu.set_disable_teleport_to_apartment(bool value)"
+        },
+        "menu.set_disable_vehicle_kick": {
+            "Example": "nil menu.set_disable_vehicle_kick(bool value)"
+        },
+        "menu.set_ghost_organisation": {
+            "Example": "nil menu.set_ghost_organisation(bool value)"
+        },
+        "menu.set_mobile_radio": {
+            "Example": "nil menu.set_mobile_radio(bool value)"
+        },
+        "menu.set_nightvision": {
+            "Example": "nil menu.set_nightvision(bool value)"
+        },
+        "menu.set_offradar": {
+            "Example": "nil menu.set_offradar(bool value)"
+        },
+        "menu.set_out_of_sight": {
+            "Example": "nil menu.set_out_of_sight(bool value)"
+        },
+        "menu.set_passive": {
+            "Example": "nil menu.set_passive(bool value)"
+        },
+        "menu.set_reveal_player": {
+            "Example": "nil menu.set_reveal_player(bool value)"
+        },
+        "menu.set_thermalvision": {
+            "Example": "nil menu.set_thermalvision(bool value)"
+        }
+    },
+    "Ped": {
+        "ped:get_all_weapon_hashes": {
+            "Example": "Iterator<Integer> ped:get_all_weapon_hashes()"
+        },
+        "ped:get_armour": {
+            "Example": "Integer ped:get_armour()"
+        },
+        "ped:get_can_be_targeted": {
+            "Example": "bool ped:get_can_be_targeted()"
+        },
+        "ped:get_config_flag": {
+            "Example": "bool ped:get_config_flag(Integer index)"
+        },
+        "ped:get_current_vehicle": {
+            "Example": "Vehicle ped:get_current_vehicle()"
+        },
+        "ped:get_current_weapon": {
+            "Example": "Weapon ped:get_current_weapon()"
+        },
+        "ped:get_everyone_ignore": {
+            "Example": "bool ped:get_everyone_ignore()"
+        },
+        "ped:get_freeze_momentum": {
+            "Example": "bool ped:get_freeze_momentum()"
+        },
+        "ped:get_godmode": {
+            "Example": "bool ped:get_godmode()"
+        },
+        "ped:get_heading": {
+            "Example": "Vector3 ped:get_heading()"
+        },
+        "ped:get_health": {
+            "Example": "Number ped:get_health()"
+        },
+        "ped:get_hurt_health": {
+            "Example": "Number ped:get_hurt_health()"
+        },
+        "ped:get_infinite_ammo": {
+            "Example": "bool ped:get_infinite_ammo()"
+        },
+        "ped:get_infinite_clip": {
+            "Example": "bool ped:get_infinite_clip()"
+        },
+        "ped:get_max_health": {
+            "Example": "Number ped:get_max_health()"
+        },
+        "ped:get_model_hash": {
+            "Example": "Integer ped:get_model_hash()"
+        },
+        "ped:get_nearest_vehicle": {
+            "Example": "Vehicle ped:get_nearest_vehicle()"
+        },
+        "ped:get_no_ragdoll": {
+            "Example": "bool ped:get_no_ragdoll()"
+        },
+        "ped:get_pedtype": {
+            "Example": "Integer ped:get_pedtype()"
+        },
+        "ped:get_player_id": {
+            "Example": "Integer ped:get_player_id()"
+        },
+        "ped:get_police_ignore": {
+            "Example": "bool ped:get_police_ignore()"
+        },
+        "ped:get_position": {
+            "Example": "Vector3 ped:get_position()"
+        },
+        "ped:get_reset_flag": {
+            "Example": "bool ped:get_reset_flag(Integer index)"
+        },
+        "ped:get_rotation": {
+            "Example": "Vector3 ped:get_rotation()"
+        },
+        "ped:get_run_speed": {
+            "Example": "Number ped:get_run_speed()"
+        },
+        "ped:get_seatbelt": {
+            "Example": "bool ped:get_seatbelt()"
+        },
+        "ped:get_swim_speed": {
+            "Example": "Number ped:get_swim_speed()"
+        },
+        "ped:get_velocity": {
+            "Example": "Vector3 ped:get_velocity()"
+        },
+        "ped:get_wallet": {
+            "Example": "Integer ped:get_wallet()"
+        },
+        "ped:get_wanted_level": {
+            "Example": "Integer ped:get_wanted_level()"
+        },
+        "ped:get_weapon_enabled": {
+            "Example": "bool ped:get_weapon_enabled(Integer weapon_hash)"
+        },
+        "ped:get_weapon_by_hash": {
+            "Example": "Weapon ped:get_weapon_by_hash(Integer weapon_hash)"
+        },
+        "ped:is_in_cutscene": {
+            "Example": "bool ped:is_in_cutscene()"
+        },
+        "ped:is_in_vehicle": {
+            "Example": "bool ped:is_in_vehicle()"
+        },
+        "ped:set_armour": {
+            "Example": "nil ped:set_armour(Integer value)"
+        },
+        "ped:set_can_be_targeted": {
+            "Example": "nil ped:set_can_be_targeted(bool value)"
+        },
+        "ped:set_config_flag": {
+            "Example": "nil ped:set_config_flag(Integer index, bool value)"
+        },
+        "ped:set_everyone_ignore": {
+            "Example": "nil ped:set_everyone_ignore(bool value)"
+        },
+        "ped:set_freeze_momentum": {
+            "Example": "nil ped:set_freeze_momentum(bool value)"
+        },
+        "ped:set_godmode": {
+            "Example": "nil ped:set_godmode(bool value)"
+        },
+        "ped:set_health": {
+            "Example": "nil ped:set_health(Number value)"
+        },
+        "ped:set_infinite_ammo": {
+            "Example": "nil ped:set_infinite_ammo(bool value)"
+        },
+        "ped:set_infinite_clip": {
+            "Example": "nil ped:set_infinite_clip(bool value)"
+        },
+        "ped:set_max_health": {
+            "Example": "nil ped:set_max_health(Number value)"
+        },
+        "ped:set_model_hash": {
+            "Example": "nil ped:set_model_hash(Integer value)"
+        },
+        "ped:set_no_ragdoll": {
+            "Example": "nil ped:set_no_ragdoll(bool value)"
+        },
+        "ped:set_police_ignore": {
+            "Example": "nil ped:set_police_ignore(bool value)"
+        },
+        "ped:set_position": {
+            "Example": "nil ped:set_position(Vector3 value)"
+        },
+        "ped:set_reset_flag": {
+            "Example": "nil ped:set_reset_flag(Integer index, bool value)"
+        },
+        "ped:set_rotation": {
+            "Example": "nil ped:set_rotation(Vector3 value)"
+        },
+        "ped:set_run_speed": {
+            "Example": "nil ped:set_run_speed(Number value)"
+        },
+        "ped:set_seatbelt": {
+            "Example": "nil ped:set_seatbelt(bool value)"
+        },
+        "ped:set_swim_speed": {
+            "Example": "nil ped:set_swim_speed(Number value)"
+        },
+        "ped:set_wallet": {
+            "Example": "nil ped:set_wallet(Integer value)"
+        },
+        "ped:set_wanted_level": {
+            "Example": "nil ped:set_wanted_level(Integer value)"
+        },
+        "ped:set_weapon_enabled": {
+            "Example": "nil ped:set_weapon_enabled(Integer weapon_hash, bool value)"
+        }
+    },
+    "Pickup": {
+        "pickup:get_amount": {
+            "Example": "Integer pickup:get_amount()"
+        },
+        "pickup:get_health": {
+            "Example": "Number pickup:get_health()"
+        },
+        "pickup:get_model_hash": {
+            "Example": "Integer pickup:get_model_hash()"
+        },
+        "pickup:get_pickup_hash": {
+            "Example": "Integer pickup:get_pickup_hash()"
+        },
+        "pickup:get_position": {
+            "Example": "Vector3 pickup:get_position()"
+        },
+        "pickup:get_rotation": {
+            "Example": "Vector3 pickup:get_rotation()"
+        },
+        "pickup:set_amount": {
+            "Example": "nil pickup:set_amount(Integer value)"
+        },
+        "pickup:set_health": {
+            "Example": "nil pickup:set_health(Number value)"
+        },
+        "pickup:set_model_hash": {
+            "Example": "nil pickup:set_model_hash(Integer value)"
+        },
+        "pickup:set_model_hash_string": {
+            "Example": "nil pickup:set_model_hash(String value)"
+        },
+        "pickup:set_pickup_hash": {
+            "Example": "nil pickup:set_pickup_hash(Integer value)"
+        },
+        "pickup:set_pickup_hash_string": {
+            "Example": "nil pickup:set_pickup_hash(String value)"
+        },
+        "pickup:set_position": {
+            "Example": "nil pickup:set_position(Vector3 value)"
+        },
+        "pickup:set_rotation": {
+            "Example": "nil pickup:set_rotation(Vector3 value)"
+        }
+    },
+    "Player": {
+        "player.get_number_of_players": {
+            "Example": "Integer player.get_number_of_players()"
+        },
+        "player.get_player_id": {
+            "Example": "Integer player.get_player_id()"
+        },
+        "player.get_player_id_by_index": {
+            "Example": "Integer player.get_player_id(Integer i)"
+        },
+        "player.get_player_name": {
+            "Example": "String player.get_player_name(Integer i)"
+        },
+        "player.get_player_ped": {
+            "Example": "ped player.get_player_ped()"
+        },
+        "player.get_player_ped_by_index": {
+            "Example": "ped player.get_player_ped(Integer i)"
+        }
+    },
+    "Replayinterface": {
+        "replayinterface.get_peds": {
+            "Example": "Iterator<ped> replayinterface.get_peds()"
+        },
+        "replayinterface.get_pickups": {
+            "Example": "Iterator<pickup> replayinterface.get_pickups()"
+        },
+        "replayinterface.get_vehicles": {
+            "Example": "Iterator<vehicle> replayinterface.get_vehicles()"
+        }
+    },
+    "Script": {
+        "script_by_hash": {
+            "Example": "script script(Integer scriptNameHash)"
+        },
+        "script_by_name": {
+            "Example": "script script(String scriptName)"
+        },
+        "script:get_bool": {
+            "Example": "bool script:get_bool(Integer index)"
+        },
+        "script:get_float": {
+            "Example": "Number script:get_float(Integer index)"
+        },
+        "script:get_int": {
+            "Example": "Integer script:get_int(Integer index)"
+        },
+        "script:get_string": {
+            "Example": "String script:get_string(Integer index, Integer maxSize)"
+        },
+        "script:get_uint": {
+            "Example": "Integer script:get_uint(Integer index)"
+        },
+        "script:is_active": {
+            "Example": "bool script:is_active()"
+        },
+        "script:set_bool": {
+            "Example": "nil script:set_bool(Integer index, bool value)"
+        },
+        "script:set_float": {
+            "Example": "nil script:set_float(Integer index, Number value)"
+        },
+        "script:set_int": {
+            "Example": "nil script:set_int(Integer index, Integer value)"
+        },
+        "script:set_string": {
+            "Example": "nil script:set_string(Integer index, String value, Integer maxSize)"
+        },
+        "script:set_uint": {
+            "Example": "nil script:set_uint(Integer index, Integer value)"
+        }
+    },
+    "Stats": {
+        "stats.get_bool_by_hash": {
+            "Example": "bool stats.get_bool(Integer hash)"
+        },
+        "stats.get_bool_by_name": {
+            "Example": "bool stats.get_bool(String statName)"
+        },
+        "stats.get_bool_masked_by_hash": {
+            "Example": "bool stats.get_bool_masked(Integer hash, Integer bitIndex)"
+        },
+        "stats.get_bool_masked_by_name": {
+            "Example": "bool stats.get_bool_masked(String statName, Integer bitIndex)"
+        },
+        "stats.get_float_by_hash": {
+            "Example": "Number stats.get_float(Integer hash)"
+        },
+        "stats.get_float_by_name": {
+            "Example": "Number stats.get_float(String statName)"
+        },
+        "stats.get_int_by_hash": {
+            "Example": "Integer stats.get_int(Integer hash)"
+        },
+        "stats.get_int_by_name": {
+            "Example": "Integer stats.get_int(String statName)"
+        },
+        "stats.get_masked_int_by_hash": {
+            "Example": "Integer stats.get_masked_int(Integer hash, Integer bitStart, Integer bitSize)"
+        },
+        "stats.get_masked_int_by_name": {
+            "Example": "Integer stats.get_masked_int(String statName, Integer bitStart, Integer bitSize)"
+        },
+        "stats.set_bool_by_hash": {
+            "Example": "bool stats.set_bool(Integer hash, bool value)"
+        },
+        "stats.set_bool_by_name": {
+            "Example": "bool stats.set_bool(String statName, bool value)"
+        },
+        "stats.set_bool_masked_by_hash": {
+            "Example": "bool stats.set_bool_masked(Integer hash, bool value, Integer bitIndex)"
+        },
+        "stats.set_bool_masked_by_name": {
+            "Example": "bool stats.set_bool_masked(String statName, bool value, Integer bitIndex)"
+        },
+        "stats.set_float_by_hash": {
+            "Example": "bool stats.set_float(Integer hash, Number value)"
+        },
+        "stats.set_float_by_name": {
+            "Example": "bool stats.set_float(String statName, Number value)"
+        },
+        "stats.set_int_by_hash": {
+            "Example": "bool stats.set_int(Integer hash, Integer value)"
+        },
+        "stats.set_int_by_name": {
+            "Example": "bool stats.set_int(String statName, Integer value)"
+        },
+        "stats.set_masked_int_by_hash": {
+            "Example": "bool stats.set_masked_int(Integer hash, Integer value, Integer bitStart, Integer bitSize)"
+        },
+        "stats.set_masked_int_by_name": {
+            "Example": "bool stats.set_masked_int(String statName, Integer value, Integer bitStart, Integer bitSize)"
+        }
+    },
+    "Submenu": {
+        "submenu:add_submenu": {
+            "Example": "Submenu submenu:add_submenu(String name)"
+        },
+        "submenu:add_submenu_with_function": {
+            "Example": "Submenu submenu:add_submenu(String name, function on_enter_function)"
+        },
+        "submenu:add_bare_item": {
+            "Example": "nil submenu:add_bare_item(String name, function reload_function, function action_function, function on_left_function, function on_right_function)"
+        },
+        "submenu:add_action": {
+            "Example": "nil submenu:add_action(String name, function action_function)"
+        },
+        "submenu:add_action_with_validation": {
+            "Example": "nil submenu:add_action(String name, function action_function, function is_valid_function)"
+        },
+        "submenu:add_array_item": {
+            "Example": "nil submenu:add_array_item(String name, Table items, function getter, function setter)"
+        },
+        "submenu:add_float_range": {
+            "Example": "nil submenu:add_float_range(String name, float step, float min_value, float max_value, function getter, function setter)"
+        },
+        "submenu:add_int_range": {
+            "Example": "nil submenu:add_int_range(String name, Integer step, Integer min_value, Integer max_value, function getter, function setter)"
+        },
+        "submenu:add_toggle": {
+            "Example": "nil submenu:add_toggle(String name, function getter, function setter)"
+        },
+        "submenu:clear": {
+            "Example": "nil submenu:clear()"
+        }
+    },
+    "Vehicle": {
+        "vehicle:get_acceleration": {
+            "Example": "Number vehicle:get_acceleration()"
+        },
+        "vehicle:get_anti_roll_bar_bias_front": {
+            "Example": "Number vehicle:get_anti_roll_bar_bias_front()"
+        },
+        "vehicle:get_anti_roll_bar_force": {
+            "Example": "Number vehicle:get_anti_roll_bar_force()"
+        },
+        "vehicle:get_bomb_count": {
+            "Example": "Integer vehicle:get_bomb_count()"
+        },
+        "vehicle:get_boost": {
+            "Example": "Number vehicle:get_boost()"
+        },
+        "vehicle:get_boost_active": {
+            "Example": "bool vehicle:get_boost_active()"
+        },
+        "vehicle:get_boost_enabled": {
+            "Example": "bool vehicle:get_boost_enabled()"
+        },
+        "vehicle:get_bouyance": {
+            "Example": "Number vehicle:get_bouyance()"
+        },
+        "vehicle:get_brake_bias_front": {
+            "Example": "Number vehicle:get_brake_bias_front()"
+        },
+        "vehicle:get_brake_force": {
+            "Example": "Number vehicle:get_brake_force()"
+        },
+        "vehicle:get_bulletproof_tires": {
+            "Example": "bool vehicle:get_bulletproof_tires()"
+        },
+        "vehicle:get_camber_stiffness": {
+            "Example": "Number vehicle:get_camber_stiffness()"
+        },
+        "vehicle:get_can_be_targeted": {
+            "Example": "bool vehicle:get_can_be_targeted()"
+        },
+        "vehicle:get_can_be_visibly_damaged": {
+            "Example": "bool vehicle:get_can_be_visibly_damaged()"
+        },
+        "vehicle:get_centre_of_mass_offset": {
+            "Example": "Vector3 vehicle:get_centre_of_mass_offset()"
+        },
+        "vehicle:get_collision_damage_multiplier": {
+            "Example": "Number vehicle:get_collision_damage_multiplier()"
+        },
+        "vehicle:get_countermeasure_count": {
+            "Example": "Integer vehicle:get_countermeasure_count()"
+        },
+        "vehicle:get_create_money_pickups": {
+            "Example": "bool vehicle:get_create_money_pickups()"
+        },
+        "vehicle:get_custom_primary_colour": {
+            "Example": "Integer vehicle:get_custom_primary_colour()"
+        },
+        "vehicle:get_custom_secondary_colour": {
+            "Example": "Integer vehicle:get_custom_secondary_colour()"
+        },
+        "vehicle:get_deformation_damage_multiplier": {
+            "Example": "Number vehicle:get_deformation_damage_multiplier()"
+        },
+        "vehicle:get_dirt_level": {
+            "Example": "Number vehicle:get_dirt_level()"
+        },
+        "vehicle:get_door_lock_state": {
+            "Example": "Integer vehicle:get_door_lock_state()"
+        },
+        "vehicle:get_down_shift": {
+            "Example": "Number vehicle:get_down_shift()"
+        },
+        "vehicle:get_drift_tyres_enabled": {
+            "Example": "bool vehicle:get_drift_tyres_enabled()"
+        },
+        "vehicle:get_drift_vehicle_reduced_suspension": {
+            "Example": "Number vehicle:get_drift_vehicle_reduced_suspension()"
+        },
+        "vehicle:get_drive_bias_front": {
+            "Example": "Number vehicle:get_drive_bias_front()"
+        },
+        "vehicle:get_drive_inertia": {
+            "Example": "Number vehicle:get_drive_inertia()"
+        },
+        "vehicle:get_engine_damage_multiplier": {
+            "Example": "Number vehicle:get_engine_damage_multiplier()"
+        },
+        "vehicle:get_gravity": {
+            "Example": "Number vehicle:get_gravity()"
+        },
+        "vehicle:get_godmode": {
+            "Example": "bool vehicle:get_godmode()"
+        },
+        "vehicle:get_handbrake_force": {
+            "Example": "Number vehicle:get_handbrake_force()"
+        },
+        "vehicle:get_handling_name_hash": {
+            "Example": "Integer vehicle:get_handling_name_hash()"
+        },
+        "vehicle:get_heading": {
+            "Example": "Vector3 vehicle:get_heading()"
+        },
+        "vehicle:get_health": {
+            "Example": "Number vehicle:get_health()"
+        },
+        "vehicle:get_inertia_multiplier": {
+            "Example": "Vector3 vehicle:get_inertia_multiplier()"
+        },
+        "vehicle:get_initial_drag_coeff": {
+            "Example": "Number vehicle:get_initial_drag_coeff()"
+        },
+        "vehicle:get_initial_drive_force": {
+            "Example": "Number vehicle:get_initial_drive_force()"
+        },
+        "vehicle:get_initial_drive_gears": {
+            "Example": "Integer vehicle:get_initial_drive_gears()"
+        },
+        "vehicle:get_initial_drive_max_flat_velocity": {
+            "Example": "Number vehicle:get_initial_drive_max_flat_velocity()"
+        },
+        "vehicle:get_low_speed_traction_loss_multiplier": {
+            "Example": "Number vehicle:get_low_speed_traction_loss_multiplier()"
+        },
+        "vehicle:get_mass": {
+            "Example": "Number vehicle:get_mass()"
+        },
+        "vehicle:get_max_health": {
+            "Example": "Number vehicle:get_max_health()"
+        },
+        "vehicle:get_max_speed": {
+            "Example": "Number vehicle:get_max_speed()"
+        },
+        "vehicle:get_mission_flags": {
+            "Example": "Integer vehicle:get_mission_flags()"
+        },
+        "vehicle:get_model_hash": {
+            "Example": "Integer vehicle:get_model_hash()"
+        },
+        "vehicle:get_number_plate_index": {
+            "Example": "Integer vehicle:get_number_plate_index()"
+        },
+        "vehicle:get_number_plate_text": {
+            "Example": "String vehicle:get_number_plate_text()"
+        },
+        "vehicle:get_parachute_hash": {
+            "Example": "Integer vehicle:get_parachute_hash()"
+        },
+        "vehicle:get_parachute_texture_variation": {
+            "Example": "Integer vehicle:get_parachute_texture_variation()"
+        },
+        "vehicle:get_percent_submerged": {
+            "Example": "Number vehicle:get_percent_submerged()"
+        },
+        "vehicle:get_position": {
+            "Example": "Vector3 vehicle:get_position()"
+        },
+        "vehicle:get_roll_centre_height_front": {
+            "Example": "Number vehicle:get_roll_centre_height_front()"
+        },
+        "vehicle:get_roll_centre_height_rear": {
+            "Example": "Number vehicle:get_roll_centre_height_rear()"
+        },
+        "vehicle:get_rotation": {
+            "Example": "Vector3 vehicle:get_rotation()"
+        },
+        "vehicle:get_steering_lock": {
+            "Example": "Number vehicle:get_steering_lock()"
+        },
+        "vehicle:get_suspension_bias_front": {
+            "Example": "Number vehicle:get_suspension_bias_front()"
+        },
+        "vehicle:get_suspension_comp_damp": {
+            "Example": "Number vehicle:get_suspension_comp_damp()"
+        },
+        "vehicle:get_suspension_force": {
+            "Example": "Number vehicle:get_suspension_force()"
+        },
+        "vehicle:get_suspension_height": {
+            "Example": "Number vehicle:get_suspension_height()"
+        },
+        "vehicle:get_suspension_lower_limit": {
+            "Example": "Number vehicle:get_suspension_lower_limit()"
+        },
+        "vehicle:get_suspension_raise": {
+            "Example": "Number vehicle:get_suspension_raise()"
+        },
+        "vehicle:get_suspension_rebound_damp": {
+            "Example": "Number vehicle:get_suspension_rebound_damp()"
+        },
+        "vehicle:get_suspension_upper_limit": {
+            "Example": "Number vehicle:get_suspension_upper_limit()"
+        },
+        "vehicle:get_traction_bias_front": {
+            "Example": "Number vehicle:get_traction_bias_front()"
+        },
+        "vehicle:get_traction_curve_lateral": {
+            "Example": "Number vehicle:get_traction_curve_lateral()"
+        },
+        "vehicle:get_traction_curve_max": {
+            "Example": "Number vehicle:get_traction_curve_max()"
+        },
+        "vehicle:get_traction_curve_min": {
+            "Example": "Number vehicle:get_traction_curve_min()"
+        },
+        "vehicle:get_traction_loss_multiplier": {
+            "Example": "Number vehicle:get_traction_loss_multiplier()"
+        },
+        "vehicle:get_traction_spring_delta_max": {
+            "Example": "Number vehicle:get_traction_spring_delta_max()"
+        },
+        "vehicle:get_up_shift": {
+            "Example": "Number vehicle:get_up_shift()"
+        },
+        "vehicle:get_velocity": {
+            "Example": "Vector3 vehicle:get_velocity()"
+        },
+        "vehicle:get_weapon_damage_multiplier": {
+            "Example": "Number vehicle:get_weapon_damage_multiplier()"
+        },
+        "vehicle:get_window_collisions_disabled": {
+            "Example": "bool vehicle:get_window_collisions_disabled()"
+        },
+        "vehicle:get_window_tint": {
+            "Example": "Integer vehicle:get_window_tint()"
+        },
+        "vehicle:set_acceleration": {
+            "Example": "nil vehicle:set_acceleration(Number value)"
+        },
+        "vehicle:set_anti_roll_bar_bias_front": {
+            "Example": "nil vehicle:set_anti_roll_bar_bias_front(Number value)"
+        },
+        "vehicle:set_anti_roll_bar_force": {
+            "Example": "nil vehicle:set_anti_roll_bar_force(Number value)"
+        },
+        "vehicle:set_bomb_count": {
+            "Example": "nil vehicle:set_bomb_count(Integer value)"
+        },
+        "vehicle:set_boost": {
+            "Example": "nil vehicle:set_boost(Number value)"
+        },
+        "vehicle:set_boost_active": {
+            "Example": "nil vehicle:set_boost_active(bool value)"
+        },
+        "vehicle:set_boost_enabled": {
+            "Example": "nil vehicle:set_boost_enabled(bool value)"
+        },
+        "vehicle:set_bouyance": {
+            "Example": "nil vehicle:set_bouyance(Number value)"
+        },
+        "vehicle:set_brake_bias_front": {
+            "Example": "nil vehicle:set_brake_bias_front(Number value)"
+        },
+        "vehicle:set_brake_force": {
+            "Example": "nil vehicle:set_brake_force(Number value)"
+        },
+        "vehicle:set_bulletproof_tires": {
+            "Example": "nil vehicle:set_bulletproof_tires(bool value)"
+        },
+        "vehicle:set_camber_stiffness": {
+            "Example": "nil vehicle:set_camber_stiffness(Number value)"
+        },
+        "vehicle:set_can_be_targeted": {
+            "Example": "nil vehicle:set_can_be_targeted(bool value)"
+        },
+        "vehicle:set_can_be_visibly_damaged": {
+            "Example": "nil vehicle:set_can_be_visibly_damaged(bool value)"
+        },
+        "vehicle:set_centre_of_mass_offset": {
+            "Example": "nil vehicle:set_centre_of_mass_offset(Vector3 value)"
+        },
+        "vehicle:set_collision_damage_multiplier": {
+            "Example": "nil vehicle:set_collision_damage_multiplier(Number value)"
+        },
+        "vehicle:set_countermeasure_count": {
+            "Example": "nil vehicle:set_countermeasure_count(Integer value)"
+        },
+        "vehicle:set_create_money_pickups": {
+            "Example": "nil vehicle:set_create_money_pickups(bool value)"
+        },
+        "vehicle:set_custom_primary_colour": {
+            "Example": "nil vehicle:set_custom_primary_colour(Integer r, Integer g, Integer b)"
+        },
+        "vehicle:set_custom_secondary_colour": {
+            "Example": "nil vehicle:set_custom_secondary_colour(Integer r, Integer g, Integer b)"
+        },
+        "vehicle:set_deformation_damage_multiplier": {
+            "Example": "nil vehicle:set_deformation_damage_multiplier(Number value)"
+        },
+        "vehicle:set_dirt_level": {
+            "Example": "nil vehicle:set_dirt_level(Number value)"
+        },
+        "vehicle:set_door_lock_state": {
+            "Example": "nil vehicle:set_door_lock_state(Integer value)"
+        },
+        "vehicle:set_down_shift": {
+            "Example": "nil vehicle:set_down_shift(Number value)"
+        },
+        "vehicle:set_drift_tyres_enabled": {
+            "Example": "nil vehicle:set_drift_tyres_enabled(bool value)"
+        },
+        "vehicle:set_drift_vehicle_reduced_suspension": {
+            "Example": "nil vehicle:set_drift_vehicle_reduced_suspension(bool value)"
+        },
+        "vehicle:set_drive_bias_front": {
+            "Example": "nil vehicle:set_drive_bias_front(Number value)"
+        },
+        "vehicle:set_drive_inertia": {
+            "Example": "nil vehicle:set_drive_inertia(Vector3 value)"
+        },
+        "vehicle:set_engine_damage_multiplier": {
+            "Example": "nil vehicle:set_engine_damage_multiplier(Number value)"
+        },
+        "vehicle:set_gravity": {
+            "Example": "nil vehicle:set_gravity(Number value)"
+        },
+        "vehicle:set_godmode": {
+            "Example": "nil vehicle:set_godmode(bool value)"
+        },
+        "vehicle:set_handbrake_force": {
+            "Example": "nil vehicle:set_handbrake_force(Number value)"
+        },
+        "vehicle:set_health": {
+            "Example": "nil vehicle:set_health(Number value)"
+        },
+        "vehicle:set_inertia_multiplier": {
+            "Example": "nil vehicle:set_inertia_multiplier(Number value)"
+        },
+        "vehicle:set_initial_drag_coeff": {
+            "Example": "nil vehicle:set_initial_drag_coeff(Number value)"
+        },
+        "vehicle:set_initial_drive_force": {
+            "Example": "nil vehicle:set_initial_drive_force(Number value)"
+        },
+        "vehicle:set_initial_drive_gears": {
+            "Example": "nil vehicle:set_initial_drive_gears(Integer value)"
+        },
+        "vehicle:set_initial_drive_max_flat_velocity": {
+            "Example": "nil vehicle:set_initial_drive_max_flat_velocity(Number value)"
+        },
+        "vehicle:set_low_speed_traction_loss_multiplier": {
+            "Example": "nil vehicle:set_low_speed_traction_loss_multiplier(Number value)"
+        },
+        "vehicle:set_mass": {
+            "Example": "nil vehicle:set_mass(Number value)"
+        },
+        "vehicle:set_max_speed": {
+            "Example": "nil vehicle:set_max_speed(Number value)"
+        },
+        "vehicle:set_model_hash": {
+            "Example": "nil vehicle:set_model_hash(Integer value)"
+        },
+        "vehicle:set_number_plate_index": {
+            "Example": "nil vehicle:set_number_plate_index(Integer value)"
+        },
+        "vehicle:set_number_plate_text": {
+            "Example": "nil vehicle:set_number_plate_text(String value)"
+        },
+        "vehicle:set_parachute_hash": {
+            "Example": "nil vehicle:set_parachute_hash(Integer value)"
+        },
+        "vehicle:set_parachute_texture_variation": {
+            "Example": "nil vehicle:set_parachute_texture_variation(Integer value)"
+        },
+        "vehicle:set_percent_submerged": {
+            "Example": "nil vehicle:set_percent_submerged(Number value)"
+        },
+        "vehicle:set_position": {
+            "Example": "nil vehicle:set_position(Vector3 value)"
+        },
+        "vehicle:set_roll_centre_height_front": {
+            "Example": "nil vehicle:set_roll_centre_height_front(Number value)"
+        },
+        "vehicle:set_roll_centre_height_rear": {
+            "Example": "nil vehicle:set_roll_centre_height_rear(Number value)"
+        },
+        "vehicle:set_rotation": {
+            "Example": "nil vehicle:set_rotation(Vector3 value)"
+        },
+        "vehicle:set_steering_lock": {
+            "Example": "nil vehicle:set_steering_lock(Number value)"
+        },
+        "vehicle:set_suspension_bias_front": {
+            "Example": "nil vehicle:set_suspension_bias_front(Number value)"
+        },
+        "vehicle:set_suspension_comp_damp": {
+            "Example": "nil vehicle:set_suspension_comp_damp(Number value)"
+        },
+        "vehicle:set_suspension_force": {
+            "Example": "nil vehicle:set_suspension_force(Number value)"
+        },
+        "vehicle:set_suspension_height": {
+            "Example": "nil vehicle:set_suspension_height(Number value)"
+        },
+        "vehicle:set_suspension_lower_limit": {
+            "Example": "nil vehicle:set_suspension_lower_limit(Number value)"
+        },
+        "vehicle:set_suspension_raise": {
+            "Example": "nil vehicle:set_suspension_raise(Number value)"
+        },
+        "vehicle:set_suspension_rebound_damp": {
+            "Example": "nil vehicle:set_suspension_rebound_damp(Number value)"
+        },
+        "vehicle:set_suspension_upper_limit": {
+            "Example": "nil vehicle:set_suspension_upper_limit(Number value)"
+        },
+        "vehicle:set_traction_bias_front": {
+            "Example": "nil vehicle:set_traction_bias_front(Number value)"
+        },
+        "vehicle:set_traction_curve_lateral": {
+            "Example": "nil vehicle:set_traction_curve_lateral(Number value)"
+        },
+        "vehicle:set_traction_curve_max": {
+            "Example": "nil vehicle:set_traction_curve_max(Number value)"
+        },
+        "vehicle:set_traction_curve_min": {
+            "Example": "nil vehicle:set_traction_curve_min(Number value)"
+        },
+        "vehicle:set_traction_loss_multiplier": {
+            "Example": "nil vehicle:set_traction_loss_multiplier(Number value)"
+        },
+        "vehicle:set_traction_spring_delta_max": {
+            "Example": "nil vehicle:set_traction_spring_delta_max(Number value)"
+        },
+        "vehicle:set_up_shift": {
+            "Example": "nil vehicle:set_up_shift(Number value)"
+        },
+        "vehicle:set_weapon_damage_multiplier": {
+            "Example": "nil vehicle:set_weapon_damage_multiplier(Number value)"
+        },
+        "vehicle:set_window_collisions_disabled": {
+            "Example": "nil vehicle:set_window_collisions_disabled(bool value)"
+        },
+        "vehicle:set_window_tint": {
+            "Example": "nil vehicle:set_window_tint(Integer value)"
+        }
+    },
+    "Weapon": {
+        "weapon:get_ai_sound_range": {
+            "Example": "Number weapon:get_ai_sound_range()"
+        },
+        "weapon:get_aim_fov": {
+            "Example": "Number weapon:get_aim_fov()"
+        },
+        "weapon:get_bullet_damage": {
+            "Example": "Number weapon:get_bullet_damage()"
+        },
+        "weapon:get_bullets_in_batch": {
+            "Example": "Integer weapon:get_bullets_in_batch()"
+        },
+        "weapon:get_current_ammo": {
+            "Example": "Integer weapon:get_current_ammo()"
+        },
+        "weapon:get_damage_type": {
+            "Example": "Integer weapon:get_damage_type()"
+        },
+        "weapon:get_explosion_type": {
+            "Example": "Integer weapon:get_explosion_type()"
+        },
+        "weapon:get_fire_type": {
+            "Example": "Integer weapon:get_fire_type()"
+        },
+        "weapon:get_heli_force": {
+            "Example": "Number weapon:get_heli_force()"
+        },
+        "weapon:get_infinite_ammo": {
+            "Example": "bool weapon:get_infinite_ammo()"
+        },
+        "weapon:get_lock_on_range": {
+            "Example": "Number weapon:get_lock_on_range()"
+        },
+        "weapon:get_max_ammo": {
+            "Example": "Integer weapon:get_max_ammo()"
+        },
+        "weapon:get_max_mp_ammo": {
+            "Example": "Integer weapon:get_max_mp_ammo()"
+        },
+        "weapon:get_model_hash": {
+            "Example": "Integer weapon:get_model_hash()"
+        },
+        "weapon:get_name_hash": {
+            "Example": "Integer weapon:get_name_hash()"
+        },
+        "weapon:get_ped_force": {
+            "Example": "Number weapon:get_ped_force()"
+        },
+        "weapon:get_range": {
+            "Example": "Number weapon:get_range()"
+        },
+        "weapon:get_reload_time_multiplier": {
+            "Example": "Number weapon:get_reload_time_multiplier()"
+        },
+        "weapon:get_slot_hash": {
+            "Example": "Integer weapon:get_slot_hash()"
+        },
+        "weapon:get_time_between_shots": {
+            "Example": "Number weapon:get_time_between_shots()"
+        },
+        "weapon:get_speed": {
+            "Example": "Number weapon:get_speed()"
+        },
+        "weapon:get_spread": {
+            "Example": "Number weapon:get_spread()"
+        },
+        "weapon:get_vehicle_force": {
+            "Example": "Number weapon:get_vehicle_force()"
+        },
+        "weapon:set_ai_sound_range": {
+            "Example": "nil weapon:set_ai_sound_range(Number value)"
+        },
+        "weapon:set_aim_fov": {
+            "Example": "nil weapon:set_aim_fov(Number value)"
+        },
+        "weapon:set_bullet_damage": {
+            "Example": "nil weapon:set_bullet_damage(Number value)"
+        },
+        "weapon:set_bullets_in_batch": {
+            "Example": "nil weapon:set_bullets_in_batch(Integer value)"
+        },
+        "weapon:set_current_ammo": {
+            "Example": "nil weapon:set_current_ammo(Integer value)"
+        },
+        "weapon:set_damage_type": {
+            "Example": "nil weapon:set_damage_type(Integer value)"
+        },
+        "weapon:set_explosion_type": {
+            "Example": "nil weapon:set_explosion_type(Integer value)"
+        },
+        "weapon:set_heli_force": {
+            "Example": "nil weapon:set_heli_force(Number value)"
+        },
+        "weapon:set_infinite_ammo": {
+            "Example": "nil weapon:set_infinite_ammo(bool value)"
+        },
+        "weapon:set_lock_on_range": {
+            "Example": "nil weapon:set_lock_on_range(Number value)"
+        },
+        "weapon:set_ped_force": {
+            "Example": "nil weapon:set_ped_force(Number value)"
+        },
+        "weapon:set_range": {
+            "Example": "nil weapon:set_range(Number value)"
+        },
+        "weapon:set_reload_time_multiplier": {
+            "Example": "nil weapon:set_reload_time_multiplier(Number value)"
+        },
+        "weapon:set_speed": {
+            "Example": "nil weapon:set_speed(Number value)"
+        },
+        "weapon:set_spread": {
+            "Example": "nil weapon:set_spread(Number value)"
+        },
+        "weapon:set_time_between_shots": {
+            "Example": "nil weapon:set_time_between_shots(Number value)"
+        },
+        "weapon:set_vehicle_force": {
+            "Example": "nil weapon:set_vehicle_force(Number value)"
+        }
+    }
+}
