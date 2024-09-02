@@ -34,14 +34,14 @@
 
         header h1 {
             margin: 0;
-            font-size: 4vw; /* Responsive font size */
+            font-size: 3vw;
             color: #dcdcdc;
             text-align: center;
         }
 
         header p {
             margin: 5px 0 0;
-            font-size: 2vw; /* Responsive font size */
+            font-size: 1.5vw;
             color: #a0a0a0;
             text-align: center;
         }
@@ -50,8 +50,8 @@
             position: absolute;
             left: 20px;
             top: 10px;
-            width: 100px;
-            height: 100px;
+            width: 50px;
+            height: 50px;
             background-color: #6a0dad;
             border-radius: 50%;
             display: flex;
@@ -69,9 +69,9 @@
             flex: 1;
             width: 90%;
             max-width: 1200px;
-            margin: 20px auto;
+            margin: 10px auto;
             background: #2d2d2d;
-            padding: 15px;
+            padding: 10px;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
             display: flex;
@@ -83,32 +83,40 @@
             flex: 1;
             border: 1px solid #444;
             border-radius: 4px;
-            padding: 10px;
+            padding: 8px;
             background-color: #1e1e1e;
             color: #e0e0e0;
             overflow-y: auto;
             font-family: monospace;
-            font-size: 0.9vw; /* Responsive font size */
+            font-size: 1rem;
         }
 
         .btn-group {
             display: flex;
             flex-wrap: wrap;
+            gap: 10px;
             justify-content: space-between;
             margin-bottom: 10px;
             flex-shrink: 0;
         }
 
+        .btn-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
         .btn {
-            padding: 8px 15px;
-            margin: 5px;
+            padding: 6px 12px;
             border: none;
             background-color: #6a0dad;
             color: #fff;
             cursor: pointer;
             border-radius: 4px;
             transition: background-color 0.3s;
-            font-size: 1vw; /* Responsive font size */
+            font-size: 0.9rem;
         }
 
         .btn:hover {
@@ -116,18 +124,18 @@
         }
 
         .search-input {
-            padding: 8px;
+            padding: 6px;
             border: 1px solid #555;
             border-radius: 4px;
             background-color: #3a3d41;
             color: #fff;
             outline: none;
-            width: 200px;
+            width: 150px;
         }
 
         .collapsible {
             cursor: pointer;
-            padding-left: 15px;
+            padding-left: 10px;
             position: relative;
             list-style: none;
             display: flex;
@@ -172,14 +180,14 @@
         }
 
         #json-info {
-            padding: 10px;
+            padding: 8px;
             background-color: #252526;
             color: #dcdcdc;
             width: 100%;
             text-align: left;
             border-top: 1px solid #333;
             flex-shrink: 0;
-            font-size: 0.9vw; /* Responsive font size */
+            font-size: 0.8rem;
         }
 
         #clipboard-tray {
@@ -260,40 +268,35 @@
 
         /* Media Queries for responsive design */
         @media (max-width: 768px) {
-            #logo {
-                width: 100px;
-                height: 100px;
-            }
-
             header h1 {
-                font-size: 0.9vw;
+                font-size: 5vw;
             }
 
             header p {
-                font-size: 0.9vw;
+                font-size: 3vw;
             }
 
             .btn {
-                font-size: 0.9vw;
-                padding: 5px 10px;
+                font-size: 1rem;
+                padding: 6px 10px;
             }
 
             .search-input {
-                width: 150px;
+                width: 100px;
             }
 
             #jsoneditor {
-                font-size: 0.9vw;
+                font-size: 1rem;
             }
 
             #json-info {
-                font-size: 0.9vw;
+                font-size: 1rem;
             }
         }
 
         @media (min-width: 1200px) {
             #editor-container {
-                max-width: 90%;
+                max-width: 80%;
             }
         }
 
@@ -304,7 +307,7 @@
             }
 
             #editor-container {
-                max-width: 95%;
+                max-width: 85%;
             }
         }
     </style>
@@ -320,30 +323,30 @@
     </header>
 
     <div id="editor-container">
-        <div class="btn-group">
-            <div>
-                <label for="documentSelector">Select Document:</label>
-                <select id="documentSelector">
-                    <option value="CheraxDocuments">CheraxDocuments</option>
-                    <option value="ModestDocuments">ModestDocuments</option>
-                </select>
-
-                <button class="btn" onclick="showCodeView()">Code View</button>
-                <button class="btn" onclick="showTreeView()">Tree View</button>
-                <button class="btn" onclick="toggleTreeStyle()">Change Tree Style</button>
-                <button class="btn" onclick="expandAll()">Expand All</button>
-                <button class="btn" onclick="collapseAll()">Collapse All</button>
-                <button class="btn" onclick="downloadJSON()">Download JSON</button>
-                <button class="btn" onclick="toggleMultiSelect()">Multi-Select</button>
-                <button class="btn" onclick="togglePlaylistSidebar()">Music</button>
-                <button class="btn" onclick="showHelpOverlay()">Help</button>
-            </div>
-            <div>
-                <input type="text" class="search-input" id="searchInput" placeholder="Search..."
-                    onkeydown="handleSearchKey(event)">
-                <button class="btn" onclick="searchJSON()">Search</button>
-            </div>
+        <!-- First row of buttons -->
+        <div class="btn-row">
+            <label for="documentSelector">Select Document:</label>
+            <select id="documentSelector">
+                <option value="CheraxDocuments">CheraxDocuments</option>
+                <option value="ModestDocuments">ModestDocuments</option>
+            </select>
+            <button class="btn" onclick="showCodeView()">Code View</button>
+            <button class="btn" onclick="showTreeView()">Tree View</button>
+            <button class="btn" onclick="toggleTreeStyle()">Change Tree Style</button>
+            <button class="btn" onclick="expandAll()">Expand All</button>
+            <button class="btn" onclick="collapseAll()">Collapse All</button>
         </div>
+
+        <!-- Second row of buttons -->
+        <div class="btn-row">
+            <button class="btn" onclick="downloadJSON()">Download JSON</button>
+            <button class="btn" onclick="toggleMultiSelect()">Multi-Select</button>
+            <button class="btn" onclick="togglePlaylistSidebar()">Music</button>
+            <button class="btn" onclick="showHelpOverlay()">Help</button>
+            <input type="text" class="search-input" id="searchInput" placeholder="Search..." onkeydown="handleSearchKey(event)">
+            <button class="btn" onclick="searchJSON()">Search</button>
+        </div>
+
         <pre id="jsoneditor"></pre>
         <div id="json-info"></div>
         <div id="clipboard-tray">
@@ -378,6 +381,8 @@
             </ul>
         </div>
     </div>
+</body>
+
 
     <script>
         const jsonEditor = document.getElementById('jsoneditor');
