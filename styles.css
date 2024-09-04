@@ -7,12 +7,13 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
+    width: 100%;
     overflow: hidden;
 }
 
 header {
+    height: 5vh;
     width: 100%;
-    padding: 5px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -23,46 +24,45 @@ header {
     position: relative;
 }
 
-header h1 {
-    margin: 0;
-    font-size: 1.4vw;
-    color: #dcdcdc;
-    text-align: center;
-}
+    header h1 {
+        margin: 0;
+        font-size: 1.4vw;
+        color: #dcdcdc;
+        text-align: center;
+    }
 
-header p {
-    margin: 5px 0 0;
-    font-size: 0.7vw;
-    color: #a0a0a0;
-    text-align: center;
-}
+    header p {
+        margin: 5px 0 0;
+        font-size: 0.7vw;
+        color: #a0a0a0;
+        text-align: center;
+    }
 
 #logo {
     position: absolute;
     left: 0px;
     top: 0px;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
+    width: auto;
+    height: 5vh;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-#logo img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
+    #logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
 
 #editor-container {
     flex: 1;
-    width: 90%;
-    max-width: 2800px;
+    width: 100vw;
+    max-width: 2900px;
     margin: 10px auto;
     background: #2d2d2d;
     padding: 10px;
-    border-radius: 8px;
+    border-radius: 45px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
@@ -78,8 +78,8 @@ header p {
     color: #e0e0e0;
     overflow-y: auto;
     font-family: monospace;
-    font-size: 0.9rem;
-    line-height: 1.2;
+    font-size: 0.5rem;
+    line-height: 0.8vh;
 }
 
 .btn-row {
@@ -102,52 +102,52 @@ header p {
     position: relative;
 }
 
-.btn:hover {
-    background-color: #8a2be2;
-}
+    .btn:hover {
+        background-color: #8a2be2;
+    }
 
-.btn[data-tooltip] {
-    position: relative;
-}
+    .btn[data-tooltip] {
+        position: relative;
+    }
 
-.btn[data-tooltip]::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    top: -100%;
-    left: var(--tooltip-position, 0); /* Default position is left */
-    transform: translateY(-5px); /* Small offset from the top */
-    background-color: #333;
-    color: #fff;
-    padding: 5px;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    white-space: nowrap;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.5s;
-    z-index: 1000;
-}
+        .btn[data-tooltip]::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            top: -100%;
+            left: var(--tooltip-position, 0); /* Default position is left */
+            transform: translateY(-5px); /* Small offset from the top */
+            background-color: #333;
+            color: #fff;
+            padding: 5px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s;
+            z-index: 1000;
+        }
 
-.btn[data-tooltip]::before {
-    content: '';
-    position: absolute;
-    top: -5px; /* Align arrow with the tooltip */
-    left: var(--arrow-position, 0); /* Align with the tooltip position */
-    transform: translateY(-100%); /* Arrow pointing up */
-    border-width: 5px;
-    border-style: solid;
-    border-color: transparent transparent #333 transparent;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.5s;
-    z-index: 1000;
-}
+        .btn[data-tooltip]::before {
+            content: '';
+            position: absolute;
+            top: -5px; /* Align arrow with the tooltip */
+            left: var(--arrow-position, 0); /* Align with the tooltip position */
+            transform: translateY(-100%); /* Arrow pointing up */
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent transparent #333 transparent;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s;
+            z-index: 1000;
+        }
 
-.btn[data-tooltip]:hover::after,
-.btn[data-tooltip]:hover::before {
-    opacity: 1;
-    visibility: visible;
-}
+        .btn[data-tooltip]:hover::after,
+        .btn[data-tooltip]:hover::before {
+            opacity: 1;
+            visibility: visible;
+        }
 
 .search-input {
     padding: 6px;
@@ -198,7 +198,7 @@ header p {
 .value {
     cursor: pointer;
     padding-left: 10px;
-    margin: 1px 0;
+    margin: 1px;
     list-style: none;
 }
 
@@ -242,25 +242,25 @@ header p {
     z-index: 1000;
 }
 
-#playlist-sidebar h3 {
-    color: #dcdcdc;
-    margin: 0;
-    margin-bottom: 10px;
-}
+    #playlist-sidebar h3 {
+        color: #dcdcdc;
+        margin: 0;
+        margin-bottom: 10px;
+    }
 
-#playlist-sidebar input {
-    padding: 8px;
-    border: 1px solid #555;
-    border-radius: 4px;
-    background-color: #3a3d41;
-    color: #fff;
-    margin-bottom: 10px;
-}
+    #playlist-sidebar input {
+        padding: 8px;
+        border: 1px solid #555;
+        border-radius: 4px;
+        background-color: #3a3d41;
+        color: #fff;
+        margin-bottom: 10px;
+    }
 
-#playlist-sidebar .btn {
-    margin: 5px 0;
-    width: 100%;
-}
+    #playlist-sidebar .btn {
+        margin: 5px 0;
+        width: 100%;
+    }
 
 iframe {
     width: 100%;
@@ -334,6 +334,6 @@ iframe {
     }
 
     #editor-container {
-        max-width: 95%;
+        max-width: 100%;
     }
 }
