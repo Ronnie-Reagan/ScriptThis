@@ -78,8 +78,8 @@ header {
     color: #e0e0e0;
     overflow-y: auto;
     font-family: monospace;
-    font-size: 0.5rem;
-    line-height: 0.8vh;
+    font-size: 1vh;
+    line-height: 1vh;
 }
 
 .btn-row {
