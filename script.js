@@ -291,13 +291,12 @@ function hideHelpOverlay() {
 }
 
 function playPlaylist(type) {
-    if (type === 'Coding Focus') {
-        playlistPlayer.src = "https://www.youtube.com/embed/videoseries?si=C1A6VU3j_nwV1nki&list=PLPit0qsdr5cdLA3N9O43ao9zy56rp1mY1";
-    } else if (type === 'Relaxation') {
-        playlistPlayer.src = "https://www.youtube.com/embed/videoseries?si=KYlB4aWUBXbfHi2p&list=PLL7L4yFKS-089dJGU6JdK_vAuiamOVprQ";
-    } else if (type === 'Coding Session') {
-        playlistPlayer.src = "https://www.youtube.com/embed/videoseries?si=g9oSo0npYrZtiluH&list=PLXzchC_LKdZ0uJgrPt9-Cicl8TeDSyLqF";
-    }
+    const playlists = {
+        'Coding Focus': 'https://www.youtube.com/embed/videoseries?si=C1A6VU3j_nwV1nki&list=PLPit0qsdr5cdLA3N9O43ao9zy56rp1mY1',
+        'Relaxation': 'https://www.youtube.com/embed/videoseries?si=KYlB4aWUBXbfHi2p&list=PLL7L4yFKS-089dJGU6JdK_vAuiamOVprQ',
+        'Coding Session': 'https://www.youtube.com/embed/videoseries?si=g9oSo0npYrZtiluH&list=PLXzchC_LKdZ0uJgrPt9-Cicl8TeDSyLqF'
+    };
+    playlistPlayer.src = playlists[type] || '';
     playlistPlayer.classList.remove('hidden');
 }
 
@@ -350,19 +349,15 @@ document.querySelectorAll('.btn').forEach(btn => {
         const btnRect = btn.getBoundingClientRect();
         const screenHalf = window.innerWidth / 2;
 
-        // Position tooltip based on button's horizontal position on the screen
         if (btnRect.left < screenHalf) {
-            // Position tooltip to the top right of the button
             btn.style.setProperty('--tooltip-position', 'auto');
             btn.style.setProperty('--arrow-position', '5px');
         } else {
-            // Position tooltip to the top left of the button
             btn.style.setProperty('--tooltip-position', 'auto');
             btn.style.setProperty('--arrow-position', 'auto');
             btn.style.setProperty('right', '5px');
         }
     });
 });
-
 
 fetchData();
