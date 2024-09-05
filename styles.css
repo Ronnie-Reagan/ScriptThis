@@ -11,101 +11,128 @@ body {
     overflow: hidden;
 }
 
+/* Header and Logo */
 header {
-    height: 5vh;
     width: 100%;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between; /* Space between logo and nav */
+    padding: 10px 20px;
     background: rgb(20, 20, 20);
     border-bottom: 4px solid #6a0dad;
     border-top: 4px solid #6a0dad;
-    flex-shrink: 0;
-    position: relative;
-}
-
-header h1 {
-    margin: 0px 0px -5px;
-    font-size: 1.4vw;
-    color: white;
-    text-align: center;
-}
-
-header p {
-    margin: 5px 0 15px;
-    font-size: 0.7vw;
-    color: white;
-    text-align: center;
+    box-sizing: border-box;
 }
 
 #logo {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    width: auto;
-    height: 5vh;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 #logo img {
-    width: 100%;
-    height: 100%;
+    height: 6vh; /* Responsive height */
+    max-width: 100px; /* Limits the logo width */
     object-fit: contain;
-    box-shadow: 0px 0px 30px black;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.7);
 }
 
+/* Header Text */
+header h1 {
+    margin: 0;
+    font-size: 2vw; /* More responsive and prominent */
+    color: #fff;
+}
+
+header p {
+    margin: 0;
+    font-size: 1vw; /* Keeps text clear but not too small */
+    color: #aaa; /* Softer contrast */
+}
+
+/* Navbar */
+.navbar {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px; /* Slightly increased for better spacing */
+}
+
+.navbar li {
+    margin: 0;
+}
+
+.navbar a {
+    text-decoration: none;
+    padding: 8px 16px; /* Increased padding for a more button-like feel */
+    color: #fff;
+    background-color: #6a0dad;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.2s; /* Add transform for slight lift effect */
+    display: inline-block;
+}
+
+.navbar a:hover {
+    background-color: #8a2be2;
+    transform: translateY(-2px); /* Lifts button slightly on hover */
+}
+
+/* Main Editor Container */
 #editor-container {
     flex: 1;
-    width: 100vw;
-    max-width: 2900px;
-    margin: 10px auto;
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
     background: #2d2d2d;
-    padding: 10px;
-    border-radius: 45px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px; /* Rounded corners for a softer look */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
     overflow: auto;
 }
 
+/* JSON Editor */
 #jsoneditor {
     flex: 1;
     border: 1px solid #444;
-    border-radius: 4px;
-    padding: 8px;
+    border-radius: 5px;
+    padding: 10px;
     background-color: #1e1e1e;
     color: #e0e0e0;
     overflow-y: auto;
     font-family: monospace;
-    font-size: 0.5rem;
-    line-height: 0.8vh;
+    font-size: 0.8rem;
+    line-height: 1.4;
 }
 
+/* Buttons and Tooltip */
 .btn-row {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
-    margin-bottom: 4px;
+    margin-bottom: 10px;
 }
 
 .btn {
-    padding: 6px 12px;
+    padding: 8px 16px; /* Larger padding for better usability */
     border: none;
     background-color: #6a0dad;
     color: #fff;
     cursor: pointer;
     border-radius: 4px;
-    transition: background-color 0.3s;
-    font-size: 0.9rem;
+    transition: background-color 0.3s, transform 0.2s; /* Adding slight transform effect */
+    font-size: 1rem;
     position: relative;
 }
 
 .btn:hover {
     background-color: #8a2be2;
+    transform: translateY(-2px); /* Slight lift on hover */
 }
 
 .btn[data-tooltip] {
@@ -115,11 +142,9 @@ header p {
 .btn[data-tooltip]::after {
     content: attr(data-tooltip);
     position: absolute;
-    top: -100%;
-    left: var(--tooltip-position, 0);
-    /* Default position is left */
-    transform: translateY(-5px);
-    /* Small offset from the top */
+    top: -30px; /* Adjusted for better positioning */
+    left: 50%;
+    transform: translateX(-50%) translateY(-5px);
     background-color: #333;
     color: #fff;
     padding: 5px;
@@ -128,7 +153,7 @@ header p {
     white-space: nowrap;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.5s;
+    transition: opacity 0.3s;
     z-index: 1000;
 }
 
@@ -136,17 +161,14 @@ header p {
     content: '';
     position: absolute;
     top: -5px;
-    /* Align arrow with the tooltip */
-    left: var(--arrow-position, 0);
-    /* Align with the tooltip position */
-    transform: translateY(-100%);
-    /* Arrow pointing up */
+    left: 50%;
+    transform: translateX(-50%) translateY(-100%);
     border-width: 5px;
     border-style: solid;
     border-color: transparent transparent #333 transparent;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.5s;
+    transition: opacity 0.3s;
     z-index: 1000;
 }
 
@@ -157,15 +179,16 @@ header p {
 }
 
 .search-input {
-    padding: 6px;
+    padding: 8px;
     border: 1px solid #555;
     border-radius: 4px;
     background-color: #3a3d41;
-    color: black;
+    color: #fff; /* Changed to white for readability */
     outline: none;
-    width: 150px;
+    width: 200px; /* Slightly wider for usability */
 }
 
+/* Collapsible Sections */
 .collapsible {
     cursor: pointer;
     padding: 2px 0;
@@ -214,27 +237,31 @@ header p {
     color: #fff;
 }
 
+/* JSON Info */
 #json-info {
-    padding: 2px;
+    padding: 10px;
     background-color: #252526;
     color: #dcdcdc;
     width: 100%;
     text-align: left;
     border-top: 1px solid #333;
     flex-shrink: 0;
-    font-size: 0.8rem;
+    font-size: 0.9rem; /* Slightly larger for better readability */
 }
 
+/* Clipboard Tray */
 #clipboard-tray {
-    padding: 5px;
+    padding: 10px;
     background-color: #333;
     color: #dcdcdc;
     border-top: 1px solid #444;
     max-height: 150px;
     overflow-y: auto;
     display: none;
+    border-radius: 5px; /* Rounded for consistency */
 }
 
+/* Playlist Sidebar */
 #playlist-sidebar {
     position: fixed;
     right: 0;
@@ -242,11 +269,12 @@ header p {
     bottom: 0;
     width: 250px;
     background-color: #252526;
-    padding: 10px;
+    padding: 15px;
     border-left: 1px solid #333;
     display: none;
     overflow-y: auto;
     z-index: 1000;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.5);
 }
 
 #playlist-sidebar h3 {
@@ -276,6 +304,7 @@ iframe {
     margin-top: 10px;
 }
 
+/* Help Overlay */
 #help-overlay {
     position: fixed;
     top: 5%;
@@ -301,30 +330,47 @@ iframe {
     cursor: pointer;
 }
 
+/* Footer */
+footer {
+    padding: 15px;
+    text-align: center;
+    background: rgb(20, 20, 20);
+    color: #dcdcdc;
+    border-top: 2px solid #6a0dad;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5); /* Adds depth */
+}
+
+/* Responsive Adjustments */
 @media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+    }
+
     header h1 {
-        font-size: 1.4vw;
+        font-size: 4vw;
     }
 
     header p {
-        font-size: 0.7vw;
+        font-size: 3vw;
     }
 
     .btn {
-        font-size: 0.5rem;
-        padding: 1vh 1vh;
+        font-size: 0.8rem;
+        padding: 10px;
     }
 
     .search-input {
-        width: 10vw;
+        width: 80%;
     }
 
     #jsoneditor {
-        font-size: 0.5rem;
+        font-size: 0.7rem;
     }
 
     #json-info {
-        font-size: 0.7rem;
+        font-size: 0.8rem;
     }
 }
 
