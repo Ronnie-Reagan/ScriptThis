@@ -46,7 +46,7 @@ header h1 {
 
 header p {
     margin: 0;
-    font-size: 1vw; /* Keeps text clear but not too small */
+    font-size: 0.5vw; /* Keeps text clear but not too small */
     color: #aaa; /* Softer contrast */
 }
 
