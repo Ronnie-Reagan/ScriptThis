@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Script This - JSON Viewer</title>
+    <meta name="description" content="Script This is a web-based tool for Lua script management and JSON data visualization, tailored for GTA 5 mod menus.">
+    <meta name="keywords" content="Lua, JSON, GTA 5, Script Management, Mod Menus, Cherax, Modest Menu, Kiddions">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <div id="logo">
+            <img src="ScriptThisLogoMain.png" alt="Script This Logo">
+        </div>
+        <h1>Script This</h1>
+        <p>Your Ultimate Tool for Lua Script Management</p>
+        <nav>
+            <ul class="navbar">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="json-viewer.html">JSON Viewer</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="documentation.html">Documentation</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div id="editor-container">
+            <div class="btn-row">
+                <label for="documentSelector">Select Document:</label>
+                <select id="documentSelector">
+                    <option value="CheraxDocuments">CheraxDocuments</option>
+                    <option value="ModestDocuments">ModestDocuments</option>
+                </select>
+                <button class="btn" onclick="showCodeView()" data-tooltip="Switch to code view" aria-label="Switch to code view">Code View</button>
+                <button class="btn" onclick="showTreeView()" data-tooltip="Switch to tree view" aria-label="Switch to tree view">Tree View</button>
+                <button class="btn" onclick="toggleTreeStyle()" data-tooltip="Change the style of the tree view" aria-label="Change tree style">Change Tree Style</button>
+                <button class="btn" onclick="expandAll()" data-tooltip="Expand all nodes in the tree" aria-label="Expand all nodes">Expand All</button>
+                <button class="btn" onclick="collapseAll()" data-tooltip="Collapse all nodes in the tree" aria-label="Collapse All">Collapse All</button>
+            </div>
+
+            <div class="btn-row">
+                <button class="btn" onclick="downloadJSON()" data-tooltip="Download the JSON file" aria-label="Download JSON file">Download JSON</button>
+                <button class="btn" onclick="toggleMultiSelect()" data-tooltip="Toggle multi-select mode" aria-label="Toggle multi-select mode">Multi-Select</button>
+                <button class="btn" onclick="togglePlaylistSidebar()" data-tooltip="Toggle the music sidebar" aria-label="Toggle music sidebar">Music</button>
+                <button class="btn" onclick="showHelpOverlay()" data-tooltip="Open help and documentation" aria-label="Open help overlay">Help</button>
+                <input type="text" class="search-input" id="searchInput" placeholder="Search..." onkeydown="handleSearchKey(event)" data-tooltip="Enter text to search the JSON data" aria-label="Search JSON data">
+                <button class="btn" onclick="searchJSON()" data-tooltip="Search the JSON data" aria-label="Search JSON data">Search</button>
+            </div>
+
+            <pre id="jsoneditor"></pre>
+            <div id="json-info"></div>
+
+            <div id="clipboard-tray">
+                <h4>Clipboard Tray</h4>
+                <ul id="clipboard-list"></ul>
+                <button class="btn" onclick="copyTrayToClipboard()" data-tooltip="Copy all items in the tray" aria-label="Copy all items from the tray">Copy All</button>
+                <button class="btn" onclick="clearTray()" data-tooltip="Clear the clipboard tray" aria-label="Clear the clipboard tray">Clear Tray</button>
+            </div>
+
+            <div id="playlist-sidebar">
+                <h3>Music</h3>
+                <button class="btn" onclick="togglePlaylistSidebar()" data-tooltip="Close The Music Tab" aria-label="Close YouTube Tab">Close</button> 
+                <input type="text" id="playlistSearch" placeholder="Search YouTube..." data-tooltip="Search for music on YouTube" aria-label="Search YouTube for music">
+                <button class="btn" onclick="playPlaylist('Coding Focus')" data-tooltip="Play Coding Focus Playlist" aria-label="Play Coding Focus Playlist">Coding Focus Playlist</button>
+                <button class="btn" onclick="playPlaylist('Relaxation')" data-tooltip="Play Relaxation Playlist" aria-label="Play Relaxation Playlist">Relaxation Playlist</button>
+                <button class="btn" onclick="playPlaylist('Coding Session')" data-tooltip="Play Coding Session Playlist" aria-label="Play Coding Session Playlist">Coding Session Playlist</button>
+                <button class="btn" onclick="searchYouTube()" data-tooltip="Search YouTube for music" aria-label="Search YouTube">Search YouTube</button>
+                <iframe id="playlistPlayer" src="" aria-label="YouTube playlist player"></iframe>
+            </div>
+
+            <div id="help-overlay">
+                <div id="help-close" onclick="hideHelpOverlay()" data-tooltip="Close the help overlay" aria-label="Close help overlay">← Close</div>
+                <h2>Help & Documentation</h2>
+                <p>Welcome to Script This! Here’s a guide on how to use the various features:</p>
+                <ul>
+                    <li>
+                        <strong>Select Document:</strong>
+                        <ul>
+                            <li>Use the drop-down menu to select the document set you wish to work with.</li>
+                            <li>Options include "CheraxDocuments" and "ModestDocuments".</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>View Modes:</strong>
+                        <ul>
+                            <li><strong>Code View:</strong> Displays the JSON data in raw code format for direct editing.</li>
+                            <li><strong>Tree View:</strong> Provides a structured view of the JSON data, making it easier to navigate through nodes.</li>
+                            <li><strong>Change Tree Style:</strong> Toggle through different tree styles to adjust the visual layout of the tree view.</li>
+                            <li><strong>Expand All / Collapse All:</strong> Quickly expand or collapse all nodes in the tree view.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Search and Multi-Select:</strong>
+                        <ul>
+                            <li><strong>Search:</strong> Use the search box to find specific keys or values within the JSON data. Matching items are highlighted and expanded in tree view.</li>
+                            <li><strong>Multi-Select:</strong> Toggle multi-select mode to add multiple items to the clipboard at once for batch operations.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>JSON Operations:</strong>
+                        <ul>
+                            <li><strong>Download JSON:</strong> Download the current JSON data as a file to your local machine.</li>
+                            <li><strong>Clipboard Tray:</strong> A storage area where you can temporarily keep selected data items.</li>
+                            <li><strong>Copy All:</strong> Copy all items in the clipboard tray to your system clipboard.</li>
+                            <li><strong>Clear Tray:</strong> Clear all items from the clipboard tray.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Music Sidebar:</strong>
+                        <ul>
+                            <li><strong>Toggle Sidebar:</strong> Open or close the music sidebar where you can control background playlists.</li>
+                            <li><strong>Playlists:</strong> Choose from predefined playlists like "Coding Focus," "Relaxation," or "Coding Session" to set the mood while you work.</li>
+                            <li><strong>Search YouTube:</strong> Search for custom music or sounds on YouTube directly from the sidebar.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Help & Documentation:</strong>
+                        <ul>
+                            <li><strong>Help Overlay:</strong> Access this help section at any time by clicking the "Help" button.</li>
+                            <li>Each feature includes specific tooltips for quick guidance—hover over buttons and inputs to see tips.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Script This. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
