@@ -1,4 +1,3 @@
-# Cu
 ## License
 
 This project is licensed under the Custom License. See the full license text below.
