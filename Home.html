@@ -9,6 +9,88 @@
     <meta name="description" content="Script This is a web-based tool for Lua script management and JSON data visualization, tailored for GTA 5 mod menus.">
     <meta name="keywords" content="Lua, JSON, GTA 5, Script Management, Mod Menus, Cherax, Modest Menu, Kiddions">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background-color: #1e1e1e;
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: #2d2d2d;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            text-align: left;
+        }
+
+        h2 {
+            color: #8a2be2;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #6a0dad;
+            text-shadow: #1e1e1e;
+            padding-bottom: 5px;
+        }
+
+        p,
+        li {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #e0e0e0;
+        }
+
+        footer {
+            background: rgb(20, 20, 20);
+            color: #dcdcdc;
+            text-align: center;
+            padding: 15px;
+            width: 100%;
+            border-top: 2px solid #6a0dad;
+            position: relative;
+        }
+
+        @media (max-width: 768px) {
+            .section-container {
+                padding: 20px;
+                margin: 20px;
+                min-height: auto;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .section-container {
+                max-width: 95%;
+                min-height: auto;
+            }
+        }
+
+        @media (min-width: 1920px) {
+            body {
+                max-width: 100vw;
+                max-height: 100vh;
+                min-height: 80vh;
+            }
+
+            .section-container {
+                max-width: 95%;
+                min-height: auto;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -28,39 +110,40 @@
         </nav>
     </header>
 
-    <main>
-        <section class="intro">
-            <h2>Welcome to Script This!</h2>
-            <p>Script This is your go-to web-based tool for managing Lua scripts and visualizing JSON data, specifically designed for GTA 5 mod menus like Cherax and Kiddions.
-                Whether you are a beginner or a seasoned script developer, Script This provides intuitive tools and features that streamline your workflow.</p>
-        </section>
+    <div class="content">
+        <main>
+            <section class="section-container intro">
+                <h2>Welcome to Script This!</h2>
+                <p>Script This is your go-to web-based tool for managing Lua scripts and visualizing JSON data, specifically designed for GTA 5 mod menus like Cherax and Kiddions.
+                    Whether you are a beginner or a seasoned script developer, Script This provides intuitive tools and features that streamline your workflow.</p>
+            </section>
 
-        <section class="features">
-            <h2>Features</h2>
-            <ul>
-                <li>Manage and edit Lua scripts with ease.</li>
-                <li>Visualize and manipulate JSON data with our interactive viewer.</li>
-                <li>Switch between code view and tree view for a better data understanding.</li>
-                <li>Customizable settings to suit your scripting needs.</li>
-            </ul>
-        </section>
+            <section class="section-container features">
+                <h2>Features</h2>
+                <ul>
+                    <li>Manage and edit Lua scripts with ease.</li>
+                    <li>Visualize and manipulate JSON data with our interactive viewer.</li>
+                    <li>Switch between code view and tree view for a better data understanding.</li>
+                    <li>Customizable settings to suit your scripting needs.</li>
+                </ul>
+            </section>
 
-        <section class="Coming Soon (maybe)">
-            <h2>Coming Soon*</h2>
-            <ul>
-                <li>Yim Documentation! Hopefully this will happen sooner than later but it is planned to the point of it being almost a sure thing.</li>
-                <li>More Music Selections, hopfully something for everyone.</li>
-                <li>Cleaner Layout with color scheme options</li>
-            </ul>
-        </section>
+            <section class="section-container coming-soon">
+                <h2>Coming Soon*</h2>
+                <ul>
+                    <li>Yim Documentation! Hopefully this will happen sooner than later but it is planned to the point of it being almost a sure thing.</li>
+                    <li>More Music Selections, hopefully something for everyone.</li>
+                    <li>Cleaner Layout with color scheme options</li>
+                </ul>
+            </section>
 
-        <section class="get-started">
-            <h2>Get Started</h2>
-            <p>To start using Script This, select the JSON Viewer from the navigation bar, or explore our Documentation for a complete guide on all the features we offer.</p>
-            <p>If you have any questions or need support, visit our Contact page.</p>
-        </section>
-
-    </main>
+            <section class="section-container get-started">
+                <h2>Get Started</h2>
+                <p>To start using Script This, select the JSON Viewer from the navigation bar, or explore our Documentation for a complete guide on all the features we offer.</p>
+                <p>If you have any questions or need support, visit our Contact page.</p>
+            </section>
+        </main>
+    </div>
 
     <footer>
         <p>Website Made By Don Reagan</p>

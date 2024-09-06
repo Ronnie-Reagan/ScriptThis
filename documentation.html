@@ -9,79 +9,117 @@
     <meta name="description" content="Comprehensive guide and documentation for Script This, your ultimate tool for JSON data visualization.">
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* Main content container with offset and styling */
-        .content-container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 30px;
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
             background-color: #1e1e1e;
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: #2d2d2d;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            text-align: left;
+            overflow: hidden;
         }
 
-        /* Section styles with consistent margins and spacing */
-        section {
-            margin-bottom: 30px;
+        .collapsible-header {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            background-color: #333;
+            border-radius: 8px 8px 0 0;
         }
 
-        /* Header styling for clear section delineation */
+        .collapsible-header h2,
+        .collapsible-header h3 {
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        .collapsible-indicator {
+            font-size: 1.2em;
+            transition: transform 0.3s;
+        }
+
+        .collapsed .collapsible-indicator {
+            transform: rotate(-90deg);
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            padding: 0 30px;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+        }
+
+        .expanded .collapsible-content {
+            max-height: 1000px; /* Set to a large value to ensure full expansion */
+            padding: 20px 30px;
+        }
+
         h2, h3 {
             color: #8a2be2;
-            margin-bottom: 10px;
             border-bottom: 2px solid #6a0dad;
             padding-bottom: 5px;
         }
 
-        /* Text and list styling for readability */
         p {
             line-height: 1.6;
             margin-bottom: 15px;
             color: #e0e0e0;
         }
 
-        ul {
-            list-style-type: disc;
-            margin-left: 20px;
-            line-height: 1.6;
-        }
-
-        /* Link styling for a professional look */
-        a {
-            color: #8a2be2;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        a:hover {
-            color: #b39ddb;
-        }
-
-        /* Footer with subtle styling */
         footer {
-            padding: 15px;
-            text-align: center;
             background: rgb(20, 20, 20);
             color: #dcdcdc;
+            text-align: center;
+            padding: 15px;
+            width: 100%;
             border-top: 2px solid #6a0dad;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+            position: relative;
         }
 
-        /* Responsive adjustments for smaller screens */
         @media (max-width: 768px) {
-            .content-container {
-                padding: 20px;
+            .section-container {
                 margin: 20px;
+                min-height: auto;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .section-container {
+                max-width: 95%;
+                min-height: auto;
+            }
+        }
+
+        @media (min-width: 1920px) {
+            body {
+                max-width: 100vw;
+                max-height: 100vh;
+                min-height: 80vh;
             }
 
-            header {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
-
-            .navbar {
-                flex-direction: column;
-                align-items: center;
+            .section-container {
+                min-height: auto;
+                max-width: 95%;
             }
         }
     </style>
@@ -104,74 +142,134 @@
         </nav>
     </header>
 
-    <!-- Main content container with padding and centered layout -->
-    <main class="content-container">
-        <section class="intro">
-            <h2>Documentation</h2>
-            <p>Welcome to the documentation for Script This. This guide provides detailed insights into the features and functionalities of our platform, designed to optimize your experience in JSON data visualization.</p>
-        </section>
+    <div class="content">
+        <main class="content-container">
+            <section class="section-container">
+                <div class="collapsible-header">
+                    <h2>Documentation</h2>
+                    <span class="collapsible-indicator">▶</span>
+                </div>
+                <div class="collapsible-content">
+                    <p>Welcome to the documentation for Script This.
+                        This guide provides detailed insights into the features and functionalities of our platform,
+                        designed to optimize your experience in JSON data visualization.</p>
+                    <p>Please be awre that this website is undergoing development and may change, even as youre using it.
+                        Feel free to contribute to this open-source project!</p>
+                </div>
+            </section>
 
-        <section class="features">
-            <h3>Features Overview</h3>
-            <ul>
-                <li><strong>JSON Viewer:</strong> A comprehensive tool for visualizing and manipulating JSON data with both code and tree views available.</li>
-                <li><strong>Tree Style Customization:</strong> Customize the appearance of your data with multiple tree styles for enhanced viewing.</li>
-                <li><strong>Search and Multi-Select:</strong> Efficiently locate specific data points within JSON files using advanced search and multi-select capabilities.</li>
-                <li><strong>Clipboard Management:</strong> Utilize the clipboard tray for collecting and managing data snippets seamlessly.</li>
-                <li><strong>Music Sidebar:</strong> Integrate music into your workflow with curated playlists designed for coding, relaxation, or focus.</li>
-                <li><strong>Help and Support:</strong> Access comprehensive support through help overlays and tooltips for navigating platform features.</li>
-            </ul>
-        </section>
+            <section class="section-container">
+                <div class="collapsible-header">
+                    <h3>Features Overview</h3>
+                    <span class="collapsible-indicator">▶</span>
+                </div>
+                <div class="collapsible-content">
+                    <ul>
+                        <li><strong>JSON Viewer:</strong> A comprehensive tool for visualizing and manipulating JSON data with both code and tree views available.</li>
+                        <li><strong>Tree Style Customization:</strong> Customize the appearance of your data with multiple tree styles for enhanced viewing.</li>
+                        <li><strong>Search and Multi-Select:</strong> Efficiently locate specific data points within JSON files using advanced search and multi-select capabilities.</li>
+                        <li><strong>Clipboard Management:</strong> Utilize the clipboard tray for collecting and managing data snippets seamlessly.</li>
+                        <li><strong>Music Sidebar:</strong> Integrate music into your workflow with curated playlists designed for coding, relaxation, or focus.</li>
+                        <li><strong>Help and Support:</strong> Access comprehensive support through help overlays and tooltips for navigating platform features.</li>
+                    </ul>
+                </div>
+            </section>
 
-        <section class="json-viewer">
-            <h3>JSON Viewer</h3>
-            <p>The JSON Viewer provides a versatile environment to view and manipulate JSON data. It offers both code and tree views to cater to different user preferences:</p>
-            <ul>
-                <li><strong>Code View:</strong> For users who prefer a raw data approach, the code view allows direct editing of JSON content.</li>
-                <li><strong>Tree View:</strong> Provides a structured visual representation of JSON data, simplifying navigation and comprehension.</li>
-                <li><strong>Expand/Collapse All:</strong> Easily manage the visibility of data nodes with expand and collapse controls.</li>
-            </ul>
-        </section>
+            <section class="section-container">
+                <div class="collapsible-header">
+                    <h3>JSON Viewer</h3>
+                    <span class="collapsible-indicator">▶</span>
+                </div>
+                <div class="collapsible-content">
+                    <p>The JSON Viewer provides a versatile environment to view and manipulate JSON data. It offers both code and tree views to cater to different user preferences:</p>
+                    <ul>
+                        <li><strong>Code View:</strong> For users who prefer a raw data approach, the code view allows direct editing of JSON content.</li>
+                        <li><strong>Tree View:</strong> Provides a structured visual representation of JSON data, simplifying navigation and comprehension.</li>
+                        <li><strong>Expand/Collapse All:</strong> Easily manage the visibility of data nodes with expand and collapse controls.</li>
+                    </ul>
+                </div>
+            </section>
 
-        <section class="customization">
-            <h3>Customization Options</h3>
-            <p>Enhance your user experience with our customization options:</p>
-            <ul>
-                <li><strong>Tree Styles:</strong> Choose from various tree styles to best fit your data exploration needs.</li>
-                <li><strong>Adjustable Layout:</strong> Modify the layout to suit your screen size and personal preferences.</li>
-            </ul>
-        </section>
+            <section class="section-container">
+                <div class="collapsible-header">
+                    <h3>Customization Options</h3>
+                    <span class="collapsible-indicator">▶</span>
+                </div>
+                <div class="collapsible-content">
+                    <p>Enhance your user experience with our customization options:</p>
+                    <ul>
+                        <li><strong>Tree Styles:</strong> Choose from various tree styles to best fit your data exploration needs.</li>
+                        <li><strong>Adjustable Layout:</strong> Modify the layout to suit your screen size and personal preferences.</li>
+                    </ul>
+                </div>
+            </section>
 
-        <section class="search-clipboard">
-            <h3>Search and Clipboard Features</h3>
-            <p>Boost your productivity with advanced search and clipboard functionalities:</p>
-            <ul>
-                <li><strong>Search:</strong> Quickly locate specific data elements within JSON files using the search feature.</li>
-                <li><strong>Multi-Select Mode:</strong> Enable multi-select to perform batch operations on selected items.</li>
-                <li><strong>Clipboard Tray:</strong> Manage selected data conveniently with the clipboard tray.</li>
-            </ul>
-        </section>
+            <section class="section-container">
+                <div class="collapsible-header">
+                    <h3>Search and Clipboard Features</h3>
+                    <span class="collapsible-indicator">▶</span>
+                </div>
+                <div class="collapsible-content">
+                    <p>Boost your productivity with advanced search and clipboard functionalities:</p>
+                    <ul>
+                        <li><strong>Search:</strong> Quickly locate specific data elements within JSON files using the search feature.</li>
+                        <li><strong>Multi-Select Mode:</strong> Enable multi-select to perform batch operations on selected items.</li>
+                        <li><strong>Clipboard Tray:</strong> Manage selected data conveniently with the clipboard tray.</li>
+                    </ul>
+                </div>
+            </section>
 
-        <section class="music-support">
-            <h3>Music and Support</h3>
-            <p>Enhance your workflow with built-in support and music options:</p>
-            <ul>
-                <li><strong>Music Sidebar:</strong> Choose from a selection of playlists to complement your work environment.</li>
-                <li><strong>Help and Tooltips:</strong> Utilize tooltips and help overlays for quick access to guidance and support.</li>
-            </ul>
-        </section>
+            <section class="section-container">
+                <div class="collapsible-header">
+                    <h3>Music and Support</h3>
+                    <span class="collapsible-indicator">▶</span>
+                </div>
+                <div class="collapsible-content">
+                    <p>Enhance your workflow with built-in support and music options:</p>
+                    <ul>
+                        <li><strong>Music Sidebar:</strong> Choose from a selection of playlists to complement your work environment.</li>
+                        <li><strong>Help and Tooltips:</strong> Utilize tooltips and help overlays for quick access to guidance and support.</li>
+                    </ul>
+                </div>
+            </section>
 
-        <section class="getting-started">
-            <h3>Getting Started</h3>
-            <p>Ready to begin using Script This? Visit the <a href="json-viewer.html">JSON Viewer</a> to explore your data and take advantage of our platform’s features for an optimized workflow. For further assistance, please refer to the sections above or contact us via the <a href="contact.html">Contact</a> page.</p>
-        </section>
-    </main>
+            <section class="section-container">
+                <div class="collapsible-header">
+                    <h3>Getting Started</h3>
+                    <span class="collapsible-indicator">▶</span>
+                </div>
+                <div class="collapsible-content">
+                    <p>Ready to begin using Script This? Visit the <a href="json-viewer.html">JSON Viewer</a> to explore your data and take advantage of our platform’s features for an optimized workflow. For further assistance, please refer to the sections above or contact us via the <a href="contact.html">Contact</a> page.</p>
+                </div>
+            </section>
+        </main>
+    </div>
 
     <footer>
         <p>&copy; 2024 Script This. All rights reserved.</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const collapsibleHeaders = document.querySelectorAll('.collapsible-header');
+
+            collapsibleHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const section = header.parentElement;
+                    const content = section.querySelector('.collapsible-content');
+                    const isExpanded = section.classList.contains('expanded');
+
+                    if (isExpanded) {
+                        section.classList.remove('expanded');
+                        content.style.maxHeight = null;
+                    } else {
+                        section.classList.add('expanded');
+                        content.style.maxHeight = auto;
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
