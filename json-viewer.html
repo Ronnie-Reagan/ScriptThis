@@ -31,50 +31,75 @@
     <main>
         <div id="editor-container">
             <div class="btn-row">
-                <label for="documentSelector">Select Document:</label>
-                <select id="documentSelector">
-                    <option value="CheraxDocuments">CheraxDocuments</option>
-                    <option value="ModestDocuments">ModestDocuments</option>
-                </select>
-                <button class="btn" onclick="showCodeView()" data-tooltip="Switch to code view" aria-label="Switch to code view">Code View</button>
-                <button class="btn" onclick="showTreeView()" data-tooltip="Switch to tree view" aria-label="Switch to tree view">Tree View</button>
-                <button class="btn" onclick="toggleTreeStyle()" data-tooltip="Change the style of the tree view" aria-label="Change tree style">Change Tree Style</button>
-                <button class="btn" onclick="expandAll()" data-tooltip="Expand all nodes in the tree" aria-label="Expand all nodes">Expand All</button>
-                <button class="btn" onclick="collapseAll()" data-tooltip="Collapse all nodes in the tree" aria-label="Collapse All">Collapse All</button>
+                <!-- Document Selection Group -->
+                <div class="action-group">
+                    <label for="documentSelector">Mod Menu:</label>
+                    <select id="documentSelector">
+                        <option value="CheraxDocuments">Cherax</option>
+                        <option value="ModestDocuments">Modest</option>
+                    </select>
+                    <button class="btn" onclick="showCodeView()" title="Switch to code view" aria-label="Switch to code view">
+                        Code View
+                    </button>
+                    <button class="btn" onclick="showTreeView()" title="Switch to tree view" aria-label="Switch to tree view">
+                        Tree View
+                    </button>
+                    <button class="btn" onclick="toggleTreeStyle()" title="Change tree style" aria-label="Change tree style">
+                        Tree Style
+                    </button>
+                    <button class="btn" onclick="expandAll()" title="Expand all nodes" aria-label="Expand all nodes">
+                        ➕ Expand All
+                    </button>
+                    <button class="btn" onclick="collapseAll()" title="Collapse all nodes" aria-label="Collapse all nodes">
+                        ➖ Collapse All
+                    </button>
+                </div>
+            
+                <!-- Tools Group -->
+                <div class="action-group">
+                    <button class="btn" onclick="downloadJSON()" title="Download JSON file" aria-label="Download JSON file">
+                        Download Json
+                    </button>
+                    <button class="btn" onclick="toggleMultiSelect()" title="Toggle multi-select mode" aria-label="Toggle multi-select mode">
+                        Multi-Select
+                    </button>
+                    <button class="btn" onclick="togglePlaylistSidebar()" title="Toggle the music sidebar" aria-label="Toggle music sidebar">
+                        Music Tab
+                    </button>
+                    <input type="text" class="search-input" id="searchInput" placeholder="Try Searching 'velocity'" onkeydown="handleSearchKey(event)" aria-label="Search JSON data">
+                    <button class="btn" onclick="searchJSON()" title="Search the JSON data" aria-label="Search JSON data">
+                        Search
+                    </button>
+                    <button class="btn" onclick="showHelpOverlay()" title="Open help and documentation" aria-label="Open help overlay">
+                        ❓ Help
+                    </button>
+                </div>
             </div>
-
-            <div class="btn-row">
-                <button class="btn" onclick="downloadJSON()" data-tooltip="Download the JSON file" aria-label="Download JSON file">Download JSON</button>
-                <button class="btn" onclick="toggleMultiSelect()" data-tooltip="Toggle multi-select mode" aria-label="Toggle multi-select mode">Multi-Select</button>
-                <button class="btn" onclick="togglePlaylistSidebar()" data-tooltip="Toggle the music sidebar" aria-label="Toggle music sidebar">Music</button>
-                <button class="btn" onclick="showHelpOverlay()" data-tooltip="Open help and documentation" aria-label="Open help overlay">Help</button>
-                <input type="text" class="search-input" id="searchInput" placeholder="Search..." onkeydown="handleSearchKey(event)" data-tooltip="Enter text to search the JSON data" aria-label="Search JSON data">
-                <button class="btn" onclick="searchJSON()" data-tooltip="Search the JSON data" aria-label="Search JSON data">Search</button>
-            </div>
+            
 
             <pre id="jsoneditor"></pre>
             <div id="json-info"></div>
 
             <div id="clipboard-tray">
                 <h4>Clipboard Tray</h4>
+                <button class="btn" onclick="copyTrayToClipboard()" title="Copy all items in the tray" aria-label="Copy all items from the tray">Copy All</button>
+                <button class="btn" onclick="clearTray()" title="Clear the clipboard tray" aria-label="Clear the clipboard tray">Clear Tray</button>
                 <ul id="clipboard-list"></ul>
-                <button class="btn" onclick="copyTrayToClipboard()" data-tooltip="Copy all items in the tray" aria-label="Copy all items from the tray">Copy All</button>
-                <button class="btn" onclick="clearTray()" data-tooltip="Clear the clipboard tray" aria-label="Clear the clipboard tray">Clear Tray</button>
             </div>
 
             <div id="playlist-sidebar">
                 <h3>Music</h3>
-                <button class="btn" onclick="togglePlaylistSidebar()" data-tooltip="Close The Music Tab" aria-label="Close YouTube Tab">Close</button> 
-                <input type="text" id="playlistSearch" placeholder="Search YouTube..." data-tooltip="Search for music on YouTube" aria-label="Search YouTube for music">
-                <button class="btn" onclick="playPlaylist('Coding Focus')" data-tooltip="Play Coding Focus Playlist" aria-label="Play Coding Focus Playlist">Coding Focus Playlist</button>
-                <button class="btn" onclick="playPlaylist('Relaxation')" data-tooltip="Play Relaxation Playlist" aria-label="Play Relaxation Playlist">Relaxation Playlist</button>
-                <button class="btn" onclick="playPlaylist('Coding Session')" data-tooltip="Play Coding Session Playlist" aria-label="Play Coding Session Playlist">Coding Session Playlist</button>
-                <button class="btn" onclick="searchYouTube()" data-tooltip="Search YouTube for music" aria-label="Search YouTube">Search YouTube</button>
+                <button class="btn" onclick="togglePlaylistSidebar()" title="Close The Music Tab" aria-label="Close YouTube Tab">Close</button> 
+                <input type="text" id="playlistSearch" placeholder="Search YouTube..." title="Search for music on YouTube" aria-label="Search YouTube for music">
+                <button class="btn" onclick="playPlaylist('Coding Focus')" title="Play Coding Focus Playlist" aria-label="Play Coding Focus Playlist">Coding Focus Playlist</button>
+                <button class="btn" onclick="playPlaylist('Relaxation')" title="Play Relaxation Playlist" aria-label="Play Relaxation Playlist">Relaxation Playlist</button>
+                <button class="btn" onclick="playPlaylist('Coding Session')" title="Play Coding Session Playlist" aria-label="Play Coding Session Playlist">Coding Session Playlist</button>
+                <button class="btn" onclick="searchYouTube()" title="Search YouTube for music" aria-label="Search YouTube">Search YouTube</button>
                 <iframe id="playlistPlayer" src="" aria-label="YouTube playlist player"></iframe>
             </div>
 
             <div id="help-overlay">
-                <div id="help-close" onclick="hideHelpOverlay()" data-tooltip="Close the help overlay" aria-label="Close help overlay">← Close</div>
+                <div id="help-close" onclick="hideHelpOverlay()" title="Close the help overlay" aria-label="Close help overlay">← Close</div>
                 <h2>Help & Documentation</h2>
                 <p>Welcome to Script This! Here’s a guide on how to use the various features:</p>
                 <ul>

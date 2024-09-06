@@ -1,3 +1,4 @@
+// Element References
 const jsonEditor = document.getElementById('jsoneditor');
 const jsonInfo = document.getElementById('json-info');
 const clipboardTray = document.getElementById('clipboard-tray');
@@ -5,7 +6,9 @@ const clipboardList = document.getElementById('clipboard-list');
 const playlistSidebar = document.getElementById('playlist-sidebar');
 const playlistPlayer = document.getElementById('playlistPlayer');
 const helpOverlay = document.getElementById('help-overlay');
-let currentView = 'code';
+
+// State Variables
+let currentView = 'tree';
 let multiSelectMode = false;
 let clipboard = [];
 let treeStyle = 1;
@@ -13,10 +16,12 @@ let highlightedElements = [];
 let currentHighlightIndex = -1;
 let data = {};
 
+// Event Listeners
 document.getElementById('documentSelector').addEventListener('change', (event) => {
     fetchData(event.target.value);
 });
 
+// Fetch JSON Data
 async function fetchData(documentName = 'CheraxDocuments') {
     try {
         const response = await fetch(`${documentName}.json`);
@@ -24,13 +29,15 @@ async function fetchData(documentName = 'CheraxDocuments') {
             throw new Error('Failed to load JSON data');
         }
         data = await response.json();
-        showCodeView();
+        showTreeView();
     } catch (error) {
         console.error('Error loading JSON data:', error);
         jsonEditor.innerText = 'Error loading data.';
+        alert('Failed to load the JSON data. Please try again or select another document.');
     }
 }
 
+// Update JSON Information
 function updateJSONInfo() {
     const totalKeys = countKeys(data);
     const maxDepth = calculateDepth(data);
@@ -38,6 +45,7 @@ function updateJSONInfo() {
     jsonInfo.innerText = `Total Keys: ${totalKeys} | Max Depth: ${maxDepth} | Arrays: ${arrayCount}`;
 }
 
+// Utility Functions for JSON Analysis
 function countKeys(obj) {
     let count = 0;
     for (let key in obj) {
@@ -71,21 +79,22 @@ function countArrays(obj) {
     return count;
 }
 
+// Display Views
 function showCodeView() {
     currentView = 'code';
-    jsonEditor.innerText = JSON.stringify(data, null, 2);
+    jsonEditor.textContent = JSON.stringify(data, null, 2);
     updateJSONInfo();
 }
 
 function showTreeView() {
     currentView = 'tree';
-    jsonEditor.innerHTML = renderTree(data, '', '');
+    jsonEditor.innerHTML = renderTree(data);
     attachCollapsibleListeners();
     applyTreeStyle();
     updateJSONInfo();
 }
 
-function renderTree(json, path, indent = '') {
+function renderTree(json, path = '') {
     let html = '<ul>';
     for (let key in json) {
         const newPath = path ? `${path}.${key}` : key;
@@ -94,7 +103,7 @@ function renderTree(json, path, indent = '') {
                 <li class="collapsible collapsed">
                     <span class="arrow">▶</span>
                     <span onclick="toggleCollapse(event)">${key}:</span>
-                    <div class="nested hidden">${renderTree(json[key], newPath, indent + '  ')}</div>
+                    <div class="nested hidden">${renderTree(json[key], newPath)}</div>
                 </li>`;
         } else {
             html += `<li class="value" data-path="${newPath}" onclick="handleNodeClick('${newPath}', '${json[key]}')">${key}: ${json[key]}</li>`;
@@ -104,6 +113,7 @@ function renderTree(json, path, indent = '') {
     return html;
 }
 
+// Tree and Clipboard Controls
 function toggleTreeStyle() {
     treeStyle = (treeStyle % 3) + 1;
     showTreeView();
@@ -112,31 +122,59 @@ function toggleTreeStyle() {
 function applyTreeStyle() {
     const treeContainer = document.querySelector('#jsoneditor ul');
     if (!treeContainer) return;
+
     switch (treeStyle) {
         case 1:
-            treeContainer.style.textAlign = 'left';
-            treeContainer.style.paddingLeft = '20px';
-            treeContainer.style.display = 'block';
+            // Traditional hierarchical style with clear bullet points and spacing
+            treeContainer.style.cssText = `
+                text-align: left;
+                padding-left: 25px;
+                display: block;
+                line-height: 1.8;
+                list-style-type: disc;
+                margin: 0;
+                border-left: 3px solid #6a0dad;
+            `;
             break;
         case 2:
-            treeContainer.style.textAlign = 'left';
-            treeContainer.style.paddingLeft = '0px';
-            treeContainer.style.display = 'flex';
-            treeContainer.style.flexDirection = 'column';
+            // Compact, card-like style with borders and more padding for clarity
+            treeContainer.style.cssText = `
+                text-align: left;
+                padding: 10px;
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                list-style-type: none;
+                border: 1px solid #8a2be2;
+                border-radius: 8px;
+            `;
             break;
         case 3:
-            treeContainer.style.textAlign = 'center';
-            treeContainer.style.display = 'block';
-            treeContainer.style.paddingLeft = '40px';
+            // Centered, minimal style with enhanced spacing for a clean look
+            treeContainer.style.cssText = `
+                text-align: center;
+                padding-left: 50px;
+                display: block;
+                list-style-type: circle;
+                line-height: 2.0;
+                margin: 0 auto;
+                max-width: 70%;
+                color: #e0e0e0;
+                background-color: #1e1e1e;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+                border: 2px dashed #6a0dad;
+            `;
             break;
     }
 }
 
 function toggleCollapse(event) {
-    event.stopPropagation();
-    const parent = event.target.closest('.collapsible');
+    event.stopPropagation(); // Prevent event bubbling to avoid affecting parent nodes
+    const parent = event.currentTarget.closest('.collapsible'); // Get the closest collapsible element
     parent.classList.toggle('expanded');
     parent.classList.toggle('collapsed');
+    
+    // Locate and toggle the nested content within the parent collapsible element
     const nested = parent.querySelector('.nested');
     if (nested) nested.classList.toggle('hidden');
 }
@@ -173,7 +211,7 @@ function clearTray() {
 
 function attachCollapsibleListeners() {
     document.querySelectorAll('.collapsible > .arrow, .collapsible > span').forEach(element => {
-        element.addEventListener('click', toggleCollapse);
+        element.addEventListener('click', toggleCollapse); // Attach to both the arrow and the span elements
     });
 }
 
@@ -199,6 +237,7 @@ function copyToClipboard(value) {
     });
 }
 
+// File Download
 function downloadJSON() {
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -209,6 +248,7 @@ function downloadJSON() {
     URL.revokeObjectURL(url);
 }
 
+// Search Functionality
 function searchJSON() {
     const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
     if (!searchTerm) return;
@@ -230,8 +270,7 @@ function searchJSON() {
                 const path = element.getAttribute('data-path');
                 const value = element.textContent.split(': ')[1];
 
-                const alreadyInClipboard = clipboard.some(item => item.path === path && item.value === value);
-                if (!alreadyInClipboard) {
+                if (!clipboard.some(item => item.path === path && item.value === value)) {
                     matchingItems.push({ path, value });
                 }
 
@@ -246,8 +285,7 @@ function searchJSON() {
 
 function updateClipboardWithSearchResults(results) {
     results.forEach(item => {
-        const alreadyInClipboard = clipboard.some(existing => existing.path === item.path && existing.value === item.value);
-        if (!alreadyInClipboard) {
+        if (!clipboard.some(existing => existing.path === item.path && existing.value === item.value)) {
             clipboard.push(item);
         }
     });
@@ -272,6 +310,7 @@ function expandParentBranches(element) {
     }
 }
 
+// Music and Help Overlays
 function searchYouTube() {
     const query = document.getElementById('playlistSearch').value;
     const searchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
@@ -300,6 +339,7 @@ function playPlaylist(type) {
     playlistPlayer.classList.remove('hidden');
 }
 
+// Keyboard Navigation for Search Results
 function handleSearchKey(event) {
     if (event.key === 'Enter') {
         searchJSON();
@@ -339,25 +379,5 @@ function scrollToHighlight() {
     }
 }
 
-function highlightElements() {
-    highlightedElements = Array.from(document.querySelectorAll('.highlight'));
-    currentHighlightIndex = -1;
-}
-
-document.querySelectorAll('.btn').forEach(btn => {
-    btn.addEventListener('mouseenter', () => {
-        const btnRect = btn.getBoundingClientRect();
-        const screenHalf = window.innerWidth / 2;
-
-        if (btnRect.left < screenHalf) {
-            btn.style.setProperty('--tooltip-position', 'auto');
-            btn.style.setProperty('--arrow-position', '5px');
-        } else {
-            btn.style.setProperty('--tooltip-position', 'auto');
-            btn.style.setProperty('--arrow-position', 'auto');
-            btn.style.setProperty('right', '5px');
-        }
-    });
-});
-
+// Initialize Data Fetch
 fetchData();

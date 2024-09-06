@@ -13,7 +13,7 @@ body {
     flex-direction: column;
     height: 100vh;
     width: 100%;
-    overflow: hidden;
+    overflow: auto;
 }
 
 /* Header Layout */
@@ -99,15 +99,17 @@ header p {
 #editor-container {
     flex: 1;
     width: 90%;
+    max-height: 90vh;
     max-width: 1200px;
     margin: 20px auto;
     background: #2d2d2d;
     padding: 20px;
-    border-radius: 10px;
+    border: 2px solid #6a0dad;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
     overflow: auto;
+    border-radius: 15px;
 }
 
 /* JSON Editor */
@@ -117,6 +119,7 @@ header p {
     border-radius: 5px;
     padding: 10px;
     background-color: #1e1e1e;
+    border: 1px solid #6a0dad;
     color: #e0e0e0;
     overflow-y: auto;
     font-family: monospace;
@@ -124,24 +127,34 @@ header p {
     line-height: 1.4;
 }
 
-/* Buttons and Tooltip */
+/* Buttons and Action Groups */
+.action-group {
+    margin-bottom: 10px; /* Space between groups */
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between elements in the group */
+    flex-wrap: wrap; /* Wrap items on smaller screens */
+}
+
 .btn-row {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
-    margin-bottom: 10px;
 }
 
 .btn {
-    padding: 8px 16px;
+    padding: 0.5vw 0.7vw;
     border: none;
     background-color: #6a0dad;
     color: #fff;
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: 0.44vw;
     transition: background-color 0.3s, transform 0.2s ease-out;
-    font-size: 1rem;
+    font-size: 0.6vw;
+    display: flex; /* Flex to align icon and text */
+    align-items: center; /* Center align text and icon */
+    gap: 0.7vw; /* Space between icon and text */
     position: relative;
 }
 
@@ -150,10 +163,11 @@ header p {
     transform: translateY(-2px);
 }
 
+/* Tooltip Styling */
 .btn[data-tooltip]::after {
     content: attr(data-tooltip);
     position: absolute;
-    top: -30px;
+    top: -15px;
     left: 50%;
     transform: translateX(-50%);
     background-color: #333;
@@ -172,7 +186,7 @@ header p {
     content: '';
     position: absolute;
     top: -5px;
-    left: 50%;
+    left: 100%;
     transform: translateX(-50%) translateY(-100%);
     border-width: 5px;
     border-style: solid;
@@ -189,6 +203,7 @@ header p {
     visibility: visible;
 }
 
+/* Search Input */
 .search-input {
     padding: 8px;
     border: 1px solid #555;
@@ -202,11 +217,19 @@ header p {
 /* Collapsible Sections */
 .collapsible {
     cursor: pointer;
-    padding: 2px 0;
+    padding: 1px 0;
     margin: 1px 0;
     list-style: none;
     display: flex;
     align-items: center;
+}
+
+.collapsible.collapsed .nested {
+    display: none;
+}
+
+.collapsible.expanded .nested {
+    display: block;
 }
 
 .arrow {
@@ -216,6 +239,15 @@ header p {
     cursor: pointer;
     margin-right: 5px;
     transition: transform 0.2s;
+}
+
+.collapsible .arrow {
+    cursor: pointer; 
+    transition: transform 0.2s;
+}
+
+.collapsible.expanded .arrow {
+    transform: rotate(90deg);
 }
 
 .collapsed .arrow {
@@ -238,9 +270,9 @@ header p {
 
 .value {
     cursor: pointer;
-    padding-left: 10px;
-    margin: 1px;
-    list-style: none;
+    margin-top: 1px;
+    list-style: square;
+    text-align: left;
 }
 
 .highlight {
@@ -256,6 +288,7 @@ header p {
     width: 100%;
     text-align: left;
     border-top: 1px solid #333;
+    border: 1px solid #6a0dad;
     flex-shrink: 0;
     font-size: 0.9rem;
 }
@@ -265,11 +298,16 @@ header p {
     padding: 10px;
     background-color: #333;
     color: #dcdcdc;
-    border-top: 1px solid #444;
-    max-height: 150px;
+    border: 1px solid #6a0dad;
+    min-height: 15vh;
     overflow-y: auto;
     display: none;
     border-radius: 5px;
+}
+
+#clipboard-tray .btn {
+    margin-bottom: 2px;
+    font-size: 0.9rem;
 }
 
 /* Playlist Sidebar */
@@ -336,7 +374,7 @@ iframe {
     top: 10px;
     right: 20px;
     font-size: 24px;
-    color: #6a0dad;
+    color: #ad0d0d;
     cursor: pointer;
 }
 
@@ -373,6 +411,7 @@ footer {
 
     .search-input {
         width: 80%;
+        color: #6a0dad;
     }
 
     #jsoneditor {
@@ -381,6 +420,11 @@ footer {
 
     #json-info {
         font-size: 0.8rem;
+    }
+
+    .action-group {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }
 
@@ -398,16 +442,5 @@ footer {
 
     #editor-container {
         max-width: 95%;
-    }
-}
-
-@media (min-width: 2560px) {
-    body {
-        max-width: 100vw;
-        max-height: 100vh;
-    }
-
-    #editor-container {
-        max-width: 98%;
     }
 }

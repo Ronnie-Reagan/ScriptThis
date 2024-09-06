@@ -6,8 +6,91 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Script This - About</title>
-    <meta name="description" content="Script This - About Page Coming Soon">
+    <meta name="description"
+        content="Learn more about Script This, a web-based tool for JSON data visualization and management.">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Ensure the body takes full height and footer sticks at the bottom */
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Main content area setup */
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background-color: #1e1e1e;
+        }
+
+        /* Footer styles */
+        footer {
+            background: rgb(20, 20, 20);
+            color: #dcdcdc;
+            text-align: center;
+            padding: 15px;
+            width: 100%;
+            border-top: 2px solid #6a0dad;
+            position: relative;
+        }
+
+        /* Section and headings styling */
+        .about-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: #2d2d2d;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            text-align: left;
+        }
+
+        h2 {
+            color: #8a2be2;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #6a0dad;
+            padding-bottom: 5px;
+        }
+
+        p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #e0e0e0;
+        }
+
+        @media (max-width: 768px) {
+            .about-container {
+                padding: 20px;
+                margin: 20px;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .about-container {
+                max-width: 95%;
+            }
+        }
+
+        @media (min-width: 1920px) {
+            body {
+                max-width: 100vw;
+                max-height: 100vh;
+                min-height: 80vh;
+            }
+
+            .about-container {
+                max-width: 95%;
+                min-height: 80vh;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -15,7 +98,7 @@
         <div id="logo">
             <img src="ScriptThisLogoMain.png" alt="Script This Logo">
         </div>
-            <p>Your Ultimate Tool for Lua Script Management</p>
+        <p>Your Ultimate Tool for JSON Data Visualization</p>
         <nav>
             <ul class="navbar">
                 <li><a href="Home.html">Home</a></li>
@@ -27,11 +110,33 @@
         </nav>
     </header>
 
-    <main class="coming-soon-container">
-        <h2>About Us</h2>
-        <p>Learn more about us soon. We're excited to share our story!</p>
-        <p class="coming-soon">Coming Soon!</p>
-    </main>
+    <!-- Wrap main content and footer to occupy the full viewport height -->
+    <div class="content">
+        <main class="about-container">
+            <h2>About Script This</h2>
+            <p>Script This is a dedicated web platform designed to enhance the visualization and management of JSON
+                data. Built with the user in mind, it offers a comprehensive suite of tools that allow users to explore,
+                edit, and manipulate JSON structures effortlessly. Script This is ideal for developers, data analysts,
+                and anyone who works extensively with JSON files, providing both code and tree views for a more
+                intuitive data experience.</p>
+
+            <p>Since its inception, Script This has focused on delivering a streamlined and user-friendly interface,
+                making complex data more accessible and manageable. The platform's ongoing development is guided by
+                feedback from a community of users who rely on Script This for their data handling needs, ensuring that
+                it continues to evolve to meet modern requirements.</p>
+
+            <h2>Our Mission</h2>
+            <p>Our mission is to empower users with the tools they need to efficiently manage and visualize JSON data.
+                We strive to make Script This a cornerstone in data management, providing reliable and easy-to-use
+                features that cater to both beginners and advanced users alike.</p>
+
+            <h2>The Developer</h2>
+            <p>Script This is developed and maintained by a passionate team dedicated to creating effective and
+                accessible tools for data visualization. With a commitment to continuous improvement and user-centric
+                design, the team behind Script This aims to provide a robust platform that meets the evolving needs of
+                its user base.</p>
+        </main>
+    </div>
 
     <footer>
         <p>&copy; 2024 Script This. All rights reserved.</p>

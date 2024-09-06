@@ -7,18 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirecting to Home</title>
 
-    <!-- Meta Refresh for automatic redirect to Home.html -->
     <meta http-equiv="refresh" content="1; url=/Home.html" />
 
-    <!-- JavaScript fallback for redirecting in case meta tag fails -->
     <script>
-        // Fallback JavaScript redirect to Home.html after 1 second
         setTimeout(function() {
             window.location.href = "/Home.html";
         }, 1000);
     </script>
 
-    <!-- Basic styling to keep the page clean -->
     <style>
         body {
             display: flex;
