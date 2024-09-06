@@ -416,6 +416,7 @@ footer {
 
     #jsoneditor {
         font-size: 0.7rem;
+        min-height: 80vh;
     }
 
     #json-info {
